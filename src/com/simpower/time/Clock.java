@@ -1,12 +1,14 @@
-package com.simcity.power;
+package com.simpower.time;
+
+import java.util.Date;
 
 public class Clock {
     private double time;
     private boolean ticking = true;
-    private int speed;
-    private double date;
-    private Seasons season = Seasons.SPRING;
-    private boolean day = true;
+    private int speed = 1; // time speed, goes faster if greater
+    private Date date;
+    private final Seasons season = Seasons.SPRING;
+    private final boolean day = true; // false if it's night time
 
     public void setSpeed(int speed) {
     }
@@ -14,11 +16,11 @@ public class Clock {
     public void getSpeed() {
     }
 
-    public void setDate(double date) {
+    public Date getDate() {
+        return date;
     }
 
-    public double getDate() {
-        return 0;
+    public void setDate(Date date) {
     }
 
     public String getDateToString() {
@@ -29,12 +31,12 @@ public class Clock {
         return this.time;
     }
 
-    public void setTicking(boolean ticking) {
-        this.ticking = ticking;
-    }
-
     public boolean isTicking() {
         return false;
+    }
+
+    public void setTicking(boolean ticking) {
+        this.ticking = ticking;
     }
 
     public void tickFaster() {
