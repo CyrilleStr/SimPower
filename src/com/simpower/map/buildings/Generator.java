@@ -1,8 +1,10 @@
 package com.simpower.map.buildings;
 
-public class Generator extends Buildings {
+public class Generator extends WorkingBuilding {
     private int production;
-    private int level = 1;
-    private int pollution = 1;
     private boolean activeAtNight;
+
+    public Generator createGenerator() {
+        return null;
+    }
 }

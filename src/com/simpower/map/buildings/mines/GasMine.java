@@ -1,4 +1,6 @@
 package com.simpower.map.buildings.mines;
 
-public class GasMine {
+import com.simpower.map.buildings.Mine;
+
+public class GasMine extends Mine {
 }

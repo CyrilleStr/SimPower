@@ -1,4 +1,6 @@
 package com.simpower.map.buildings.generators;
 
-public class GasGenerator {
+import com.simpower.map.buildings.Generator;
+
+public class GasGenerator extends Generator {
 }
