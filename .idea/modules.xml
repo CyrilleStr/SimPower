@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Simcity Power.iml" filepath="$PROJECT_DIR$/Simcity Power.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimPower.iml" filepath="$PROJECT_DIR$/SimPower.iml" />
     </modules>
   </component>
 </project>
