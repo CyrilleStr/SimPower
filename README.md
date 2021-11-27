@@ -1,6 +1,6 @@
-<img align="left" height="128" src="https://i.imgur.com/S2coYYy.png">
+<img align="left" height="128" src="https://i.imgur.com/x2Oo2Q6.png">
 
-# Simcity Power
+# Sim Power
 > <p align="left">
 > <img alt="Text" src="https://img.shields.io/badge/Simcity%20like%20game%20with%20power%20management-22272E?style=for-the-badge">&nbsp;
 > <img alt="Java" src="https://img.shields.io/badge/Java-FF7F50?style=for-the-badge&logo=java&logoColor=white">&nbsp;
@@ -12,7 +12,7 @@
 <br>
 
 ## Members
-- Clovis Burgaud
+- Clovis™ Burgaud™
 - [Julien Constant](https://github.com/Juknum) - julien.constant@utbm.fr
 - Noé Échard
 - Cyrille Stroesser
