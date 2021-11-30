@@ -1,8 +1,9 @@
 package com.simpower.model.map;
 
+import com.simpower.model.Model;
 import com.simpower.model.time.Clock;
 
-public class Map {
+public class Map extends Model {
     private double seed;
     private Resource[] resources;
     private Clock clock;

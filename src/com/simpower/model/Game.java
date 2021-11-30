@@ -1,4 +1,4 @@
-package com.simpower.model.menu;
+package com.simpower.model;
 
 import java.util.Date;
 import java.nio.file.Path;
