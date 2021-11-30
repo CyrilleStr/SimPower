@@ -6,4 +6,7 @@ public class Buildings {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void destroyBuilding() {
+    }
 }

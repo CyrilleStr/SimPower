@@ -9,4 +9,8 @@ public class Map extends Model {
     private Clock clock;
     private Slot[] slots;
     private int citizens = 0;
+
+    public int getCitizens() {
+        return 0;
+    }
 }
