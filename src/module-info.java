@@ -12,4 +12,6 @@ module com.simpower.simpower {
 
     opens com.simpower to javafx.fxml;
     exports com.simpower;
+    exports com.simpower.view.menu;
+    opens com.simpower.view.menu to javafx.fxml;
 }

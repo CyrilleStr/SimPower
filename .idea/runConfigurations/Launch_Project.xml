@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Launch Project" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="com.simpower.Controller" />
+    <option name="MAIN_CLASS_NAME" value="com.simpower.Main" />
     <module name="SimPower" />
     <method v="2">
       <option name="Make" enabled="true" />
