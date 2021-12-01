@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8f5c37d2-5e3c-4a75-9cb4-1d07fe8e0c9b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/controllers/MenuController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/Mine.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/Road.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/generators/GasGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/generators/SolarGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/generators/WaterGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/generators/WindGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/mines/GasMine.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/mines/OilMine.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/roads/Road0.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/roads/Road1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/roads/Road2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/roads/Road3.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/roads/Road4.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/menu-view.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/AP4B.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/description.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_win_17_0_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_linux_17_0_0_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_controls_win_17_0_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_controls_linux_17_0_0_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_fxml_win_17_0_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_fxml_linux_17_0_0_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_graphics_win_17_0_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_graphics_linux_17_0_0_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_media_win_17_0_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_media_linux_17_0_0_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_web_win_17_0_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_web_linux_17_0_0_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/openjfx_javafx_base.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/openjfx_javafx_controls.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/openjfx_javafx_fxml.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/openjfx_javafx_graphics.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/openjfx_javafx_media.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/openjfx_javafx_swing.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/openjfx_javafx_web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/project-template.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/Launch_Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimPower.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SimPower.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/com/logo.pdn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/com/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/data/games.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/data/settings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/Happiness.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/Happiness.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/Money.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/Money.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/Resource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/Slot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/Slot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/Buildings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/Buildings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/Generator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/House.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/House.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/Mine.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/Road.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/WorkingBuilding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/WorkingBuilding.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/fossileGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/fossileGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/generators/CoalGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/generators/CoalGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/generators/GasGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/generators/OilGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/generators/OilGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/generators/SolarGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/generators/UraniumGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/generators/UraniumGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/generators/WaterGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/generators/WindGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/mines/CoalMine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/mines/CoalMine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/mines/GasMine.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/mines/OilMine.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/mines/UraniumMine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/mines/UraniumMine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/roads/Road0.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/roads/Road1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/roads/Road2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/roads/Road3.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/buildings/roads/Road4.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/resources/Coal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/resources/Coal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/resources/Oil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/resources/Oil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/resources/Solar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/resources/Solar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/resources/Uranium.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/resources/Uranium.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/resources/Water.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/resources/Water.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/map/resources/Wind.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/resources/Wind.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/time/Clock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/time/Clock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/model/time/Seasons.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/time/Seasons.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/view/menu/GameMenu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/simpower/view/menu/PauseMenu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="21h9nIqU1eFvCtAr5qck9zF1ts6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/simpower/models" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/simpower/models" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/com/simpower/" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.simpower" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.simpower.Main" />
+      <module name="SimPower" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.simpower.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8f5c37d2-5e3c-4a75-9cb4-1d07fe8e0c9b" name="Changes" comment="" />
+      <created>1638382626556</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1638382626556</updated>
+      <workItem from="1638382628426" duration="155000" />
+      <workItem from="1638388553235" duration="1275000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
