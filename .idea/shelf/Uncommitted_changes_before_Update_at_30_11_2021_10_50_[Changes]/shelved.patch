@@ -1,0 +1,21 @@
+Index: src/com/simpower/menu/Game.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.simpower.menu;\r\n\r\nimport java.util.Date;\r\nimport java.nio.file.Path;\r\nimport com.simpower.map.Map;\r\n\r\npublic class Game {\r\n    private Date createdAt;\r\n    private Path savePath;\r\n    private Map map;\r\n}\r\n
+===================================================================
+diff --git a/src/com/simpower/menu/Game.java b/src/com/simpower/menu/Game.java
+--- a/src/com/simpower/menu/Game.java	
++++ b/src/com/simpower/menu/Game.java	
+@@ -1,9 +1,10 @@
+ package com.simpower.menu;
+ 
+-import java.util.Date;
+-import java.nio.file.Path;
+ import com.simpower.map.Map;
+ 
++import java.nio.file.Path;
++import java.util.Date;
++
+ public class Game {
+     private Date createdAt;
+     private Path savePath;
