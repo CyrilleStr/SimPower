@@ -5,18 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8f5c37d2-5e3c-4a75-9cb4-1d07fe8e0c9b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/LICENSE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/com/logo.pdn" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/com/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/data/games.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/data/settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_linux_17_0_0_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_controls_linux_17_0_0_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_fxml_linux_17_0_0_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_graphics_linux_17_0_0_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_media_linux_17_0_0_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_web_linux_17_0_0_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimPower.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SimPower.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/simpower/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/models/map/buildings/Generator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/simpower/menu-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/fxml/menu-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/simpower/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/simpower/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/simpower/menu-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/simpower/com/logo.pdn" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/assets/logo.pdn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/simpower/com/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/assets/logo.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +55,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/simpower/models" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -101,10 +102,22 @@
       <workItem from="1638382628426" duration="155000" />
       <workItem from="1638388553235" duration="1275000" />
       <workItem from="1638391943520" duration="1710000" />
+      <workItem from="1638398984025" duration="567000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

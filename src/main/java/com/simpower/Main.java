@@ -14,7 +14,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menu-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
         stage.setTitle("Sim Power | UTBM - AP4B - Autumn 2021");
-        // stage.getIcons().add(new Image("file:assets/com/logo.png"));
+        stage.getIcons().add(new Image("file:src/main/resources/com/simpower/assets/logo.png"));
         stage.setScene(scene);
         stage.show();
     }
