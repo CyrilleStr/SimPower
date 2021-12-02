@@ -5,18 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8f5c37d2-5e3c-4a75-9cb4-1d07fe8e0c9b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_linux_17_0_0_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_controls_linux_17_0_0_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_fxml_linux_17_0_0_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_graphics_linux_17_0_0_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_media_linux_17_0_0_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_web_linux_17_0_0_1.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/data/langs/en_US.lang" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/fxml/menus/credits_menu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/fxml/menus/main_menu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/fxml/menus/settings_menu.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SimPower.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SimPower.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/simpower/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/simpower/com/logo.pdn" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/assets/logo.pdn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/simpower/com/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/assets/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/simpower/controllers/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/controllers/MenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/simpower/fxml/menu-view.fxml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +23,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -45,6 +42,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="21h9nIqU1eFvCtAr5qck9zF1ts6" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -62,6 +62,7 @@
       <recent name="$PROJECT_DIR$/src/main/java/com/simpower/models" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\GitHub\Sim Power\src\main\resources\com\simpower\fxml\menus" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/main/resources/com/simpower" />
       <recent name="$PROJECT_DIR$/src/main/resources/com/simpower/" />
@@ -102,7 +103,7 @@
       <workItem from="1638382628426" duration="155000" />
       <workItem from="1638388553235" duration="1275000" />
       <workItem from="1638391943520" duration="1710000" />
-      <workItem from="1638398984025" duration="567000" />
+      <workItem from="1638398984025" duration="5662000" />
     </task>
     <servers />
   </component>

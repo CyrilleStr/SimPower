@@ -9,17 +9,24 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
+    private Stage stage;
+
+    public void changeScene(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml));
+        Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
+        this.stage.setScene(scene);
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menu-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
-        stage.setTitle("Sim Power | UTBM - AP4B - Autumn 2021");
-        stage.getIcons().add(new Image("file:src/main/resources/com/simpower/assets/logo.png"));
-        stage.setScene(scene);
-        stage.show();
+        this.stage = stage;
+        this.changeScene("fxml/menus/main_menu.fxml");
+        this.stage.setTitle("Sim Power | UTBM - AP4B - Autumn 2021");
+        this.stage.getIcons().add(new Image("file:src/main/resources/com/simpower/assets/logo.png"));
+        this.stage.show();
     }
 
     public static void main(String[] args) {
-        launch();
+        Application.launch();
     }
 }
