@@ -4,6 +4,6 @@ import com.simpower.models.map.buildings.Mine;
 
 public class OilMine extends Mine {
     public OilMine() {
-        this.setName("Oil Pump");
+        super(14, "Oil Mine", 10, 1, 7, 1950);
     }
 }

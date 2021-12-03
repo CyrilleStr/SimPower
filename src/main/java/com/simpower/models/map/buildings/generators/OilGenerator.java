@@ -1,9 +1,9 @@
 package com.simpower.models.map.buildings.generators;
 
-import com.simpower.models.map.buildings.fossileGenerator;
+import com.simpower.models.map.buildings.FossileGenerator;
 
-public class OilGenerator extends fossileGenerator {
+public class OilGenerator extends FossileGenerator {
     public OilGenerator() {
-        this.setName("Oil fired Power station");
+        super(14, 1500, true, "Oil Plant", 325, 1, 5, 16500);
     }
 }

@@ -5,9 +5,15 @@ import com.simpower.models.time.Clock;
 public class Map {
     private double seed;
     private Resource[] resources;
-    private Clock clock;
+    private Clock clock = new Clock();
     private Slot[] slots;
     private int citizens = 0;
+
+    public Map(){}
+
+    public void setSeed(double seedS){
+        this.seed = seedS;
+    }
 
     public int getCitizens() {
         return this.citizens;

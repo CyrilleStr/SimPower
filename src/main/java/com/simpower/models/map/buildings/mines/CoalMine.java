@@ -4,6 +4,6 @@ import com.simpower.models.map.buildings.Mine;
 
 public class CoalMine extends Mine {
     public CoalMine() {
-        this.setName("Coal Mine");
+        super(15, "Coal Mine", 12, 1, 8, 2000);
     }
 }

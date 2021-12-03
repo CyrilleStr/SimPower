@@ -4,6 +4,6 @@ import com.simpower.models.map.buildings.Generator;
 
 public class WindGenerator extends Generator {
     public WindGenerator() {
-        this.setName("Wind turbine");
+        super(25, true, "Wind turbine", 15, 1, 0, 2500);
     }
 }
