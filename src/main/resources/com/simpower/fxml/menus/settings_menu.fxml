@@ -50,12 +50,12 @@
          <Font name="Leelawadee UI" size="128.0" />
       </font>
    </Text>
-   <Text fill="#cfcfcf" layoutX="620.0" layoutY="404.0" strokeType="OUTSIDE" strokeWidth="0.0" text="English">
+   <Text fx:id="langLabel" fill="#cfcfcf" layoutX="620.0" layoutY="404.0" strokeType="OUTSIDE" strokeWidth="0.0" text="English">
       <font>
          <Font name="Leelawadee UI" size="16.0" />
       </font>
    </Text>
-   <Text fill="#cfcfcf" layoutX="621.0" layoutY="462.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Off">
+   <Text fx:id="cheatsLabel" fill="#cfcfcf" layoutX="621.0" layoutY="462.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Off">
       <font>
          <Font name="Leelawadee UI" size="16.0" />
       </font>

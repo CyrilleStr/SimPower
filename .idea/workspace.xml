@@ -5,14 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8f5c37d2-5e3c-4a75-9cb4-1d07fe8e0c9b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/data/langs/en_US.lang" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/fxml/menus/credits_menu.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/fxml/menus/main_menu.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/fxml/menus/settings_menu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/simpower/controllers/JsonReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimPower.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SimPower.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/simpower/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/simpower/controllers/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simpower/controllers/MenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/simpower/fxml/menu-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/simpower/data/langs/en_US.lang" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/data/langs/en_US.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/simpower/fxml/menus/settings_menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/simpower/fxml/menus/settings_menu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,8 +24,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -38,6 +40,15 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/resources/com/simpower/fxml/menus/settings_menu.fxml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/simpower/controllers/MenuController.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/com/simpower/fxml/menus/main_menu.fxml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/com/simpower/fxml/menus/credits_menu.fxml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/simpower/Main.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/pom.xml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/com/simpower/data/langs/en_US.json" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -50,6 +61,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="couchbase_query" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -103,7 +115,9 @@
       <workItem from="1638382628426" duration="155000" />
       <workItem from="1638388553235" duration="1275000" />
       <workItem from="1638391943520" duration="1710000" />
-      <workItem from="1638398984025" duration="5662000" />
+      <workItem from="1638398984025" duration="5723000" />
+      <workItem from="1638525449434" duration="1636000" />
+      <workItem from="1638527308737" duration="2268000" />
     </task>
     <servers />
   </component>

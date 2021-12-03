@@ -1,0 +1,25 @@
+{
+  "menu": {
+    "buttons": {
+      "lang": "Lang",
+      "cheats": "Cheats",
+      "Go Back": "Go Back",
+      "new_game": "New Game",
+      "load_game": "Load Game",
+      "settings": "Settings",
+      "credits": "Credits",
+      "quit_game": "Quit Game"
+    },
+    "labels": {
+      "credits": "Game developed by:",
+      "langs": {
+        "en_US": "English",
+        "fr_FR": "Français"
+      },
+      "cheats": {
+        "on": "On",
+        "off": "Off"
+      }
+    }
+  }
+}

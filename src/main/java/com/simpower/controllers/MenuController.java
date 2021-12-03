@@ -3,12 +3,14 @@ import com.simpower.Main;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import org.json.simple.JSONObject;
 
 import java.io.IOException;
 
 public class MenuController {
+    private JSONObject lang = new Main().getLang();
 
     @FXML private Button newGameBtn;
     @FXML private Button loadGameBtn;
@@ -18,6 +20,9 @@ public class MenuController {
     @FXML private Button cheatsBtn;
     @FXML private Button langBtn;
     @FXML private Button goBackBtn;
+
+    @FXML private Label langLabel;
+    @FXML private Label cheatsLabel;
 
     @FXML
     protected void quitGame(ActionEvent event) {
@@ -45,7 +50,7 @@ public class MenuController {
     }
     @FXML
     protected void activateCheats(ActionEvent event){
-        cheatsBtn.setText("cliqué");
+        this.cheatsLabel.setText((String) this.lang.get("menus.labels.langs.fr_FR"));
     }
 
     @FXML
