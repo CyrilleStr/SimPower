@@ -4,8 +4,8 @@ import com.simpower.models.time.Clock;
 
 public class Map {
     private double seed;
-    private Resource[] resources;
-    private Clock clock = new Clock();
+    private ResourceAvailable availableResource = new ResourceAvailable();
+    private final Clock clock = new Clock();
     private Slot[] slots;
     private int citizens = 0;
 
