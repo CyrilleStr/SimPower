@@ -1,5 +1,6 @@
 package com.simpower.controllers;
 import com.simpower.Main;
+import com.simpower.models.Game;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -36,8 +37,9 @@ public class MenuController {
     }
 
     @FXML
-    protected void newGame(ActionEvent event){
-        newGameBtn.setText("cliqué");
+    protected void newGame(ActionEvent event) throws IOException{
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/map.fxml"));
+        settingsBtn.getScene().setRoot(fxmlLoader.load());
     }
 
     @FXML
