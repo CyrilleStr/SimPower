@@ -1,7 +1,2 @@
 target/*
-.idea/workspace.xml
-.idea/libraries/*
-.idea/shelf/*
-.idea/misc.xml
-.idea/shelf/Uncommitted_changes_before_Update_at_30_11_2021_10_50__Changes_.xml
-.idea/shelf/Uncommitted_changes_before_Update_at_30_11_2021_10_50__Changes_1.xml
+.idea/*

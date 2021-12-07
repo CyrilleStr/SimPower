@@ -2,14 +2,12 @@ package com.simpower.controllers;
 
 import com.simpower.Main;
 import com.simpower.models.Game;
-import com.simpower.models.map.Map;
+import com.simpower.models.map.Grid;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+
 import java.io.IOException;
 
 import javafx.scene.layout.GridPane;
@@ -17,7 +15,7 @@ import javafx.scene.text.Text;
 
 public class GameController {
 
-    private Map map;
+    private Grid grid;
     private Game game;
     @FXML private Button quitGameBtn;
     @FXML private Text info;
@@ -25,7 +23,7 @@ public class GameController {
     
     /* Instance a new game controller*/
     public GameController(){
-        this.map = new Map();
+        this.grid = new Grid();
         this.game = new Game();
     }
 
@@ -33,7 +31,7 @@ public class GameController {
     public GameController(String params){
         // TODO controller with saved game
         // this.game = new Game(params[0])
-        // this.map = new Map(params[1])
+        // this.grid = new Grid(params[1])
     }
 
     @FXML
@@ -44,6 +42,6 @@ public class GameController {
 
     @FXML
     void generateMap(){
-        this.map.generateMap(this.mapContainer);
+        this.grid.generateMap(this.mapContainer);
     }
 }
