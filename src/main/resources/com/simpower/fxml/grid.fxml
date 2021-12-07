@@ -16,7 +16,6 @@
                 <Button fx:id="quitGameBtn" layoutX="964.0" layoutY="14.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="25.0" prefWidth="102.0" text="Quitter la partie" />
                 <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GCoin : 1515 Temps : 12:45 Niveau de bonheur des habitants : -654" wrappingWidth="388.37176513671875" />
             <Text fx:id="info" layoutX="477.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="info" />
-            <Button layoutX="668.0" layoutY="15.0" mnemonicParsing="false" onAction="#generateGrid" text="GenerateGrid" />
             </children>
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -103,6 +102,7 @@
       <AnchorPane fx:id="toolBox" layoutX="920.0" layoutY="54.0" prefHeight="666.0" prefWidth="160.0" style="-fx-background-color: #3e3e3e;">
          <children>
             <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Voir les ressources" />
-         </children></AnchorPane>
+         </children>
+      </AnchorPane>
     </children>
 </AnchorPane>

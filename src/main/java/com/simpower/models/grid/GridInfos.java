@@ -31,11 +31,10 @@ public interface GridInfos {
         OIL_MINE,
         URANIUM_MINE,
         /*Roads*/
-        ROAD0,
-        ROAD1,
-        ROAD2,
-        ROAD3,
-        ROAD4
+        VERTICAL_ROAD,
+        HORIZONTAL_ROAD,
+        CROSS_ROAD,
+        TURNED_ROAD
     }
 
     enum pollutionLayer{
