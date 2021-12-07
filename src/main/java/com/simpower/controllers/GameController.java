@@ -6,6 +6,7 @@ import com.simpower.models.grid.Grid;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
 import java.io.IOException;
@@ -22,8 +23,12 @@ public class GameController {
     @FXML private GridPane gridContainer;
     
     /* Instance a new game controller*/
-    public GameController(){
-        this.grid = new Grid();
+    public GameController(){}
+
+    /* This function is called once all the controller associated FXML contents have been fully loaded */
+    @FXML
+    public void initialize(){
+        this.grid = new Grid(gridContainer);
         this.game = new Game();
     }
 
@@ -38,10 +43,5 @@ public class GameController {
     void quitGame(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/main_menu.fxml"));
         quitGameBtn.getScene().setRoot(fxmlLoader.load());
-    }
-
-    @FXML
-    void generateGrid(){
-        this.grid.generateGrid(this.gridContainer);
     }
 }
