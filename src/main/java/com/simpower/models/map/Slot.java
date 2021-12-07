@@ -5,7 +5,7 @@ import com.simpower.models.map.buildings.Buildings;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Slot implements MapInfos{
+public class Slot implements MapInfos {
     private int pos_x = 0;
     private int pos_y = 0;
     private boolean empty = true;

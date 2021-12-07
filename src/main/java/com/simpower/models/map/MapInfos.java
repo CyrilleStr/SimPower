@@ -1,10 +1,21 @@
 package com.simpower.models.map;
 
+import javafx.scene.image.Image;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public interface MapInfos {
-    static final int X_SIZE = 30;
-    static final int Y_SIZE = 30;
-    static final int HEIGHT_SLOT = 36;
-    static final int WIDTH_SLOT = 36;
+    Map<resourceLayer, Image> resourceLayerImages = new HashMap<>();
+    Map<topLayer,Image> topLayerImages = new HashMap<>();
+    Map<pollutionLayer,Image> pollutionLayerImages = new HashMap<>();
+
+    static final int MAP_WIDTH = 256; // how many slot the map have sideways
+    static final int CHUNK_WIDTH = 32; // how many slot a chunk have sideways
+    static final int SLOT_SIZE = 8;
+
+    static final int NB_CHUNK_WIDTH = MAP_WIDTH / CHUNK_WIDTH;
+
     enum resourceLayer {
         NONE,
         OIL,
@@ -12,6 +23,7 @@ public interface MapInfos {
         URANIUM,
         COAL
     }
+
     enum topLayer{
         NONE,
         /*Building*/
@@ -38,9 +50,9 @@ public interface MapInfos {
         ROAD4
     }
 
-    enum pollutionLayer{
+    enum pollutionLayer {
         NONE,
-        VERY_POLLUTED,
-        NOT_VERY_POLLUTED
+        EVENLY,
+        POLLUTED
     }
 }
