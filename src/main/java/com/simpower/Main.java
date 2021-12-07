@@ -1,25 +1,44 @@
 package com.simpower;
 
+import com.simpower.controllers.JsonReader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.json.simple.JSONObject;
 
 import java.io.IOException;
 
 public class Main extends Application {
+    private Stage stage;
+    private JSONObject lang;
+
+    public void changeLang(String lang) {
+        this.lang = new JsonReader().read("src/main/resources/com/simpower/data/langs/" + lang + ".json");
+    }
+
+    public JSONObject getLang() {
+        return this.lang;
+    }
+
+    public void changeScene(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml));
+        Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
+        this.stage.setScene(scene);
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menu-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
-        stage.setTitle("Sim Power | UTBM - AP4B - Autumn 2021");
-        // stage.getIcons().add(new Image("file:assets/com/logo.png"));
-        stage.setScene(scene);
-        stage.show();
+        this.stage = stage;
+        this.changeScene("fxml/menus/main_menu.fxml");
+        this.changeLang("en_US");
+        this.stage.setTitle("Sim Power | UTBM - AP4B - Autumn 2021");
+        this.stage.getIcons().add(new Image("file:src/main/resources/com/simpower/assets/logo.png"));
+        this.stage.show();
     }
 
     public static void main(String[] args) {
-        launch();
+        Application.launch();
     }
 }
