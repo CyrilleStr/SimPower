@@ -1,22 +1,17 @@
 package com.simpower.models.map;
 
-import com.simpower.controllers.GameController;
-import com.simpower.models.time.Clock;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-
-import java.io.IOException;
 
 
-public class Map {
+public class Map implements MapInfos{
     //private double seed;
     //private ResourceAvailable availableResource;
     //private Clock clock;
-    private Slot[] slots;
+    private Slot[][] slots;
     //private int citizens;
 
     public Map(){
@@ -32,18 +27,14 @@ public class Map {
     }
     */
     public void generateMap(GridPane mapContainer){
-        Image resource = new Image("file:src/main/resources/com/simpower/assets/oil.png");
-        for(int i =0;i<18;i++){
-            for(int j=0;j<18;j++){
-                ImageView tmp = new ImageView(resource);
-                tmp.onMouseReleasedProperty().set((event) -> {
+        slots = new Slot[Y_SIZE][X_SIZE];
+        for(int i = 0; i< Y_SIZE; i++){
+            for(int j = 0; j< X_SIZE; j++){
+                slots[i][j] = new Slot(i,j);
+                slots[i][j].getImg().onMouseReleasedProperty().set((event) -> {
                     this.change(event);
                 });
-                VBox box = new VBox(tmp);
-                box.setFillWidth(true);
-                box.prefHeight(10);
-                box.prefHeight(10);
-                mapContainer.add(box,i,j);
+                mapContainer.add(slots[i][j].getImg(),i,j);
             }
         }
     }

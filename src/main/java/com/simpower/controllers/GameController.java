@@ -27,7 +27,6 @@ public class GameController {
     public GameController(){
         this.map = new Map();
         this.game = new Game();
-        // this.map = new Map();
     }
 
     /* Instance a saved game controller*/
