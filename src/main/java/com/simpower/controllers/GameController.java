@@ -2,7 +2,7 @@ package com.simpower.controllers;
 
 import com.simpower.Main;
 import com.simpower.models.Game;
-import com.simpower.models.map.Grid;
+import com.simpower.models.grid.Grid;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +19,7 @@ public class GameController {
     private Game game;
     @FXML private Button quitGameBtn;
     @FXML private Text info;
-    @FXML private GridPane mapContainer;
+    @FXML private GridPane gridContainer;
     
     /* Instance a new game controller*/
     public GameController(){
@@ -41,7 +41,7 @@ public class GameController {
     }
 
     @FXML
-    void generateMap(){
-        this.grid.generateMap(this.mapContainer);
+    void generateGrid(){
+        this.grid.generateGrid(this.gridContainer);
     }
 }
