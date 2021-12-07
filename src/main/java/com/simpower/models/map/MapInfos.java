@@ -10,11 +10,16 @@ public interface MapInfos {
     Map<topLayer,Image> topLayerImages = new HashMap<>();
     Map<pollutionLayer,Image> pollutionLayerImages = new HashMap<>();
 
-    static final int MAP_WIDTH = 256; // how many slot the map have sideways
-    static final int CHUNK_WIDTH = 32; // how many slot a chunk have sideways
-    static final int SLOT_SIZE = 8;
+    int SLOT_WIDTH = 16;
+    int SLOT_HEIGHT = SLOT_WIDTH; // square :)
 
-    static final int NB_CHUNK_WIDTH = MAP_WIDTH / CHUNK_WIDTH;
+    int NB_SLOTS_WIDTH = 64;
+    int NB_SLOTS_HEIGHT = 64;
+    int NB_SLOTS = NB_SLOTS_HEIGHT * NB_SLOTS_WIDTH;
+
+    int MAP_WIDTH = NB_SLOTS_WIDTH * SLOT_WIDTH;
+    int MAP_HEIGHT = NB_SLOTS_HEIGHT * SLOT_HEIGHT;
+    int MAP_SURFACE = MAP_WIDTH * MAP_HEIGHT;
 
     enum resourceLayer {
         NONE,

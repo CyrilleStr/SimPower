@@ -1,13 +1,13 @@
 package com.simpower.models.map;
 
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-
-import java.util.HashMap;
-import java.util.Map;
+import javafx.scene.layout.RowConstraints;
 
 
 public class Grid implements MapInfos{
@@ -15,21 +15,33 @@ public class Grid implements MapInfos{
     // private ResourceAvailable availableResource;
     // private Clock clock;
     // private int citizens;
-    private Chunk[][] chunks;
+    private Slot[][] slots;
 
     public Grid(){
         this.generateMapImageView();
     }
 
     public void generateMap(GridPane mapContainer) {
-        this.chunks = new Chunk[NB_CHUNK_WIDTH][NB_CHUNK_WIDTH];
+        this.slots = new Slot[NB_SLOTS_WIDTH][NB_SLOTS_HEIGHT];
+        for (int x = 0; x < NB_SLOTS_WIDTH; x++) {
+            mapContainer.getColumnConstraints().addAll(new ColumnConstraints(SLOT_WIDTH));
 
-        for (int x = 0; x < NB_CHUNK_WIDTH; x++) {
-            for (int y = 0; y < NB_CHUNK_WIDTH; y++) {
-                this.chunks[x][y] = new Chunk(x, y);
-                this.chunks[x][y].generateSlots(mapContainer);
+            for (int y = 0; y < NB_SLOTS_HEIGHT; y++) {
+                mapContainer.getRowConstraints().addAll(new RowConstraints(SLOT_HEIGHT));
+                this.slots[x][y] = new Slot(x, y);
+
+                ImageView imgView = new ImageView(this.topLayerImages.get(slots[x][y].getCurrentTopLayer()));
+                imgView.setFitWidth(SLOT_WIDTH);
+                imgView.setFitHeight(SLOT_HEIGHT);
+
+                imgView.hoverProperty().addListener((observable, oldValue, newValue) -> {
+                });
+
+                mapContainer.getColumnConstraints();
+                mapContainer.add(imgView, x, y);
             }
         }
+
     }
 
     /*
@@ -40,26 +52,10 @@ public class Grid implements MapInfos{
     public int getCitizens() {
         return this.citizens;
     }
-
-    public void generateMap(GridPane mapContainer) {
-        slots = new Slot[MAP_HEIGHT][MAP_WIDTH];
-        for (int i = 0; i < MAP_HEIGHT; i++) {
-            for (int j = 0; j < MAP_WIDTH; j++) {
-                slots[i][j] = new Slot(i, j);
-                ImageView imgView = new ImageView(this.topLayerImages.get(slots[i][j].getCurrentTopLayer()));
-                imgView.setFitWidth(SLOT_WIDTH);
-                imgView.setFitHeight(SLOT_HEIGHT);
-                imgView.onMouseReleasedProperty().set((event) -> {
-                    this.change(event);
-                });
-                mapContainer.add(imgView,i,j);
-            }
-        }
-    }
-    */
+     */
 
     void generateMapImageView(){
-        Image topLayerNone = new Image("file:src/main/resources/com/simpower/assets/textures/map/grass.png");
+        Image topLayerNone = new Image("file:src/main/resources/com/simpower/assets/textures/map/oil.png");
         this.topLayerImages.put(topLayer.NONE,topLayerNone);
     }
 
