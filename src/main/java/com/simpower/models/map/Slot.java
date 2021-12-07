@@ -10,17 +10,16 @@ public class Slot implements MapInfos{
     private int pos_y = 0;
     private boolean empty = true;
     private Buildings building = null;
-    private int pollutionLevel = 0;
-    private ImageView img;
+    private resourceLayer currentResourceLayer;
+    private topLayer currentTopLayer;
+    private pollutionLayer currentPollutionLayer;
 
     public Slot(int x, int y){
-        Image groundImg = new Image("file:src/main/resources/com/simpower/assets/ground.png");
         this.pos_x = x;
         this.pos_y = y;
-        this.img = new ImageView(groundImg);
-        /*img.computeAreaInScreen();*/
-        this.img.setFitHeight(HEIGHT_SLOT);
-        this.img.setFitWidth(WIDTH_SLOT);
+        currentResourceLayer = resourceLayer.NONE;
+        currentTopLayer = topLayer.NONE;
+        currentPollutionLayer = pollutionLayer.NONE;
     }
 
     public int getPos_x() {
@@ -31,17 +30,11 @@ public class Slot implements MapInfos{
         return this.pos_y;
     }
 
-    public ImageView getImg(){ return this.img; }
+    public resourceLayer getCurrentResourceLayer(){ return this.currentResourceLayer; }
 
-    public ImageView setImg(ImageView newImg){
-        ImageView tmp = this.img;
-        this.img = newImg;
-        return tmp;
-    }
+    public topLayer getCurrentTopLayer(){ return this.currentTopLayer; }
 
-    public int getPollutionLevel() {
-        return this.pollutionLevel;
-    }
+    public pollutionLayer getCurrentPollutionLayer(){ return this.currentPollutionLayer; }
 
     public boolean isEmpty() {
         return this.empty;
