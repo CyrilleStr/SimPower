@@ -1,15 +1,18 @@
 package com.simpower.models;
 
 public class Money {
-    private int amount;
-    private float taxRate;
-    private int totalServicingCost;
+    private int amount = 50000;
+    private float taxRate = 10;
+    private int totalServicingCost = 0;
+
+    public Money(){}
 
     public int getAmount() {
         return 0;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(int amountA) {
+        this.amount = amountA;
     }
 
     public int turnover(int citizens, float taxRate, int totalServicingCost) {
@@ -17,10 +20,11 @@ public class Money {
     }
 
     public void setTaxRate(float taxRateChange) {
+        this.taxRate = taxRateChange;
     }
 
     public float getTaxRate() {
-        return 0;
+        return this.taxRate;
     }
 
     public void updateServicingCost(int servicingCost) {

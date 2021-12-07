@@ -10,17 +10,6 @@
 <AnchorPane prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #1c1c1c;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simpower.controllers.MenuController">
    <VBox layoutX="376.0" layoutY="369.0" prefHeight="200.0" prefWidth="209.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="474.0" AnchorPane.topAnchor="370.0">
       <children>
-         <Button fx:id="langBtn" onAction="#changeLang" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: #3e3e3e;" text="Lang" textAlignment="CENTER" textFill="#cfcfcf">
-            <font>
-               <Font name="Leelawadee UI" size="16.0" />
-            </font>
-            <padding>
-               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </padding>
-            <VBox.margin>
-               <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-            </VBox.margin>
-         </Button>
            <Button fx:id="cheatsBtn" onAction="#activateCheats" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: #3e3e3e;" text="Cheats" textAlignment="CENTER" textFill="#cfcfcf">
             <font>
                <Font name="Leelawadee UI" size="16.0" />
@@ -50,12 +39,7 @@
          <Font name="Leelawadee UI" size="128.0" />
       </font>
    </Text>
-   <Text fx:id="langLabel" fill="#cfcfcf" layoutX="620.0" layoutY="404.0" strokeType="OUTSIDE" strokeWidth="0.0" text="English">
-      <font>
-         <Font name="Leelawadee UI" size="16.0" />
-      </font>
-   </Text>
-   <Text fx:id="cheatsLabel" fill="#cfcfcf" layoutX="621.0" layoutY="462.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Off">
+   <Text fill="#cfcfcf" layoutX="618.0" layoutY="404.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Off">
       <font>
          <Font name="Leelawadee UI" size="16.0" />
       </font>

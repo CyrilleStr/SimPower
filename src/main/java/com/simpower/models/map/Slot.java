@@ -1,13 +1,26 @@
 package com.simpower.models.map;
 
+import com.simpower.controllers.GameController;
 import com.simpower.models.map.buildings.Buildings;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-public class Slot {
-    private final int pos_x = 0;
-    private final int pos_y = 0;
+public class Slot implements MapInfos{
+    private int pos_x = 0;
+    private int pos_y = 0;
     private boolean empty = true;
     private Buildings building = null;
-    private final int pollutionLevel = 0;
+    private resourceLayer currentResourceLayer;
+    private topLayer currentTopLayer;
+    private pollutionLayer currentPollutionLayer;
+
+    public Slot(int x, int y){
+        this.pos_x = x;
+        this.pos_y = y;
+        currentResourceLayer = resourceLayer.NONE;
+        currentTopLayer = topLayer.NONE;
+        currentPollutionLayer = pollutionLayer.NONE;
+    }
 
     public int getPos_x() {
         return this.pos_x;
@@ -17,9 +30,11 @@ public class Slot {
         return this.pos_y;
     }
 
-    public int getPollutionLevel() {
-        return this.pollutionLevel;
-    }
+    public resourceLayer getCurrentResourceLayer(){ return this.currentResourceLayer; }
+
+    public topLayer getCurrentTopLayer(){ return this.currentTopLayer; }
+
+    public pollutionLayer getCurrentPollutionLayer(){ return this.currentPollutionLayer; }
 
     public boolean isEmpty() {
         return this.empty;

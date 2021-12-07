@@ -1,27 +1,23 @@
 package com.simpower.controllers;
+
 import com.simpower.Main;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import org.json.simple.JSONObject;
 
 import java.io.IOException;
 
 public class MenuController {
-    private JSONObject lang = new Main().getLang();
-
     @FXML private Button newGameBtn;
     @FXML private Button loadGameBtn;
     @FXML private Button settingsBtn;
     @FXML private Button quitGameBtn; // unused
     @FXML private Button creditsBtn;
     @FXML private Button cheatsBtn;
-    @FXML private Button langBtn;
     @FXML private Button goBackBtn;
 
-    @FXML private Label langLabel;
     @FXML private Label cheatsLabel;
 
     @FXML
@@ -36,22 +32,18 @@ public class MenuController {
     }
 
     @FXML
-    protected void newGame(ActionEvent event){
-        newGameBtn.setText("cliqué");
+    protected void newGame(ActionEvent event) throws IOException{
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/map.fxml"));
+        settingsBtn.getScene().setRoot(fxmlLoader.load());
     }
 
     @FXML
     protected void loadGame(ActionEvent event){
         loadGameBtn.setText("cliqué");
     }
+
     @FXML
-    protected void changeLang(ActionEvent event){
-        langBtn.setText("cliqué");
-    }
-    @FXML
-    protected void activateCheats(ActionEvent event){
-        this.cheatsLabel.setText((String) this.lang.get("menus.labels.langs.fr_FR"));
-    }
+    protected void activateCheats(ActionEvent event){ cheatsBtn.setText("cliqué");}
 
     @FXML
     protected void openCredits(ActionEvent event) throws IOException {

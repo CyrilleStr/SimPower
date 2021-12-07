@@ -3,24 +3,29 @@ package com.simpower.models.time;
 import java.util.Date;
 
 public class Clock {
-    private double time;
+    private double time = 0;
     private boolean ticking = true;
     private int speed = 1; // time speed, goes faster if greater
-    private Date date;
+    private Date date = new Date();
     private final Seasons season = Seasons.SPRING;
     private final boolean day = true; // false if it's night time
 
-    public void setSpeed(int speed) {
+    public Clock(){}
+
+    public void setSpeed(int speedS) {
+        this.speed = speedS;
     }
 
-    public void getSpeed() {
+    public int getSpeed() {
+        return this.speed;
     }
 
     public Date getDate() {
-        return date;
+        return this.date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Date dateD) {
+        this.date = dateD;
     }
 
     public String getDateToString() {
@@ -31,8 +36,10 @@ public class Clock {
         return this.time;
     }
 
+    public void setTime(double timeT){this.time = timeT;}
+
     public boolean isTicking() {
-        return false;
+        return ticking;
     }
 
     public void setTicking(boolean ticking) {
