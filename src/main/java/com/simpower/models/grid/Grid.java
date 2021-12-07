@@ -53,8 +53,22 @@ public class Grid implements GridInfos {
      * Add the top layer : a road on top and random rivers
      */
     public void addTopLayer(){
+        /*Generate random river*/
+        int isGenerateVertically = this.generateRandomInt(0,1);
+
+        int step = 0;
+        int y = 0;
+        int x = this.generateRandomInt(0,X_SIZE-1);
+        cells[(isGenerateVertically == 0) ? x : y][(isGenerateVertically == 0) ? y :x].setCurrentTopLayer(topLayer.RIVER);
+        for(y = 1; y <((isGenerateVertically == 0) ? Y_SIZE :X_SIZE);y++){
+            do{
+                step = this.generateRandomInt(-1,1);
+            }while(step+x < 0 || step+x >= ((isGenerateVertically == 0) ? X_SIZE : Y_SIZE));
+            x += step;
+            cells[(isGenerateVertically == 0) ? x : y][(isGenerateVertically == 0) ? y :x].setCurrentTopLayer(topLayer.RIVER);
+        }
+        /*Set start road*/
         cells[14][0].setCurrentTopLayer(topLayer.VERTICAL_ROAD);
-        // TODO Grid::addTopLayer() generate rivers
     }
 
     /**
@@ -92,10 +106,25 @@ public class Grid implements GridInfos {
         ((ImageView) event.getSource()).setImage(resource);
     }
 
+    /**
+     * Generate a random number between min and max
+     * @param min the minimum value (included)
+     * @param max the maximum value (included)
+     * @return the random number
+     */
+    int generateRandomInt(int min, int max){
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+        return (int)(Math.random() * ((max - min) + 1)) + min;
+    }
+
     void loadImg(){
         Image topLayerNone = new Image("file:src/main/resources/com/simpower/assets/textures/ground.jpg");
         Image topLayerVerticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/verticalRoad.png");
+        Image topLayerRiver = new Image("file:src/main/resources/com/simpower/assets/textures/river.jpg");
         this.topLayerImages.put(topLayer.NONE,topLayerNone);
         this.topLayerImages.put(topLayer.VERTICAL_ROAD,topLayerVerticalRoad);
+        this.topLayerImages.put(topLayer.RIVER,topLayerRiver);
     }
 }

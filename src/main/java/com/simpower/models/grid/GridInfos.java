@@ -5,6 +5,7 @@ public interface GridInfos {
     static final int Y_SIZE = 30;
     static final int HEIGHT_SLOT = 36;
     static final int WIDTH_SLOT = 36;
+    static final int RIVER_LENGTH = 30;
     enum resourceLayer {
         NONE,
         OIL,
@@ -14,6 +15,7 @@ public interface GridInfos {
     }
     enum topLayer{
         NONE,
+        RIVER,
         /*Building*/
         HOUSE,
         WORKING_BUILDING,
