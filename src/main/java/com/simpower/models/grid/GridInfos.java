@@ -11,22 +11,17 @@ public interface GridInfos {
     Map<topLayer,Image> topLayerImages = new HashMap<>();
     Map<pollutionLayer,Image> pollutionLayerImages = new HashMap<>();
 
-    int SLOT_WIDTH = 16;
-    int SLOT_HEIGHT = SLOT_WIDTH; // square :)
+    int CELL_WIDTH = 16;
+    int CELL_HEIGHT = CELL_WIDTH; // square :)
 
-    int NB_SLOTS_WIDTH = 64;
-    int NB_SLOTS_HEIGHT = 64;
-    int NB_SLOTS = NB_SLOTS_HEIGHT * NB_SLOTS_WIDTH;
+    int NB_CELLS_WIDTH = 64;
+    int NB_CELLS_HEIGHT = 64;
+    int NB_CELLS = NB_CELLS_HEIGHT * NB_CELLS_WIDTH;
 
-    int MAP_WIDTH = NB_SLOTS_WIDTH * SLOT_WIDTH;
-    int MAP_HEIGHT = NB_SLOTS_HEIGHT * SLOT_HEIGHT;
+    int MAP_WIDTH = NB_CELLS_WIDTH * CELL_WIDTH;
+    int MAP_HEIGHT = NB_CELLS_HEIGHT * CELL_HEIGHT;
     int MAP_SURFACE = MAP_WIDTH * MAP_HEIGHT;
 
-    int X_SIZE = 30;
-    int Y_SIZE = 30;
-    int HEIGHT_SLOT = 36;
-    int WIDTH_SLOT = 36;
-    
     enum resourceLayer {
         NONE,
         OIL,
