@@ -39,7 +39,7 @@ public class Grid implements GridInfos {
      * Generate an empty Grid while instancing cells
      */
     private void generateEmptyGrid(){
-        this.cells = new Cell[NB_CELLS_WIDTH][NB_CELLS_HEIGHT];
+        this.cells = new Cell[NB_CELLS_HEIGHT][NB_CELLS_WIDTH];
         for (int y = 0; y < NB_CELLS_HEIGHT; y++) {
             for (int x = 0; x < NB_CELLS_WIDTH; x++) {
                 cells[x][y] = new Cell(x, y);
