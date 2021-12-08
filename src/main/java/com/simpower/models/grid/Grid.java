@@ -60,12 +60,12 @@ public class Grid implements GridInfos {
 
         int step = 0;
         int y = 0;
-        int x = this.generateRandomInt(0,X_SIZE-1);
+        int x = this.generateRandomInt(0, NB_CELLS_WIDTH - 1);
         cells[(isGenerateVertically == 0) ? x : y][(isGenerateVertically == 0) ? y :x].setCurrentTopLayer(topLayer.RIVER);
-        for(y = 1; y <((isGenerateVertically == 0) ? Y_SIZE :X_SIZE);y++){
-            do{
+        for (y = 1; y <((isGenerateVertically == 0) ? NB_CELLS_HEIGHT : NB_CELLS_WIDTH);  y++){
+            do {
                 step = this.generateRandomInt(-1,1);
-            }while(step+x < 0 || step+x >= ((isGenerateVertically == 0) ? X_SIZE : Y_SIZE));
+            } while (step+x < 0 || step+x >= ((isGenerateVertically == 0) ? NB_CELLS_WIDTH : NB_CELLS_HEIGHT));
             x += step;
             cells[(isGenerateVertically == 0) ? x : y][(isGenerateVertically == 0) ? y :x].setCurrentTopLayer(topLayer.RIVER);
         }
