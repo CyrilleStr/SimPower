@@ -32,6 +32,7 @@ public interface GridInfos {
 
     enum topLayer{
         NONE,
+        RIVER,
         /*Building*/
         HOUSE,
         WORKING_BUILDING,
