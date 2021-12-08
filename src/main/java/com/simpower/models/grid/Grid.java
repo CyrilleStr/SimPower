@@ -1,6 +1,7 @@
 package com.simpower.models.grid;
 
 import javafx.fxml.FXML;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -18,9 +19,6 @@ public class Grid implements GridInfos {
     //private Clock clock;
     //private int citizens;
     private Cell[][] cells;
-    private final Map<resourceLayer,Image> resourceLayerImages = new HashMap<>();
-    private final Map<topLayer,Image> topLayerImages = new HashMap<>();
-    private final Map<pollutionLayer,Image> pollutionLayerImages = new HashMap<>();
 
     /**
      * Instance a Grid, add the resource layer, add the top layer and show the top layer
@@ -89,12 +87,27 @@ public class Grid implements GridInfos {
                 imgView.setFitWidth(CELL_WIDTH);
                 imgView.setFitHeight(CELL_HEIGHT);
 
-                /* Add this event on mouse released only for test */
-                imgView.onMouseReleasedProperty().set((event) -> {
-                    this.change(event);
+                /* Hovering effect */
+                int finalI = i;
+                int finalJ = j;
+                imgView.hoverProperty().addListener((observable, oldVal, newVal) -> {
+                    int X = cells[finalI][finalJ].getPos_x();
+                    int Y = cells[finalI][finalJ].getPos_y();
+
+                    ColorAdjust colorAdjust = new ColorAdjust();
+
+                    if (newVal) colorAdjust.setBrightness(.5);
+                    else colorAdjust.setBrightness(0);
+
+                    imgView.setEffect(colorAdjust);
                 });
 
-                gridContainer.add(imgView,i,j);
+                /* Add this event on mouse released only for test *
+                imgView.onMouseReleasedProperty().set((event) -> {
+                    this.change(event);
+                });*/
+
+                gridContainer.add(imgView, i, j);
             }
         }
     }
