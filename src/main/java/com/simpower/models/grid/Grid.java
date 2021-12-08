@@ -148,4 +148,113 @@ public class Grid implements GridInfos {
         this.topLayerImages.put(topLayer.VERTICAL_ROAD,topLayerVerticalRoad);
         this.topLayerImages.put(topLayer.RIVER,topLayerRiver);
     }
+
+    /**
+     * Allows the player to create new roads in the game with a parse
+     */
+    public void addRoad(Cell cell){
+
+        switch (this.cells[cell.getPos_x()-1][cell.getPos_y()].getCurrentTopLayer()){
+            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                switch (this.cells[cell.getPos_x()][cell.getPos_y()-1].getCurrentTopLayer()){
+                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                        switch (this.cells[cell.getPos_x()+1][cell.getPos_y()].getCurrentTopLayer()){
+                            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                                switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                                        //TODO 4 branches
+                                        break;
+                                    default:
+                                        //TODO T envers
+                                        break;
+                                }
+                            break;
+                            default:
+                                switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                                        //TODO T gauche
+                                        break;
+                                    default:
+                                        //TODO virage haut droit
+                                        break;
+                                }
+                        }
+                    break;
+                    default:
+                        switch (this.cells[cell.getPos_x()+1][cell.getPos_y()].getCurrentTopLayer()){
+                            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                                switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                                        //TODO T normal
+                                    break;
+                                    default:
+                                        //TODO Droite horizontale
+                                    break;
+                                }
+                            default:
+                                switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                                        //TODO virage bas droit
+                                    break;
+                                    default:
+                                        //TODO cul-de-sac droit
+                                }
+                                break;
+                        }
+                }
+            break;
+            default:
+                switch (this.cells[cell.getPos_x()][cell.getPos_y()-1].getCurrentTopLayer()){
+                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                        switch (this.cells[cell.getPos_x()+1][cell.getPos_y()].getCurrentTopLayer()){
+                            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                                switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                                        //TODO T gauche
+                                        break;
+                                    default:
+                                        //TODO virage haut gauche
+                                        break;
+                                }
+                                break;
+                            default:
+                                switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                                        //TODO droit vertical
+                                        break;
+                                    default:
+                                        //TODO cul-de-sac haut
+                                        break;
+                                }
+                                break;
+                        }
+                    break;
+                    default:
+                        switch (this.cells[cell.getPos_x()+1][cell.getPos_y()].getCurrentTopLayer()){
+                            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                                switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                                        //TODO virage bas gauche
+                                        break;
+                                    default:
+                                        //TODO cul-de-sac gauche
+                                        break;
+                                }
+                                break;
+                            default:
+                                switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                                        //TODO cul-de-sac bas
+                                        break;
+                                    default:
+                                        //TODO Pas de route possible
+                                        break;
+                                }
+                                break;
+                        }
+                    break;
+                }
+            break;
+        }
+    }
 }
