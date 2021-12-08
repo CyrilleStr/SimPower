@@ -27,10 +27,11 @@ public class Grid implements GridInfos {
      */
     public Grid(GridPane gridContainer){
         this.generateEmptyGrid();
-        this.addResourceLayer();
         this.addTopLayer();
+        this.addResourceLayer();
         this.loadImg();
         this.showTopLayer(gridContainer);
+        this.showResourceLayer(gridContainer);
     }
 
     /**
@@ -46,7 +47,31 @@ public class Grid implements GridInfos {
     }
 
     public void addResourceLayer(){
-        // TODO implement Grid::addResourceLayer()
+        // TODO finish Grid::addResourceLayer()
+        /*Divides the grid in 4 chunks and places a coal on a random cell in that chunk*/
+        int posX, posY;
+        int a=14;
+        int b=14;
+        int countX =0;
+        int countY =0;
+
+        for(int i =0; i<Y_SIZE; i+=14+countY){
+            a+= i;
+            for(int j=0; j<X_SIZE; j+=14+countX){
+                b+= j;
+
+                System.out.println("chunk:"+countX);
+                System.out.println("i: "+i+"  j: "+j+"  a: "+a+"  b :"+b+"\n\n");
+
+                posX = this.generateRandomInt(j, b);
+                posY = this.generateRandomInt(i, a);
+                cells[posY][posX].setCurrentResourceLayer(resourceLayer.COAL);
+                countX++;
+            }
+            b=14;
+            countX=0;
+            countY++;
+        }
     }
 
     /**
@@ -98,6 +123,14 @@ public class Grid implements GridInfos {
      */
     public void showResourceLayer(GridPane gridContainer){
         // TODO implement Grid::showResourceLayer()
+        for(int i=0; i<Y_SIZE; i++){
+            for(int j=0; j<X_SIZE; j++){
+                ImageView imgView = new ImageView(this.resourceLayerImages.get(cells[i][j].getCurrentResourceLayer()));
+                imgView.setFitHeight(HEIGHT_SLOT);
+                imgView.setFitWidth(WIDTH_SLOT);
+                gridContainer.add(imgView,i,j);
+            }
+        }
     }
 
     @FXML
@@ -120,11 +153,16 @@ public class Grid implements GridInfos {
     }
 
     void loadImg(){
+        /*TOPLAYER*/
         Image topLayerNone = new Image("file:src/main/resources/com/simpower/assets/textures/ground.jpg");
         Image topLayerVerticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/verticalRoad.png");
         Image topLayerRiver = new Image("file:src/main/resources/com/simpower/assets/textures/river.jpg");
         this.topLayerImages.put(topLayer.NONE,topLayerNone);
         this.topLayerImages.put(topLayer.VERTICAL_ROAD,topLayerVerticalRoad);
         this.topLayerImages.put(topLayer.RIVER,topLayerRiver);
+
+        /*RESOURCELAYER*/
+        Image resourceLayerCoal = new Image("file:src/main/resources/com/simpower/assets/coal.png");
+        this.resourceLayerImages.put(resourceLayer.COAL, resourceLayerCoal);
     }
 }
