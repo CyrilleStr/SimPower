@@ -23,7 +23,7 @@ public class Grid implements GridInfos {
     /**
      * Instance a Grid, add the resource layer, add the top layer and show the top layer
      *
-     * @param gridContainer
+     * @param gridContainer the grid pane for the map
      */
     public Grid(GridPane gridContainer){
         this.generateEmptyGrid();
@@ -74,7 +74,7 @@ public class Grid implements GridInfos {
     /**
      * Call the view to show the grid top layer
      *
-     * @param gridContainer
+     * @param gridContainer the grid pane of the top layer
      */
     public void showTopLayer(GridPane gridContainer) {
         for (int i = 0; i < NB_CELLS_HEIGHT; i++) {
@@ -91,8 +91,12 @@ public class Grid implements GridInfos {
                 int finalI = i;
                 int finalJ = j;
                 imgView.hoverProperty().addListener((observable, oldVal, newVal) -> {
+
+                    //Ces deux trucs servent pas
+                    /*
                     int X = cells[finalI][finalJ].getPos_x();
                     int Y = cells[finalI][finalJ].getPos_y();
+                    */
 
                     ColorAdjust colorAdjust = new ColorAdjust();
 
@@ -115,7 +119,7 @@ public class Grid implements GridInfos {
     /**
      * Call the view to show the grid resource layer
      *
-     * @param gridContainer
+     * @param gridContainer our grid pane of the map
      */
     public void showResourceLayer(GridPane gridContainer){
         // TODO implement Grid::showResourceLayer()
@@ -140,9 +144,12 @@ public class Grid implements GridInfos {
         return (int)(Math.random() * ((max - min) + 1)) + min;
     }
 
+    /**
+     * Loads image for the map
+     */
     void loadImg(){
         Image topLayerNone = new Image("file:src/main/resources/com/simpower/assets/textures/map/grass.png");
-        Image topLayerVerticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_2a.png");
+        Image topLayerVerticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_2a_v.png");
         Image topLayerRiver = new Image("file:src/main/resources/com/simpower/assets/textures/map/water.png");
         this.topLayerImages.put(topLayer.NONE,topLayerNone);
         this.topLayerImages.put(topLayer.VERTICAL_ROAD,topLayerVerticalRoad);
@@ -151,6 +158,8 @@ public class Grid implements GridInfos {
 
     /**
      * Allows the player to create new roads in the game with a parse
+     *
+     * @param cell the cell to study
      */
     public void addRoad(Cell cell){
 
