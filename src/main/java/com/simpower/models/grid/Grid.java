@@ -312,4 +312,26 @@ public class Grid implements GridInfos {
             break;
         }
     }
+
+    /**
+     * Update the cell next to a new road if a road was already there
+     * @param cell cell to update
+     */
+    public void updateRoad(Cell cell){
+        if(this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentTopLayer() == topLayer.TURNED_ROAD || this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentTopLayer() == topLayer.END_ROAD || this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentTopLayer() == topLayer.TRI_ROAD || this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentTopLayer() == topLayer.CROSS_ROAD || this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentTopLayer() == topLayer.VERTICAL_ROAD || this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentTopLayer() == topLayer.HORIZONTAL_ROAD){
+            addRoad(this.cells[cell.getPos_x()][cell.getPos_y()]);
+        }
+    }
+
+    /**
+     * Function to use when you wanna build a road. Combine addRoad() with updateRoad()
+     * @param cell the cell where you wanna add a new road
+     */
+    public void roadBuilder(Cell cell){
+        addRoad(this.cells[cell.getPos_x()][cell.getPos_y()]);
+        updateRoad(this.cells[cell.getPos_x()-1][cell.getPos_y()]);
+        updateRoad(this.cells[cell.getPos_x()][cell.getPos_y()-1]);
+        updateRoad(this.cells[cell.getPos_x()+1][cell.getPos_y()]);
+        updateRoad(this.cells[cell.getPos_x()][cell.getPos_y()+1]);
+    }
 }
