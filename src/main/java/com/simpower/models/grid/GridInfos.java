@@ -53,7 +53,8 @@ public interface GridInfos {
         HORIZONTAL_ROAD,
         CROSS_ROAD,
         TURNED_ROAD,
-        TRI_ROAD
+        TRI_ROAD,
+        END_ROAD
     }
 
     enum pollutionLayer {

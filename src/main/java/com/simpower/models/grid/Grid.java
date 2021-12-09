@@ -155,49 +155,73 @@ public class Grid implements GridInfos {
     public void addRoad(Cell cell){
 
         switch (this.cells[cell.getPos_x()-1][cell.getPos_y()].getCurrentTopLayer()){
-            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
                 switch (this.cells[cell.getPos_x()][cell.getPos_y()-1].getCurrentTopLayer()){
-                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
                         switch (this.cells[cell.getPos_x()+1][cell.getPos_y()].getCurrentTopLayer()){
-                            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
                                 switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
-                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
-                                        //TODO 4 branches
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
+                                        //4 branches
+                                        Image crossRoad = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_4.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.CROSS_ROAD);
+                                        topLayerImages.put(topLayer.CROSS_ROAD, crossRoad);
                                         break;
                                     default:
-                                        //TODO T envers
+                                        //T envers
+                                        Image triRoadUpside = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_3_upside.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.TRI_ROAD);
+                                        topLayerImages.put(topLayer.TRI_ROAD, triRoadUpside);
                                         break;
                                 }
                             break;
                             default:
                                 switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
-                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
-                                        //TODO T gauche
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
+                                        //T gauche
+                                        Image triRoadLeft = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_3_left.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.TRI_ROAD);
+                                        topLayerImages.put(topLayer.TRI_ROAD, triRoadLeft);
                                         break;
                                     default:
-                                        //TODO virage haut droit
+                                        //virage haut droit
+                                        Image turnedRoadTopRight = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_2_hd.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.TURNED_ROAD);
+                                        topLayerImages.put(topLayer.TURNED_ROAD, turnedRoadTopRight);
                                         break;
                                 }
                         }
                     break;
                     default:
                         switch (this.cells[cell.getPos_x()+1][cell.getPos_y()].getCurrentTopLayer()){
-                            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
                                 switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
-                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
-                                        //TODO T normal
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
+                                        //T normal
+                                        Image triRoadNormal = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_3_normal.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.TRI_ROAD);
+                                        topLayerImages.put(topLayer.TRI_ROAD, triRoadNormal);
                                     break;
                                     default:
-                                        //TODO Droite horizontale
+                                        //Droite horizontale
+                                        Image horizontalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_2a_h.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.HORIZONTAL_ROAD);
+                                        topLayerImages.put(topLayer.HORIZONTAL_ROAD, horizontalRoad);
                                     break;
                                 }
                             default:
                                 switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
-                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
-                                        //TODO virage bas droit
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
+                                        //Virage bas droit
+                                        Image turnedRoadBottomRight = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_2b_bd.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.TURNED_ROAD);
+                                        topLayerImages.put(topLayer.TURNED_ROAD, turnedRoadBottomRight);
                                     break;
                                     default:
-                                        //TODO cul-de-sac droit
+                                        //Cul-de-sac droit
+                                        Image endRoadRight = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_1_d.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.END_ROAD);
+                                        topLayerImages.put(topLayer.END_ROAD, endRoadRight);
                                 }
                                 break;
                         }
@@ -205,25 +229,37 @@ public class Grid implements GridInfos {
             break;
             default:
                 switch (this.cells[cell.getPos_x()][cell.getPos_y()-1].getCurrentTopLayer()){
-                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
                         switch (this.cells[cell.getPos_x()+1][cell.getPos_y()].getCurrentTopLayer()){
-                            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
                                 switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
-                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
-                                        //TODO T gauche
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
+                                        //T droit
+                                        Image triRoadRight = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_3_right.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.TRI_ROAD);
+                                        topLayerImages.put(topLayer.TRI_ROAD, triRoadRight);
                                         break;
                                     default:
-                                        //TODO virage haut gauche
+                                        //Virage haut gauche
+                                        Image turnedRoadTopLeft = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_2b_hg.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.TURNED_ROAD);
+                                        topLayerImages.put(topLayer.TURNED_ROAD, turnedRoadTopLeft);
                                         break;
                                 }
                                 break;
                             default:
                                 switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
-                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
-                                        //TODO droit vertical
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
+                                        //Droit vertical
+                                        Image verticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_2a_v.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.VERTICAL_ROAD);
+                                        topLayerImages.put(topLayer.VERTICAL_ROAD, verticalRoad);
                                         break;
                                     default:
-                                        //TODO cul-de-sac haut
+                                        //Cul-de-sac haut
+                                        Image endRoadTop = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_1_h.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.END_ROAD);
+                                        topLayerImages.put(topLayer.END_ROAD, endRoadTop);
                                         break;
                                 }
                                 break;
@@ -231,23 +267,33 @@ public class Grid implements GridInfos {
                     break;
                     default:
                         switch (this.cells[cell.getPos_x()+1][cell.getPos_y()].getCurrentTopLayer()){
-                            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
+                            case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
                                 switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
-                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
-                                        //TODO virage bas gauche
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
+                                        //Virage bas gauche
+                                        Image turnedRoadBottomLeft = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_2b_bg.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.TURNED_ROAD);
+                                        topLayerImages.put(topLayer.TURNED_ROAD, turnedRoadBottomLeft);
                                         break;
                                     default:
-                                        //TODO cul-de-sac gauche
+                                        //Cul-de-sac gauche
+                                        Image endRoadLeft = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_1_g.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.END_ROAD);
+                                        topLayerImages.put(topLayer.END_ROAD, endRoadLeft);
                                         break;
                                 }
                                 break;
                             default:
                                 switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentTopLayer()){
-                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:
-                                        //TODO cul-de-sac bas
+                                    case VERTICAL_ROAD:case HORIZONTAL_ROAD:case TRI_ROAD:case TURNED_ROAD:case CROSS_ROAD:case END_ROAD:
+                                        //Cul-de-sac bas
+                                        Image endRoadBottom = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_1_b.png");
+                                        this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentTopLayer(topLayer.END_ROAD);
+                                        topLayerImages.put(topLayer.END_ROAD, endRoadBottom);
                                         break;
                                     default:
                                         //TODO Pas de route possible
+                                        //Faire une info-bulle sur la souris ou un truc du genre
                                         break;
                                 }
                                 break;
