@@ -27,6 +27,7 @@ public class Grid implements GridInfos {
         this.addTopLayer();
         this.loadImg();
         this.showTopLayer(gridContainer);
+        this.showResourceLayer(gridContainer);
     }
 
     /**
@@ -41,8 +42,14 @@ public class Grid implements GridInfos {
         }
     }
 
-    private void addResourceLayer() {
-        // TODO implement Grid::addResourceLayer()
+    /**
+     * Add the resource layer : coal, gas, uranium, oil
+     */
+    public void addResourceLayer(){
+        layResource(resourceLayer.COAL, 3);
+        layResource(resourceLayer.OIL, 1);
+        layResource(resourceLayer.URANIUM,0);
+        layResource(resourceLayer.GAS,2);
     }
 
     /**
@@ -70,7 +77,7 @@ public class Grid implements GridInfos {
     /**
      * Call the view to show the grid top layer
      *
-     * @param gridContainer
+     * @param gridContainer the grid pane of the top layer
      */
     public void showTopLayer(GridPane gridContainer) {
         for (int i = 0; i < NB_CELLS_HEIGHT; i++) {
@@ -87,8 +94,12 @@ public class Grid implements GridInfos {
                 int finalI = i;
                 int finalJ = j;
                 imgView.hoverProperty().addListener((observable, oldVal, newVal) -> {
+
+                    //Ces deux trucs servent pas
+                    /*
                     int X = cells[finalI][finalJ].getPos_x();
                     int Y = cells[finalI][finalJ].getPos_y();
+                    */
 
                     ColorAdjust colorAdjust = new ColorAdjust();
 
@@ -112,16 +123,89 @@ public class Grid implements GridInfos {
     /**
      * Call the view to show the grid resource layer
      *
-     * @param gridContainer
+     * @param gridContainer our grid pane of the map
      */
     public void showResourceLayer(GridPane gridContainer){
-        // TODO implement Grid::showResourceLayer()
+        for(int i=0; i<NB_CELLS_HEIGHT; i++){
+            for(int j=0; j<NB_CELLS_WIDTH; j++){
+                ImageView imgView = new ImageView(this.resourceLayerImages.get(cells[i][j].getCurrentResourceLayer()));
+                imgView.setFitHeight(CELL_HEIGHT);
+                imgView.setFitWidth(CELL_HEIGHT);
+                gridContainer.add(imgView,i,j);
+            }
+        }
     }
+    /**
+     * Lay resources randomly in each 4 chunks of the grid and calls spreadResource()
+     *
+     * @param resourceType the type of resource to spawn (included)
+     * @param spread_value the number of resources to spawn when calling the Spread function(included)
+     */
+    public void layResource(resourceLayer resourceType, int spread_value){
+        /*Divides the grid in 4 chunks and places a resource on a random cell in that chunk*/
+        int posX, posY;
+        int a=(NB_CELLS_HEIGHT/2) - 1;
+        int b=(NB_CELLS_WIDTH/2) - 1;
+        int countX =0;
+        int countY =0;
 
-    @FXML
-    void change(MouseEvent event) {
-        Image resource = new Image("file:src/main/resources/com/simpower/assets/textures/map/water.png");
-        ((ImageView) event.getSource()).setImage(resource);
+        for(int i =0; i<NB_CELLS_HEIGHT; i+=( (NB_CELLS_HEIGHT/2) - 1)+countY){
+            a+= i;
+            for(int j=0; j<NB_CELLS_WIDTH ;j+=( (NB_CELLS_WIDTH/2) - 1)+countX){
+                b+= j;
+                do{
+                    posX = this.generateRandomInt(j, b);
+                    posY = this.generateRandomInt(i, a);
+                }while(cells[posX][posY].getCurrentTopLayer() != topLayer.NONE);
+
+                cells[posX][posY].setCurrentResourceLayer(resourceType);
+
+                spreadResource(spread_value, resourceType, posX, posY);
+
+                countX++;
+            }
+            b=14;
+            countX=0;
+            countY++;
+        }
+    }
+    /**
+     * Add resources randomly next to the original cell
+     * @param spread_value the number of resources to spawn (included)
+     * @param resourceType the type of resource to spawn (included)
+     * @param x,y the coordinates of the original cell (included)
+     * @return the random number
+     */
+    void spreadResource(int spread_value, resourceLayer resourceType, int x, int y){
+        int tmp_x, tmp_y;
+        for(int i=0; i<spread_value; i++){
+            do {
+                do{
+                    tmp_x = x;
+                    tmp_y = y;
+                    int spread_side = generateRandomInt(0, 3);
+                    switch(spread_side) {
+                        case 0:
+                            tmp_y -= 1;
+                            break;
+                        case 1:
+                            tmp_x += 1;
+                            break;
+                        case 2:
+                            tmp_y += 1;
+                            break;
+                        case 3:
+                            tmp_x -= 1;
+                            break;
+                    }
+                }while( (0 > tmp_x) || (tmp_x > (NB_CELLS_WIDTH-1) ) || (0>tmp_y) || (tmp_y > (NB_CELLS_HEIGHT-1) ) );
+            }while( (cells[tmp_x][tmp_y].getCurrentTopLayer() != topLayer.NONE) || (cells[tmp_x][tmp_y].getCurrentResourceLayer() != resourceLayer.NONE));
+
+            x=tmp_x;
+            y=tmp_y;
+            System.out.println("x :"+x+" y :"+y);
+            cells[x][y].setCurrentResourceLayer(resourceType);
+        }
     }
 
     /**
@@ -137,17 +221,35 @@ public class Grid implements GridInfos {
         return (int)(Math.random() * ((max - min) + 1)) + min;
     }
 
+    /**
+     * Loads image for the map
+     */
     void loadImg(){
-        Image topLayerNone = new Image("file:src/main/resources/com/simpower/assets/textures/map/grass.png");
-        Image topLayerVerticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_2a.png");
-        Image topLayerRiver = new Image("file:src/main/resources/com/simpower/assets/textures/map/water.png");
+
+        /*TOPLAYER*/
+        Image topLayerNone = new Image("file:src/main/resources/com/simpower/assets/textures/map/grass.jpg");
+        Image topLayerVerticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_2a_v.png");
+        Image topLayerRiver = new Image("file:src/main/resources/com/simpower/assets/textures/map/water.jpg");
         this.topLayerImages.put(topLayer.NONE,topLayerNone);
         this.topLayerImages.put(topLayer.VERTICAL_ROAD,topLayerVerticalRoad);
         this.topLayerImages.put(topLayer.RIVER,topLayerRiver);
+
+        /*RESOURCELAYER*/
+        Image resourceLayerCoal = new Image("file:src/main/resources/com/simpower/assets/textures/map/coal.png");
+        Image resourceLayerOil = new Image("file:src/main/resources/com/simpower/assets/textures/map/oil.png");
+        Image resourceLayerUranium = new Image("file:src/main/resources/com/simpower/assets/textures/map/uranium.png");
+        Image resourceLayerGas = new Image("file:src/main/resources/com/simpower/assets/textures/map/gas.png");
+        this.resourceLayerImages.put(resourceLayer.COAL, resourceLayerCoal);
+        this.resourceLayerImages.put(resourceLayer.OIL, resourceLayerOil);
+        this.resourceLayerImages.put(resourceLayer.URANIUM, resourceLayerUranium);
+        this.resourceLayerImages.put(resourceLayer.GAS, resourceLayerGas);
+
     }
 
     /**
      * Allows the player to create new roads in the game with a parse
+     *
+     * @param cell the cell to study
      */
     public void addRoad(Cell cell){
 
@@ -299,5 +401,27 @@ public class Grid implements GridInfos {
                 }
             break;
         }
+    }
+
+    /**
+     * Update the cell next to a new road if a road was already there
+     * @param cell cell to update
+     */
+    public void updateRoad(Cell cell){
+        if(this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentTopLayer() == topLayer.TURNED_ROAD || this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentTopLayer() == topLayer.END_ROAD || this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentTopLayer() == topLayer.TRI_ROAD || this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentTopLayer() == topLayer.CROSS_ROAD || this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentTopLayer() == topLayer.VERTICAL_ROAD || this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentTopLayer() == topLayer.HORIZONTAL_ROAD){
+            addRoad(this.cells[cell.getPos_x()][cell.getPos_y()]);
+        }
+    }
+
+    /**
+     * Function to use when you wanna build a road. Combine addRoad() with updateRoad()
+     * @param cell the cell where you wanna add a new road
+     */
+    public void roadBuilder(Cell cell){
+        addRoad(this.cells[cell.getPos_x()][cell.getPos_y()]);
+        updateRoad(this.cells[cell.getPos_x()-1][cell.getPos_y()]);
+        updateRoad(this.cells[cell.getPos_x()][cell.getPos_y()-1]);
+        updateRoad(this.cells[cell.getPos_x()+1][cell.getPos_y()]);
+        updateRoad(this.cells[cell.getPos_x()][cell.getPos_y()+1]);
     }
 }
