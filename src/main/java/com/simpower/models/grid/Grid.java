@@ -31,6 +31,7 @@ public class Grid implements GridInfos {
         this.addTopLayer();
         this.loadImg();
         this.showTopLayer(gridContainer);
+        this.showResourceLayer(gridContainer);
     }
 
     /**
@@ -210,12 +211,6 @@ public class Grid implements GridInfos {
         }
     }
 
-    @FXML
-    void change(MouseEvent event) {
-        Image resource = new Image("file:src/main/resources/com/simpower/assets/textures/map/water.png");
-        ((ImageView) event.getSource()).setImage(resource);
-    }
-
     /**
      * Generate a random number between min and max
      * @param min the minimum value (included)
@@ -233,12 +228,10 @@ public class Grid implements GridInfos {
      * Loads image for the map
      */
     void loadImg(){
-        Image topLayerNone = new Image("file:src/main/resources/com/simpower/assets/textures/map/grass.png");
-        Image topLayerVerticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_2a_v.png");
-        Image topLayerRiver = new Image("file:src/main/resources/com/simpower/assets/textures/map/water.png");
+
         /*TOPLAYER*/
         Image topLayerNone = new Image("file:src/main/resources/com/simpower/assets/textures/map/grass.jpg");
-        Image topLayerVerticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_2a.png");
+        Image topLayerVerticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_2a_v.png");
         Image topLayerRiver = new Image("file:src/main/resources/com/simpower/assets/textures/map/water.jpg");
         this.topLayerImages.put(topLayer.NONE,topLayerNone);
         this.topLayerImages.put(topLayer.VERTICAL_ROAD,topLayerVerticalRoad);
