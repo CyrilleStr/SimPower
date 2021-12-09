@@ -15,7 +15,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
 public class GameController {
-
     private Grid grid;
     private Game game;
     @FXML private Button quitGameBtn;
