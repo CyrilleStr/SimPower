@@ -27,7 +27,7 @@ public class MenuController {
 
     @FXML
     protected void goBack(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/main_menu.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/main.fxml"));
         goBackBtn.getScene().setRoot(fxmlLoader.load());
     }
 
@@ -37,6 +37,7 @@ public class MenuController {
         settingsBtn.getScene().setRoot(fxmlLoader.load());
     }
 
+    // todo: Add loading screen & loads event for saved games
     @FXML
     protected void loadGame(ActionEvent event){
         loadGameBtn.setText("cliqué");
@@ -47,13 +48,13 @@ public class MenuController {
 
     @FXML
     protected void openCredits(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/credits_menu.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/credits.fxml"));
         creditsBtn.getScene().setRoot(fxmlLoader.load());
     }
 
     @FXML
     protected void openSettings(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/settings_menu.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/settings.fxml"));
         settingsBtn.getScene().setRoot(fxmlLoader.load());
     }
 }

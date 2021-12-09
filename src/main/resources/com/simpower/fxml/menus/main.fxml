@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane gridLinesVisible="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" styleClass="background" stylesheets="@../../css/stylesheet.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simpower.controllers.MenuController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="250.0" minHeight="10.0" percentHeight="25.0" prefHeight="250.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" percentHeight="75.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label alignment="CENTER" contentDisplay="TOP" prefHeight="268.0" prefWidth="913.0" text="Sim Power" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+         <font>
+            <Font name="Leelawadee UI" size="96.0" />
+         </font>
+      </Label>
+      <VBox alignment="CENTER" prefHeight="45.0" prefWidth="418.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <children>
+            <Button fx:id="newGameBtn" minWidth="400.0" mnemonicParsing="false" onAction="#newGame" stylesheets="@../../css/stylesheet.css" text="New Game" textFill="WHITE">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Leelawadee UI" size="16.0" />
+               </font></Button>
+            <Button fx:id="loadGameBtn" minWidth="400.0" mnemonicParsing="false" onAction="#loadGame" stylesheets="@../../css/stylesheet.css" text="Load Game" textFill="WHITE">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Leelawadee UI" size="16.0" />
+               </font></Button>
+            <Button fx:id="settingsBtn" minWidth="400.0" mnemonicParsing="false" onAction="#openSettings" stylesheets="@../../css/stylesheet.css" text="Settings" textFill="WHITE">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Leelawadee UI" size="16.0" />
+               </font></Button>
+            <Button fx:id="creditsBtn" minWidth="400.0" mnemonicParsing="false" onAction="#openCredits" stylesheets="@../../css/stylesheet.css" text="Credits" textFill="WHITE">
+               <font>
+                  <Font name="Leelawadee UI" size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="quitGameBtn" minWidth="400.0" mnemonicParsing="false" onAction="#quitGame" stylesheets="@../../css/stylesheet.css" text="Quit Game" textFill="WHITE">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Leelawadee UI" size="16.0" />
+               </font></Button>
+         </children>
+      </VBox>
+   </children>
+</GridPane>

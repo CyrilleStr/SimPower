@@ -1,117 +1,248 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simpower.controllers.GameController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" styleClass="background" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simpower.controllers.GameController">
+  <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="67.0" minHeight="10.0" percentHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="627.0" minHeight="10.0" percentHeight="80.0" prefHeight="627.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
    <children>
-      <GridPane layoutX="-1.0" prefHeight="719.0" prefWidth="1080.0">
+      <ScrollPane GridPane.columnSpan="2147483647" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+         <content>
+            <GridPane fx:id="gridContainer" styleClass="background-lighter">
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" prefWidth="130.0" styleClass="button-delete" text="Delete">
+               <font>
+                  <Font name="Leelawadee UI" size="16.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" prefWidth="130.0" text="Build">
+               <font>
+                  <Font name="Leelawadee UI" size="16.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" prefWidth="130.0" text="Resources">
+               <font>
+                  <Font name="Leelawadee UI" size="16.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <GridPane GridPane.columnIndex="3">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.33" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.33" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.33" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.33" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="633.066650390625" minHeight="0.0" prefHeight="73.60002288818362" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="648.5999893188476" minHeight="10.0" prefHeight="645.3999771118164" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <GridPane fx:id="gridContainer" GridPane.rowIndex="1">
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
-            <ToolBar prefHeight="74.0" prefWidth="1151.0" style="-fx-background-color: #3c3c3c;">
-              <items>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" scaleX="0.75" scaleY="0.75">
-                     <image>
-                        <Image url="@../assets/textures/hotbar/bill.png" />
-                     </image>
-                  </ImageView>
-                  <Label prefHeight="50.0" prefWidth="100.0" text="#MONEY" textFill="#cccccc">
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
-                     <font>
-                        <Font name="Leelawadee UI" size="17.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/textures/hotbar/coal.png" />
-                     </image>
-                  </ImageView>
-                  <Label layoutX="64.0" layoutY="23.0" prefHeight="50.0" prefWidth="100.0" text="#COAL" textFill="#cccccc">
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
-                     <font>
-                        <Font name="Leelawadee UI" size="17.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="191.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/textures/hotbar/gas.png" />
-                     </image>
-                  </ImageView>
-                  <Label layoutX="245.0" layoutY="23.0" prefHeight="50.0" prefWidth="100.0" text="#GAS" textFill="#cccccc">
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
-                     <font>
-                        <Font name="Leelawadee UI" size="17.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="372.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/textures/hotbar/oil.png" />
-                     </image>
-                  </ImageView>
-                  <Label layoutX="426.0" layoutY="23.0" prefHeight="50.0" prefWidth="100.0" text="#OIL" textFill="#cccccc">
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
-                     <font>
-                        <Font name="Leelawadee UI" size="17.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="552.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="3">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../assets/textures/hotbar/uranium.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="607.0" layoutY="23.0" prefHeight="50.0" prefWidth="100.0" text="#URANIUM" textFill="#cccccc">
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
+                  <Label prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 T" textFill="WHITE">
                      <font>
-                        <Font name="Leelawadee UI" size="17.0" />
+                        <Font name="Leelawadee UI" size="16.0" />
                      </font>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </Label>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="733.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+               </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/textures/hotbar/water.png" />
+                        <Image url="@../assets/textures/hotbar/gas.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="788.0" layoutY="23.0" prefHeight="50.0" prefWidth="100.0" text="#WATER" textFill="#cccccc">
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
+                  <Label prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 L" textFill="WHITE">
                      <font>
-                        <Font name="Leelawadee UI" size="17.0" />
+                        <Font name="Leelawadee UI" size="16.0" />
                      </font>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </Label>
-              </items>
-            </ToolBar>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="118.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="2">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/textures/hotbar/oil.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 L" textFill="WHITE">
+                     <font>
+                        <Font name="Leelawadee UI" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="334.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/textures/hotbar/coal.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 T" textFill="WHITE">
+                     <font>
+                        <Font name="Leelawadee UI" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="2">
+         <children>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/textures/hotbar/bill.png" />
+               </image>
+            </ImageView>
+            <Label prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 €" textFill="WHITE">
+               <font>
+                  <Font name="Leelawadee UI" size="16.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="226.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="4">
+         <children>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/textures/hotbar/water.png" />
+               </image>
+            </ImageView>
+            <Label prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 L" textFill="WHITE">
+               <font>
+                  <Font name="Leelawadee UI" size="16.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
+      <GridPane GridPane.columnSpan="3" GridPane.rowIndex="2">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" percentWidth="60.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label maxWidth="1.7976931348623157E308" prefHeight="25.0" styleClass="background-lighter" text="1st Jan. 1970, 12:00 AM" textFill="WHITE" GridPane.columnIndex="1">
+               <font>
+                  <Font name="Leelawadee UI" size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="35.0" GridPane.halignment="RIGHT">
+               <font>
+                  <Font name="Leelawadee UI" size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <viewport>
+                        <Rectangle2D />
+                     </viewport>
+                     <image>
+                        <Image url="@../assets/textures/hotbar/pause.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="35.0" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+               <font>
+                  <Font name="Leelawadee UI" size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="5.0" />
+               </GridPane.margin>
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/textures/hotbar/speed_1.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </GridPane>
    </children>
-</AnchorPane>
+</GridPane>

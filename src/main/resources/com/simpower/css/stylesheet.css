@@ -1,0 +1,28 @@
+.button {
+    -fx-background-color: #2d2d2d;
+    -fx-text-fill: #fff;
+}
+.button:hover {
+    -fx-background-color: #4f4f4f;
+}
+
+.button-delete {
+    -fx-background-color: orange;
+    -fx-text-fill: #000;
+}
+.button-delete:hover {
+    -fx-background-color: #8b6d31;
+}
+
+.button-delete:hover,
+.button:hover {
+    -fx-cursor: hand;
+}
+
+.background-lighter {
+    -fx-background-color: #2d2d2d;
+}
+
+.background {
+    -fx-background-color: #1c1c1c;
+}

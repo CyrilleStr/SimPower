@@ -40,7 +40,7 @@ public class GameController {
 
     @FXML
     void quitGame(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/main_menu.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/main.fxml"));
         quitGameBtn.getScene().setRoot(fxmlLoader.load());
     }
 }
