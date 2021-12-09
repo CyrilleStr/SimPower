@@ -46,40 +46,14 @@ public class Grid implements GridInfos {
             }
         }
     }
-
-    public void layResource(resourceLayer resourceType, int spread_value){
-        /*Divides the grid in 4 chunks and places a resource on a random cell in that chunk*/
-        int posX, posY;
-        int a=14;
-        int b=14;
-        int countX =0;
-        int countY =0;
-
-        for(int i =0; i<Y_SIZE; i+=14+countY){
-            a+= i;
-            for(int j=0; j<X_SIZE; j+=14+countX){
-                b+= j;
-                do{
-                    posX = this.generateRandomInt(j, b);
-                    posY = this.generateRandomInt(i, a);
-                }while(cells[posX][posY].getCurrentTopLayer() != topLayer.NONE);
-
-                cells[posX][posY].setCurrentResourceLayer(resourceType);
-
-                spreadResource(spread_value, resourceType, posX, posY);
-
-                countX++;
-            }
-            b=14;
-            countX=0;
-            countY++;
-        }
-    }
+    /**
+     * Add the resource layer : coal, gas, uranium, oil
+     */
     public void addResourceLayer(){
-        // TODO finish Grid::addResourceLayer()
         layResource(resourceLayer.COAL, 3);
-        layResource(resourceLayer.OIL, 2);
+        layResource(resourceLayer.OIL, 1);
         layResource(resourceLayer.URANIUM,0);
+        layResource(resourceLayer.GAS,2);
     }
 
     /**
@@ -130,7 +104,6 @@ public class Grid implements GridInfos {
      * @param gridContainer
      */
     public void showResourceLayer(GridPane gridContainer){
-        // TODO implement Grid::showResourceLayer()
         for(int i=0; i<Y_SIZE; i++){
             for(int j=0; j<X_SIZE; j++){
                 ImageView imgView = new ImageView(this.resourceLayerImages.get(cells[i][j].getCurrentResourceLayer()));
@@ -151,7 +124,6 @@ public class Grid implements GridInfos {
      * Generate a random number between min and max
      * @param min the minimum value (included)
      * @param max the maximum value (included)
-     * @return the random number
      */
     int generateRandomInt(int min, int max){
         if (min >= max) {
@@ -160,6 +132,46 @@ public class Grid implements GridInfos {
         return (int)(Math.random() * ((max - min) + 1)) + min;
     }
 
+    /**
+     * Lay resources randomly in each 4 chunks of the grid and calls spreadResource()
+     * @param resourceType the type of resource to spawn (included)
+     * @param spread_value the number of resources to spawn when calling the Spread function(included)
+     */
+    public void layResource(resourceLayer resourceType, int spread_value){
+        /*Divides the grid in 4 chunks and places a resource on a random cell in that chunk*/
+        int posX, posY;
+        int a=14;
+        int b=14;
+        int countX =0;
+        int countY =0;
+
+        for(int i =0; i<Y_SIZE; i+=14+countY){
+            a+= i;
+            for(int j=0; j<X_SIZE; j+=14+countX){
+                b+= j;
+                do{
+                    posX = this.generateRandomInt(j, b);
+                    posY = this.generateRandomInt(i, a);
+                }while(cells[posX][posY].getCurrentTopLayer() != topLayer.NONE);
+
+                cells[posX][posY].setCurrentResourceLayer(resourceType);
+
+                spreadResource(spread_value, resourceType, posX, posY);
+
+                countX++;
+            }
+            b=14;
+            countX=0;
+            countY++;
+        }
+    }
+    /**
+     * Add resources randomly next to the original cell
+     * @param spread_value the number of resources to spawn (included)
+     * @param resourceType the type of resource to spawn (included)
+     * @param x,y the coordinates of the original cell (included)
+     * @return the random number
+     */
     void spreadResource(int spread_value, resourceLayer resourceType, int x, int y){
         int tmp_x, tmp_y;
         for(int i=0; i<spread_value; i++){
@@ -204,9 +216,11 @@ public class Grid implements GridInfos {
         Image resourceLayerCoal = new Image("file:src/main/resources/com/simpower/assets/textures/coal.png");
         Image resourceLayerOil = new Image("file:src/main/resources/com/simpower/assets/textures/oil.png");
         Image resourceLayerUranium = new Image("file:src/main/resources/com/simpower/assets/textures/uranium.png");
+        Image resourceLayerGas = new Image("file:src/main/resources/com/simpower/assets/textures/gas.png");
         this.resourceLayerImages.put(resourceLayer.COAL, resourceLayerCoal);
         this.resourceLayerImages.put(resourceLayer.OIL, resourceLayerOil);
         this.resourceLayerImages.put(resourceLayer.URANIUM, resourceLayerUranium);
+        this.resourceLayerImages.put(resourceLayer.GAS, resourceLayerGas);
 
     }
 }
