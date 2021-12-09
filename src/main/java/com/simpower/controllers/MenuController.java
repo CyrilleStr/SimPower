@@ -33,7 +33,7 @@ public class MenuController {
 
     @FXML
     protected void newGame(ActionEvent event) throws IOException{
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/grid.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/game.fxml"));
         settingsBtn.getScene().setRoot(fxmlLoader.load());
     }
 

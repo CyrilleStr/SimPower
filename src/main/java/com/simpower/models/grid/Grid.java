@@ -9,10 +9,6 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
-import java.util.HashMap;
-import java.util.Map;
-
-
 public class Grid implements GridInfos {
     //private double seed;
     //private ResourceAvailable availableResource;
@@ -45,14 +41,14 @@ public class Grid implements GridInfos {
         }
     }
 
-    private void addResourceLayer(){
+    private void addResourceLayer() {
         // TODO implement Grid::addResourceLayer()
     }
 
     /**
      * Add the top layer : a road on top and random rivers
      */
-    public void addTopLayer(){
+    public void addTopLayer() {
         /*Generate random river*/
         int isGenerateVertically = this.generateRandomInt(0,1);
 
@@ -96,6 +92,7 @@ public class Grid implements GridInfos {
 
                     ColorAdjust colorAdjust = new ColorAdjust();
 
+                    // lighter when hovered, elsewhere, 0 (default brightness) (1 == white)
                     if (newVal) colorAdjust.setBrightness(.5);
                     else colorAdjust.setBrightness(0);
 
