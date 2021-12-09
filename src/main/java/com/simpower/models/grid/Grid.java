@@ -1,5 +1,6 @@
 package com.simpower.models.grid;
 
+import com.simpower.models.grid.resources.Coal;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -46,9 +47,8 @@ public class Grid implements GridInfos {
         }
     }
 
-    public void addResourceLayer(){
-        // TODO finish Grid::addResourceLayer()
-        /*Divides the grid in 4 chunks and places a coal on a random cell in that chunk*/
+    public void layResource(resourceLayer resourceType, int spread_value){
+        /*Divides the grid in 4 chunks and places a resource on a random cell in that chunk*/
         int posX, posY;
         int a=14;
         int b=14;
@@ -59,19 +59,27 @@ public class Grid implements GridInfos {
             a+= i;
             for(int j=0; j<X_SIZE; j+=14+countX){
                 b+= j;
+                do{
+                    posX = this.generateRandomInt(j, b);
+                    posY = this.generateRandomInt(i, a);
+                }while(cells[posX][posY].getCurrentTopLayer() != topLayer.NONE);
 
-                System.out.println("chunk:"+countX);
-                System.out.println("i: "+i+"  j: "+j+"  a: "+a+"  b :"+b+"\n\n");
+                cells[posX][posY].setCurrentResourceLayer(resourceType);
 
-                posX = this.generateRandomInt(j, b);
-                posY = this.generateRandomInt(i, a);
-                cells[posY][posX].setCurrentResourceLayer(resourceLayer.COAL);
+                spreadResource(spread_value, resourceType, posX, posY);
+
                 countX++;
             }
             b=14;
             countX=0;
             countY++;
         }
+    }
+    public void addResourceLayer(){
+        // TODO finish Grid::addResourceLayer()
+        layResource(resourceLayer.COAL, 3);
+        layResource(resourceLayer.OIL, 2);
+        layResource(resourceLayer.URANIUM,0);
     }
 
     /**
@@ -152,6 +160,37 @@ public class Grid implements GridInfos {
         return (int)(Math.random() * ((max - min) + 1)) + min;
     }
 
+    void spreadResource(int spread_value, resourceLayer resourceType, int x, int y){
+        int tmp_x, tmp_y;
+        for(int i=0; i<spread_value; i++){
+            do {
+                do{
+                    tmp_x = x;
+                    tmp_y = y;
+                    int spread_side = generateRandomInt(0, 3);
+                    switch(spread_side) {
+                        case 0:
+                            tmp_y -= 1;
+                            break;
+                        case 1:
+                            tmp_x += 1;
+                            break;
+                        case 2:
+                            tmp_y += 1;
+                            break;
+                        case 3:
+                            tmp_x -= 1;
+                            break;
+                    }
+                }while( (0>tmp_x) || (tmp_x>29) || (0>tmp_y) || (tmp_y>29) );
+            }while( (cells[tmp_x][tmp_y].getCurrentTopLayer() != topLayer.NONE) || (cells[tmp_x][tmp_y].getCurrentResourceLayer() != resourceLayer.NONE));
+
+            x=tmp_x;
+            y=tmp_y;
+            System.out.println("x :"+x+" y :"+y);
+            cells[x][y].setCurrentResourceLayer(resourceType);
+        }
+    }
     void loadImg(){
         /*TOPLAYER*/
         Image topLayerNone = new Image("file:src/main/resources/com/simpower/assets/textures/ground.jpg");
@@ -162,7 +201,12 @@ public class Grid implements GridInfos {
         this.topLayerImages.put(topLayer.RIVER,topLayerRiver);
 
         /*RESOURCELAYER*/
-        Image resourceLayerCoal = new Image("file:src/main/resources/com/simpower/assets/coal.png");
+        Image resourceLayerCoal = new Image("file:src/main/resources/com/simpower/assets/textures/coal.png");
+        Image resourceLayerOil = new Image("file:src/main/resources/com/simpower/assets/textures/oil.png");
+        Image resourceLayerUranium = new Image("file:src/main/resources/com/simpower/assets/textures/uranium.png");
         this.resourceLayerImages.put(resourceLayer.COAL, resourceLayerCoal);
+        this.resourceLayerImages.put(resourceLayer.OIL, resourceLayerOil);
+        this.resourceLayerImages.put(resourceLayer.URANIUM, resourceLayerUranium);
+
     }
 }
