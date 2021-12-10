@@ -11,15 +11,16 @@ public class Clock extends Thread{
     private double time; //  1 unit time = 1 Minute = 1 for loop run
     private LocalDateTime dateTime;
     private int speed;
+    private boolean ticking;
+    private boolean isDay; // false if it's night time
     @FXML private Label clockLabel;
-    private boolean ticking = true;
-    private final boolean day = true; // false if it's night time
 
     public Clock(Label clockLabel_p){
         this.time = 0;
         this.speed = 1;
         this.dateTime = LocalDateTime.now();
         this.clockLabel = clockLabel_p;
+        this.ticking = false;
     }
 
     public Clock(LocalDateTime savedDateTime, double savedTime){
@@ -29,6 +30,7 @@ public class Clock extends Thread{
 
     public void run(){
         try{
+            this.ticking = true;
             for(;;){
                 sleep(100/this.speed);
                 this.time++;
@@ -37,10 +39,13 @@ public class Clock extends Thread{
             }
         }catch(InterruptedException e){
             System.out.println("Pause");
+            this.ticking = false;
         }
     }
 
-    public void setSpeed(int speedS) { this.speed = speedS; }
+    public void setSpeed(int speed_p) {
+        this.speed = speed_p;
+    }
 
     public int getSpeed() {
         return this.speed;
@@ -53,8 +58,4 @@ public class Clock extends Thread{
     public void setTicking(boolean ticking) {
         this.ticking = ticking;
     }
-
-    public void tickFaster() {}
-
-    public void tickSlower() {}
 }

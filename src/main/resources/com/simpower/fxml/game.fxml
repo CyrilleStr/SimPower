@@ -227,20 +227,13 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="35.0" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+            <Button fx:id="changeClockSpeedBtn" mnemonicParsing="false" onAction="#changeClockSpeedAction" prefHeight="36.0" prefWidth="51.0" text="x1" GridPane.columnIndex="2" GridPane.halignment="LEFT">
                <font>
                   <Font name="Leelawadee UI" size="16.0" />
                </font>
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/textures/hotbar/speed_1.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
             </Button>
          </children>
       </GridPane>

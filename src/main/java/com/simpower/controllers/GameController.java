@@ -14,15 +14,13 @@ import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import java.io.IOException;
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
-import org.controlsfx.control.action.Action;
 
 public class GameController {
     private Grid grid;
     private Game game;
     private Clock clock;
-    private boolean isClockTicking;
+    private int clockSpeeds[];
+    private int clockSpeedNumber;
     private ImageView pauseImgView;
     private ImageView playImgView;
     @FXML private Button quitGameBtn;
@@ -30,17 +28,35 @@ public class GameController {
     @FXML private GridPane gridContainer;
     @FXML private Label clockLabel;
     @FXML private Button pauseGameBtn;
-    /* Instance a new game controller*/
+    @FXML private Button changeClockSpeedBtn;
+
+    /**
+     * Instance a new game controller
+     */
     public GameController(){}
 
-    /* This function is called once all the controller associated FXML contents have been fully loaded */
+    /**
+     * Instance a saved game controller
+     *
+     * @param params
+     */
+    public GameController(String params){
+        // TODO controller with saved game
+        // this.game = new Game(params[0])
+        // this.grid = new Grid(params[1])
+    }
+
+    /**
+     * This function is called once all the controller associated FXML contents have been fully loaded
+     */
     @FXML
     public void initialize(){
         this.grid = new Grid(gridContainer);
         this.game = new Game();
         this.clock = new Clock(clockLabel);
         this.clock.start();
-        this.isClockTicking = true;
+        this.clockSpeeds = new int[]{1,2,5,10};
+        this.clockSpeedNumber = 0;
         this.pauseImgView = new ImageView(new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/pause.png"));
         this.playImgView = new ImageView(new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/play.png"));
         this.playImgView.setFitHeight(25);
@@ -49,15 +65,9 @@ public class GameController {
         this.pauseImgView.setFitHeight(25);
     }
 
-    /* Instance a saved game controller*/
-    public GameController(String params){
-        // TODO controller with saved game
-        // this.game = new Game(params[0])
-        // this.grid = new Grid(params[1])
-    }
-
     @FXML
     void quitGame(ActionEvent event) throws IOException {
+        // TODO implement a quitGame button
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/main.fxml"));
         quitGameBtn.getScene().setRoot(fxmlLoader.load());
     }
@@ -70,16 +80,30 @@ public class GameController {
      */
     @FXML
     void pauseGameAction(ActionEvent event) throws InterruptedException {
-        if(this.isClockTicking){
+        if(this.clock.isTicking()){
             this.pauseGameBtn.setGraphic(this.playImgView);
             // Deprecated method but used in lesson
             this.clock.suspend();
-            this.isClockTicking = false;
+            this.clock.setTicking(false);
         }else{
             this.pauseGameBtn.setGraphic(this.pauseImgView);
             // Deprecated method but used in lesson
             this.clock.resume();
-            this.isClockTicking = true;
+            this.clock.setTicking(true);
         }
+    }
+
+    /**
+     * Change the clock speed on user action (x1,x2,x5,x10)
+     *
+     * @param event
+     */
+    @FXML
+    void changeClockSpeedAction(ActionEvent event) {
+        this.clockSpeedNumber++;
+        if(this.clockSpeedNumber>3)
+            this.clockSpeedNumber = 0;
+        this.changeClockSpeedBtn.setText("x"+this.clockSpeeds[this.clockSpeedNumber]);
+        this.clock.setSpeed(this.clockSpeeds[this.clockSpeedNumber]);
     }
 }
