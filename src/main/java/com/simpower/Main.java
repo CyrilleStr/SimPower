@@ -22,7 +22,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = stage;
-        this.changeScene("fxml/menus/main_menu.fxml");
+        this.changeScene("fxml/menus/main.fxml");
         this.stage.setTitle("Sim Power | UTBM - AP4B - Autumn 2021");
         this.stage.getIcons().add(new Image("file:src/main/resources/com/simpower/assets/logo.png"));
         this.stage.show();
