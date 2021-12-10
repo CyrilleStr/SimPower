@@ -15,6 +15,7 @@ public class Grid implements GridInfos {
     //private Clock clock;
     //private int citizens;
     private Cell[][] cells;
+    private GridPane gridContainer;
 
     /**
      * Instance a Grid, add the resource layer, add the top layer and show the top layer
@@ -22,12 +23,13 @@ public class Grid implements GridInfos {
      * @param gridContainer
      */
     public Grid(GridPane gridContainer){
+        this.gridContainer = gridContainer;
         this.generateEmptyGrid();
         this.addResourceLayer();
         this.addTopLayer();
         this.loadImg();
-        this.showTopLayer(gridContainer);
-        this.showResourceLayer(gridContainer);
+        this.showTopLayer();
+        this.showResourceLayer();
     }
 
     /**
@@ -71,20 +73,18 @@ public class Grid implements GridInfos {
             cells[(isGenerateVertically == 0) ? x : y][(isGenerateVertically == 0) ? y :x].setCurrentTopLayer(topLayer.RIVER);
         }
         /*Set start road*/
-        cells[14][0].setCurrentTopLayer(topLayer.VERTICAL_ROAD);
+        cells[NB_CELLS_WIDTH/2][0].setCurrentTopLayer(topLayer.VERTICAL_ROAD);
     }
 
     /**
      * Call the view to show the grid top layer
-     *
-     * @param gridContainer the grid pane of the top layer
      */
-    public void showTopLayer(GridPane gridContainer) {
+    public void showTopLayer() {
         for (int i = 0; i < NB_CELLS_HEIGHT; i++) {
-            gridContainer.getRowConstraints().addAll(new RowConstraints(CELL_HEIGHT));
+            this.gridContainer.getRowConstraints().addAll(new RowConstraints(CELL_HEIGHT));
 
             for (int j = 0; j < NB_CELLS_WIDTH; j++) {
-                gridContainer.getColumnConstraints().addAll(new ColumnConstraints(CELL_WIDTH));
+                this.gridContainer.getColumnConstraints().addAll(new ColumnConstraints(CELL_WIDTH));
 
                 ImageView imgView = new ImageView(this.topLayerImages.get(cells[i][j].getCurrentTopLayer()));
                 imgView.setFitWidth(CELL_WIDTH);
@@ -94,13 +94,6 @@ public class Grid implements GridInfos {
                 int finalI = i;
                 int finalJ = j;
                 imgView.hoverProperty().addListener((observable, oldVal, newVal) -> {
-
-                    //Ces deux trucs servent pas
-                    /*
-                    int X = cells[finalI][finalJ].getPos_x();
-                    int Y = cells[finalI][finalJ].getPos_y();
-                    */
-
                     ColorAdjust colorAdjust = new ColorAdjust();
 
                     // lighter when hovered, elsewhere, 0 (default brightness) (1 == white)
@@ -110,31 +103,25 @@ public class Grid implements GridInfos {
                     imgView.setEffect(colorAdjust);
                 });
 
-                /* Add this event on mouse released only for test *
-                imgView.onMouseReleasedProperty().set((event) -> {
-                    this.change(event);
-                });*/
-
-                gridContainer.add(imgView, i, j);
+                this.gridContainer.add(imgView, i, j);
             }
         }
     }
 
     /**
      * Call the view to show the grid resource layer
-     *
-     * @param gridContainer our grid pane of the map
      */
-    public void showResourceLayer(GridPane gridContainer){
+    public void showResourceLayer(){
         for(int i=0; i<NB_CELLS_HEIGHT; i++){
             for(int j=0; j<NB_CELLS_WIDTH; j++){
                 ImageView imgView = new ImageView(this.resourceLayerImages.get(cells[i][j].getCurrentResourceLayer()));
                 imgView.setFitHeight(CELL_HEIGHT);
                 imgView.setFitWidth(CELL_HEIGHT);
-                gridContainer.add(imgView,i,j);
+                this.gridContainer.add(imgView,i,j);
             }
         }
     }
+
     /**
      * Lay resources randomly in each 4 chunks of the grid and calls spreadResource()
      *
@@ -169,6 +156,7 @@ public class Grid implements GridInfos {
             countY++;
         }
     }
+
     /**
      * Add resources randomly next to the original cell
      * @param spread_value the number of resources to spawn (included)
@@ -203,7 +191,6 @@ public class Grid implements GridInfos {
 
             x=tmp_x;
             y=tmp_y;
-            System.out.println("x :"+x+" y :"+y);
             cells[x][y].setCurrentResourceLayer(resourceType);
         }
     }
