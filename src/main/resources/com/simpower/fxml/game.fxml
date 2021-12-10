@@ -198,7 +198,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label maxWidth="1.7976931348623157E308" prefHeight="25.0" styleClass="background-lighter" text="1st Jan. 1970, 12:00 AM" textFill="WHITE" GridPane.columnIndex="1">
+            <Label fx:id="clockLabel" maxWidth="1.7976931348623157E308" prefHeight="25.0" styleClass="background-lighter" text="1st Jan. 1970, 12:00 AM" textFill="WHITE" GridPane.columnIndex="1">
                <font>
                   <Font name="Leelawadee UI" size="16.0" />
                </font>
@@ -209,7 +209,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="35.0" GridPane.halignment="RIGHT">
+            <Button fx:id="pauseGameBtn" mnemonicParsing="false" onAction="#pauseGameAction" prefHeight="35.0" prefWidth="35.0" styleClass="button-pause" GridPane.halignment="RIGHT">
                <font>
                   <Font name="Leelawadee UI" size="16.0" />
                </font>

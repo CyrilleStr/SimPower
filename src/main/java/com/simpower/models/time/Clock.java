@@ -1,42 +1,50 @@
 package com.simpower.models.time;
 
-import java.util.Date;
+import javafx.application.Platform;
+import javafx.scene.control.Label;
+import javafx.fxml.FXML;
 
-public class Clock {
-    private double time = 0;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class Clock extends Thread{
+    private double time; //  1 unit time = 1 Minute = 1 for loop run
+    private LocalDateTime dateTime;
+    private int speed;
+    @FXML private Label clockLabel;
     private boolean ticking = true;
-    private int speed = 1; // time speed, goes faster if greater
-    private Date date = new Date();
-    private final Seasons season = Seasons.SPRING;
     private final boolean day = true; // false if it's night time
 
-    public Clock(){}
-
-    public void setSpeed(int speedS) {
-        this.speed = speedS;
+    public Clock(Label clockLabel_p){
+        this.time = 0;
+        this.speed = 1;
+        this.dateTime = LocalDateTime.now();
+        this.clockLabel = clockLabel_p;
     }
+
+    public Clock(LocalDateTime savedDateTime, double savedTime){
+        this.time = savedTime;
+        this.dateTime = savedDateTime;
+    }
+
+    public void run(){
+        try{
+            for(;;){
+                sleep(100/this.speed);
+                this.time++;
+                this.dateTime = this.dateTime.plusMinutes(1);
+                Platform.runLater(() -> this.clockLabel.setText(this.dateTime.format(DateTimeFormatter.ofPattern("hh:mm dd/MM/YYYY"))));
+            }
+        }catch(InterruptedException e){
+            System.out.println("Pause");
+        }
+    }
+
+    public void setSpeed(int speedS) { this.speed = speedS; }
 
     public int getSpeed() {
         return this.speed;
     }
-
-    public Date getDate() {
-        return this.date;
-    }
-
-    public void setDate(Date dateD) {
-        this.date = dateD;
-    }
-
-    public String getDateToString() {
-        return null;
-    }
-
-    public double getTime() {
-        return this.time;
-    }
-
-    public void setTime(double timeT){this.time = timeT;}
 
     public boolean isTicking() {
         return ticking;
@@ -46,9 +54,7 @@ public class Clock {
         this.ticking = ticking;
     }
 
-    public void tickFaster() {
-    }
+    public void tickFaster() {}
 
-    public void tickSlower() {
-    }
+    public void tickSlower() {}
 }
