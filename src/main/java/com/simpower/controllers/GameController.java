@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 
 import java.io.IOException;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
@@ -20,6 +21,7 @@ public class GameController {
     @FXML private Button quitGameBtn;
     @FXML private Text info;
     @FXML private GridPane gridContainer;
+    @FXML private Label infoLabel;
     
     /* Instance a new game controller*/
     public GameController(){}
@@ -27,7 +29,7 @@ public class GameController {
     /* This function is called once all the controller associated FXML contents have been fully loaded */
     @FXML
     public void initialize(){
-        this.grid = new Grid(gridContainer);
+        this.grid = new Grid(gridContainer, infoLabel);
         this.game = new Game();
     }
 

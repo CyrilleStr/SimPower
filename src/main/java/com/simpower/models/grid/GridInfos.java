@@ -5,11 +5,11 @@ import javafx.scene.image.Image;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public interface GridInfos {
+    Map<buildingLayer, Image> buildingLayerImages = new HashMap<>();
     Map<resourceLayer, Image> resourceLayerImages = new HashMap<>();
-    Map<topLayer,Image> topLayerImages = new HashMap<>();
     Map<pollutionLayer,Image> pollutionLayerImages = new HashMap<>();
+    Map<topLayer,Image> topLayerImages = new HashMap<>();
 
     int CELL_WIDTH = 64;
     int CELL_HEIGHT = CELL_WIDTH; // square :)
@@ -30,9 +30,8 @@ public interface GridInfos {
         COAL
     }
 
-    enum topLayer{
+    enum buildingLayer {
         NONE,
-        RIVER,
         /*Building*/
         HOUSE,
         WORKING_BUILDING,
@@ -55,6 +54,11 @@ public interface GridInfos {
         TURNED_ROAD,
         TRI_ROAD,
         END_ROAD
+    }
+
+    enum topLayer{
+        NONE,
+        RIVER,
     }
 
     enum pollutionLayer {

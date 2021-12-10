@@ -244,5 +244,13 @@
             </Button>
          </children>
       </GridPane>
+      <Label fx:id="infoLabel" prefHeight="50.0" prefWidth="300.0" styleClass="background-lighter" stylesheets="@../css/stylesheet.css" textFill="WHITE" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+         <font>
+            <Font name="Leelawadee UI" size="14.0" />
+         </font>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </Label>
    </children>
 </GridPane>
