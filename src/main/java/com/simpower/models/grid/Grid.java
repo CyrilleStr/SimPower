@@ -20,12 +20,10 @@ public class Grid implements GridInfos {
     private Label infoLabel;
     private GridPane gridContainer;
     private String buildingToDrop;
-    private Map<String,topLayer> stringTopLayerMap = new HashMap<>();
-
+    private Map<String, buildingLayer> stringTopLayerMap = new HashMap<>();
 
     /**
      * Instance a Grid, add the resource layer, add the top layer and show the top layer
-     *
      * @param gridContainer
      */
     public Grid(GridPane gridContainer, Label infoLabel) {
@@ -179,10 +177,15 @@ public class Grid implements GridInfos {
         imgView.setEffect(colorAdjust);
     }
 
+    public void refreshLayers() {
+        this.gridContainer = new GridPane();
+        this.showLayers();
+    }
+
     /**
      * Call the vue to show all layers
      */
-    public void showLayers() {
+    private void showLayers() {
         for (int x = 0; x < NB_CELLS_WIDTH; x++) {
             for (int y = 0; y < NB_CELLS_HEIGHT; y++) {
 
@@ -196,31 +199,18 @@ public class Grid implements GridInfos {
                     this.hoverListener(topLayer, finalX, finalY, newVal);
                 });
 
-                topLayer.setOnMouseDragReleased(new EventHandler<MouseDragEvent>() {
-                    @Override
-                    public void handle(MouseDragEvent mouseDragEvent) {
-                        System.out.println("zebi");
-                        ((ImageView) mouseDragEvent.getSource()).setImage(topLayerImages.get(stringTopLayerMap.get(buildingToDrop)));
-                        cells[finalI][finalJ].setCurrentTopLayer(stringTopLayerMap.get(buildingToDrop));
-                        System.out.println(((ImageView)mouseDragEvent.getSource()).getId());
-                    }
+                topLayer.setOnMouseDragReleased(mouseDragEvent -> {
+                    ((ImageView) mouseDragEvent.getSource()).setImage(buildingLayerImages.get(stringTopLayerMap.get(buildingToDrop)));
+                    cells[finalX][finalY].setCurrentBuildingLayer(stringTopLayerMap.get(buildingToDrop));
+                    System.out.println(((ImageView) mouseDragEvent.getSource()).getId());
                 });
-                topLayer.setOnMouseDragOver(new EventHandler<MouseDragEvent>() {
-                    @Override
-                    public void handle(MouseDragEvent mouseDragEvent) {
-                        ((ImageView) mouseDragEvent.getSource()).setImage(topLayerImages.get(stringTopLayerMap.get(buildingToDrop)));
-                        System.out.println("setOnMouseDragOver");
-                    }
+                topLayer.setOnMouseDragOver(mouseDragEvent -> {
+                    ((ImageView) mouseDragEvent.getSource()).setImage(buildingLayerImages.get(stringTopLayerMap.get(buildingToDrop)));
                 });
-                topLayer.setOnMouseDragExited(new EventHandler<MouseDragEvent>() {
-                    @Override
-                    public void handle(MouseDragEvent mouseDragEvent) {
-                        if(cells[finalI][finalJ].getCurrentTopLayer() != stringTopLayerMap.get(buildingToDrop))
-                            ((ImageView) mouseDragEvent.getSource()).setImage(topLayerImages.get(cells[finalI][finalJ].getCurrentTopLayer()));
-                        System.out.println("setOnMouseDragExited");
-                    }
+                topLayer.setOnMouseDragExited(mouseDragEvent -> {
+                    if(cells[finalX][finalY].getCurrentBuildingLayer() != stringTopLayerMap.get(buildingToDrop))
+                        ((ImageView) mouseDragEvent.getSource()).setImage(topLayerImages.get(cells[finalX][finalY].getCurrentTopLayer()));
                 });
-
 
                 ImageView resourceLayer = new ImageView(this.resourceLayerImages.get(cells[x][y].getCurrentResourceLayer()));
                 resourceLayer.setFitHeight(CELL_HEIGHT);
@@ -293,32 +283,26 @@ public class Grid implements GridInfos {
      * Loads all HashMap containing layer to image Map and string to top layer Map
      */
     void loadData(){
-
         /* Top layer */
-        Image topLayerNone = new Image("file:src/main/resources/com/simpower/assets/textures/map/grass.jpg");
-        Image topLayerVerticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_2a_v.png");
-        Image topLayerRiver = new Image("file:src/main/resources/com/simpower/assets/textures/map/water.jpg");
-        Image topLayerHouse = new Image("file:src/main/resources/com/simpower/assets/textures/buildings/house.jpg");
-        Image topLayerWorkingBuilding = new Image("file:src/main/resources/com/simpower/assets/textures/buildings/working_building.jpg");
-        this.topLayerImages.put(topLayer.NONE,topLayerNone);
-        this.topLayerImages.put(topLayer.VERTICAL_ROAD,topLayerVerticalRoad);
-        this.topLayerImages.put(topLayer.RIVER,topLayerRiver);
-        this.topLayerImages.put(topLayer.HOUSE,topLayerHouse);
-        this.topLayerImages.put(topLayer.WORKING_BUILDING,topLayerWorkingBuilding);
+        this.topLayerImages.put(topLayer.GRASS, new Image("file:src/main/resources/com/simpower/assets/textures/tile/grass.jpg"));
+        this.topLayerImages.put(topLayer.RIVER, new Image("file:src/main/resources/com/simpower/assets/textures/tile/water.jpg"));
+        this.topLayerImages.put(topLayer.SNOW, new Image("file:src/main/resources/com/simpower/assets/textures/tile/snow.jpg"));
+        this.topLayerImages.put(topLayer.ICE, new Image("file:src/main/resources/com/simpower/assets/textures/tile/ice.jpg"));
+
+        /* Building Layer */
+        this.buildingLayerImages.put(buildingLayer.VERTICAL_ROAD, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_2a_v.png"));
+        this.buildingLayerImages.put(buildingLayer.HOUSE, new Image("file:src/main/resources/com/simpower/assets/textures/buildings/house.jpg"));
+        this.buildingLayerImages.put(buildingLayer.WORKING_BUILDING, new Image("file:src/main/resources/com/simpower/assets/textures/buildings/working_building.jpg"));
 
         /* Resource Layer */
-        Image resourceLayerCoal = new Image("file:src/main/resources/com/simpower/assets/textures/map/coal.png");
-        Image resourceLayerOil = new Image("file:src/main/resources/com/simpower/assets/textures/map/oil.png");
-        Image resourceLayerUranium = new Image("file:src/main/resources/com/simpower/assets/textures/map/uranium.png");
-        Image resourceLayerGas = new Image("file:src/main/resources/com/simpower/assets/textures/map/gas.png");
-        this.resourceLayerImages.put(resourceLayer.COAL, resourceLayerCoal);
-        this.resourceLayerImages.put(resourceLayer.OIL, resourceLayerOil);
-        this.resourceLayerImages.put(resourceLayer.URANIUM, resourceLayerUranium);
-        this.resourceLayerImages.put(resourceLayer.GAS, resourceLayerGas);
+        this.resourceLayerImages.put(resourceLayer.COAL, new Image("file:src/main/resources/com/simpower/assets/textures/resources/coal.png"));
+        this.resourceLayerImages.put(resourceLayer.OIL, new Image("file:src/main/resources/com/simpower/assets/textures/resources/oil.png"));
+        this.resourceLayerImages.put(resourceLayer.URANIUM, new Image("file:src/main/resources/com/simpower/assets/textures/resources/uranium.png"));
+        this.resourceLayerImages.put(resourceLayer.GAS, new Image("file:src/main/resources/com/simpower/assets/textures/resources/gas.png"));
 
         /* String to top layer map */
-        this.stringTopLayerMap.put("WORKING_BUILDING",topLayer.WORKING_BUILDING);
-        this.stringTopLayerMap.put("HOUSE",topLayer.HOUSE);
+        this.stringTopLayerMap.put("WORKING_BUILDING", buildingLayer.WORKING_BUILDING);
+        this.stringTopLayerMap.put("HOUSE", buildingLayer.HOUSE);
     }
 
     /**
@@ -330,9 +314,9 @@ public class Grid implements GridInfos {
      */
     void spreadResource(int spread_value, resourceLayer resourceType, int x, int y){
         int tmp_x, tmp_y;
-        for(int i=0; i<spread_value; i++){
+        for (int i = 0; i<spread_value; i++) {
             do {
-                do{
+                do {
                     tmp_x = x;
                     tmp_y = y;
                     int spread_side = generateRandomInt(0, 3);
@@ -350,11 +334,11 @@ public class Grid implements GridInfos {
                             tmp_x -= 1;
                             break;
                     }
-                }while( (0 > tmp_x) || (tmp_x > (NB_CELLS_WIDTH-1) ) || (0>tmp_y) || (tmp_y > (NB_CELLS_HEIGHT-1) ) );
-            }while( (cells[tmp_x][tmp_y].getCurrentTopLayer() != topLayer.NONE) || (cells[tmp_x][tmp_y].getCurrentResourceLayer() != resourceLayer.NONE));
+                } while ((0 > tmp_x) || (tmp_x > (NB_CELLS_WIDTH-1) ) || (0>tmp_y) || (tmp_y > (NB_CELLS_HEIGHT-1) ) );
+            } while ((cells[tmp_x][tmp_y].getCurrentTopLayer() != topLayer.NONE) || (cells[tmp_x][tmp_y].getCurrentResourceLayer() != resourceLayer.NONE));
 
-            x=tmp_x;
-            y=tmp_y;
+            x = tmp_x;
+            y = tmp_y;
             cells[x][y].setCurrentResourceLayer(resourceType);
         }
     }

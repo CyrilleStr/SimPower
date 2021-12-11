@@ -11,7 +11,7 @@ public interface GridInfos {
     Map<pollutionLayer, Image> pollutionLayerImages = new HashMap<>();
     Map<topLayer, Image> topLayerImages = new HashMap<>();
 
-    int CELL_WIDTH = 8;
+    int CELL_WIDTH = 32;
     int CELL_HEIGHT = CELL_WIDTH; // square :)
 
     int NB_CELLS_WIDTH = 64;
