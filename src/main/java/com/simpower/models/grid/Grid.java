@@ -30,8 +30,8 @@ public class Grid implements GridInfos {
         this.addResourceLayer();
         this.addTopLayer();
         this.loadImg();
-        this.showTopLayer(gridContainer);
-        this.showResourceLayer(gridContainer);
+        this.showTopLayer();
+        this.showResourceLayer();
         this.infoLabel = infoLabel;
     }
 

@@ -27,6 +27,7 @@ public class GameController {
     @FXML private Text info;
     @FXML private GridPane gridContainer;
     @FXML private Label clockLabel;
+    @FXML private Label infoLabel;
     @FXML private Button pauseGameBtn;
     @FXML private Button changeClockSpeedBtn;
 
@@ -51,7 +52,7 @@ public class GameController {
      */
     @FXML
     public void initialize(){
-        this.grid = new Grid(gridContainer);
+        this.grid = new Grid(gridContainer, infoLabel);
         this.game = new Game();
         this.clock = new Clock(clockLabel);
         this.clock.start();
