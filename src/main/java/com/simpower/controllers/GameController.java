@@ -14,6 +14,8 @@ import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import java.io.IOException;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 
 public class GameController {
     private Grid grid;
@@ -29,7 +31,6 @@ public class GameController {
     @FXML private Label clockLabel;
     @FXML private Button pauseGameBtn;
     @FXML private Button changeClockSpeedBtn;
-
     /**
      * Instance a new game controller
      */
@@ -72,6 +73,8 @@ public class GameController {
         quitGameBtn.getScene().setRoot(fxmlLoader.load());
     }
 
+    /* Clock */
+
     /**
      * Play/pause the timer on user action while changing the pause btn image
      *
@@ -105,5 +108,29 @@ public class GameController {
             this.clockSpeedNumber = 0;
         this.changeClockSpeedBtn.setText("x"+this.clockSpeeds[this.clockSpeedNumber]);
         this.clock.setSpeed(this.clockSpeeds[this.clockSpeedNumber]);
+    }
+
+    /* Implement drag and drop */
+    //SourceField
+
+    @FXML
+    void onMousePressedHandler(MouseEvent event) {
+        event.setDragDetect(true);
+    }
+
+    @FXML
+    void onMouseReleasedHandler(MouseEvent event) {
+        ((ImageView) event.getSource()).setMouseTransparent(false);
+    }
+
+    @FXML
+    void onMouseDraggedHandler(MouseEvent event) {
+        event.setDragDetect(false);
+    }
+
+    @FXML
+    void onDragDetectedHandler(MouseEvent event) {
+        ((ImageView) event.getSource()).startFullDrag();
+        this.grid.setBuildingToDrop(((ImageView) event.getSource()).getId());
     }
 }

@@ -42,7 +42,7 @@
             </GridPane>
          </content>
       </ScrollPane>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="72.0" prefWidth="549.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <children>
             <Button mnemonicParsing="false" prefWidth="130.0" styleClass="button-delete" text="Delete">
                <font>
@@ -68,6 +68,19 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
+            <ImageView fx:id="HOUSE" fitHeight="44.0" fitWidth="106.0" onDragDetected="#onDragDetectedHandler" onMouseDragged="#onMouseDraggedHandler" onMousePressed="#onMousePressedHandler" onMouseReleased="#onMouseReleasedHandler" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+               <image>
+                  <Image url="@../assets/textures/buildings/house.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="WORKING_BUILDING" fitHeight="44.0" fitWidth="106.0" onDragDetected="#onDragDetectedHandler" onMouseDragged="#onMouseDraggedHandler" onMousePressed="#onMousePressedHandler" onMouseReleased="#onMouseReleasedHandler" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/textures/buildings/working_building.jpg" />
+               </image>
+            </ImageView>
          </children>
       </HBox>
       <GridPane GridPane.columnIndex="3">
