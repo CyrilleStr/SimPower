@@ -55,7 +55,7 @@ public class GameController {
     public void initialize(){
         this.grid = new Grid(gridContainer, infoLabel);
 
-        this.clock = new Clock(gridContainer, grid.getCells(), clockLabel);
+        this.clock = new Clock(grid, clockLabel);
         this.clock.start();
         this.clockSpeeds = new int[]{1,4,7,10,100};
         this.clockSpeedNumber = 0;

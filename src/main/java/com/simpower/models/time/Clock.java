@@ -25,23 +25,21 @@ import java.time.format.DateTimeFormatter;
 public class Clock extends Thread implements TimeInfos {
     private double time; //  1 unit time = 1 Minute = 1 for loop run
     private LocalDateTime dateTime;
-    private boolean infiniteDay = false;
+    private boolean infiniteDay = true;
     private int speed;
     private boolean ticking;
     private Season season;
-    private GridPane gridContainer;
-    private Cell cells[][];
+    private Grid grid;
     @FXML private Label clockLabel;
 
-    public Clock(GridPane gridContainer, Cell cells[][], Label clockLabel_p){
+    public Clock(Grid grid, Label clockLabel_p){
         this.time = 0;
         this.speed = 1;
         this.dateTime = LocalDateTime.now();
         this.clockLabel = clockLabel_p;
         this.ticking = false;
 
-        this.gridContainer = gridContainer;
-        this.cells = cells;
+        this.grid = grid;
 
         if (this.dateTime.getDayOfYear() >= solstice[3]) this.season = Season.WINTER;
         else if (this.dateTime.getDayOfYear() >= solstice[2]) this.season = Season.AUTUMN;
@@ -50,10 +48,10 @@ public class Clock extends Thread implements TimeInfos {
         else this.season = Season.WINTER;
     }
 
-    public Clock(GridPane gridContainer, Cell cells[][], LocalDateTime savedDateTime, double savedTime){
+    public Clock(Grid grid, LocalDateTime savedDateTime, double savedTime){
         this.time = savedTime;
         this.dateTime = savedDateTime;
-        this.gridContainer = gridContainer;
+        this.grid = grid;
     }
 
 
@@ -67,8 +65,10 @@ public class Clock extends Thread implements TimeInfos {
 
                 Platform.runLater(() -> {
                     // seasons checker
-                    if (this.dateTime.getHour() == 0 && this.dateTime.getMinute() == 0 && this.contains(this.solstice, this.dateTime.getDayOfYear()))
+                    if (this.dateTime.getHour() == 0 && this.dateTime.getMinute() == 0 && this.contains(this.solstice, this.dateTime.getDayOfYear())) {
+                        System.out.println("Changement de saison zebi");
                         this.nextSeason();
+                    }
 
                     // day/night switch
                     if (this.dateTime.getHour() == sunrise[this.getSeason().ordinal()] || this.dateTime.getHour() == moonrise[this.getSeason().ordinal()])
@@ -86,8 +86,8 @@ public class Clock extends Thread implements TimeInfos {
 
     private void switchLight() {
         ColorAdjust colorAdjust = new ColorAdjust();
-        colorAdjust.setBrightness(isDay() ? 0 : -.5);
-        gridContainer.setEffect(colorAdjust);
+        colorAdjust.setBrightness(this.isDay() ? 0 : -.5);
+        this.grid.getGridcontainer().setEffect(colorAdjust);
     }
 
     public Season getSeason() { return this.season; }
@@ -97,10 +97,12 @@ public class Clock extends Thread implements TimeInfos {
      * Change current season for the next one
      */
     private void nextSeason() {
-        this.setSeason(Season.values()[(this.getSeason().ordinal() + 1) % Season.values().length - 1]);
+        System.out.println(Season.values()[(this.getSeason().ordinal() + 1) % Season.values().length]);
+        this.setSeason(Season.values()[(this.getSeason().ordinal() + 1) % Season.values().length]);
 
+        System.out.println(this.getSeason());
         if (this.getSeason() == Season.WINTER) {
-           for (Cell[] tmp : cells) for (Cell cell : tmp) {
+           for (Cell[] tmp : this.grid.getCells()) for (Cell cell : tmp) {
                switch(cell.getCurrentTopLayer()) {
                    case GRASS:
                        cell.setCurrentTopLayer(GridInfos.topLayer.SNOW);
@@ -110,6 +112,8 @@ public class Clock extends Thread implements TimeInfos {
                        break;
                }
            }
+
+           this.grid.refreshLayers();
         }
     }
 

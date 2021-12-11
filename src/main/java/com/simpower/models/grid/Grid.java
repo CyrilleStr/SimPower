@@ -178,7 +178,7 @@ public class Grid implements GridInfos {
     }
 
     public void refreshLayers() {
-        this.gridContainer = new GridPane();
+        this.gridContainer.getChildren().clear();
         this.showLayers();
     }
 
@@ -617,5 +617,9 @@ public class Grid implements GridInfos {
 
     public Cell[][] getCells() {
         return this.cells;
+    }
+
+    public GridPane getGridcontainer() {
+        return this.gridContainer;
     }
 }
