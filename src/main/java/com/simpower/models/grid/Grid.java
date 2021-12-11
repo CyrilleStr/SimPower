@@ -3,22 +3,25 @@ package com.simpower.models.grid;
 import com.simpower.models.time.Clock;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.event.EventHandler;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Grid implements GridInfos {
-    //private double seed;
-    //private ResourceAvailable availableResource;
-    //private Clock clock;
-    //private int citizens;
     private Cell[][] cells;
     private Label infoLabel;
     private GridPane gridContainer;
+    private String buildingToDrop;
+    private Map<String,topLayer> stringTopLayerMap = new HashMap<>();
+
 
     /**
      * Instance a Grid, add the resource layer, add the top layer and show the top layer
@@ -27,13 +30,13 @@ public class Grid implements GridInfos {
      */
     public Grid(GridPane gridContainer, Label infoLabel) {
         this.gridContainer = gridContainer;
+        this.infoLabel = infoLabel;
         this.generateEmptyGrid();
         this.addResourceLayer();
         this.addTopLayer();
         this.addBuildingLayer();
-        this.loadImg();
+        this.loadData();
         this.showLayers();
-        this.infoLabel = infoLabel;
     }
 
     /**
@@ -137,6 +140,17 @@ public class Grid implements GridInfos {
             Rx += step;
             drawRiver(Rx, Ry, Rr);
         }
+        this.gridContainer.getColumnConstraints().addAll(new ColumnConstraints(CELL_WIDTH));
+        this.gridContainer.getRowConstraints().addAll(new RowConstraints(CELL_HEIGHT));
+    }
+
+    /**
+     * Set the building to drop
+     *
+     * @param buildingToDrop_p
+     */
+    public void setBuildingToDrop(String buildingToDrop_p){
+        this.buildingToDrop = buildingToDrop_p;
     }
 
     /**
@@ -181,6 +195,32 @@ public class Grid implements GridInfos {
                 topLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
                     this.hoverListener(topLayer, finalX, finalY, newVal);
                 });
+
+                topLayer.setOnMouseDragReleased(new EventHandler<MouseDragEvent>() {
+                    @Override
+                    public void handle(MouseDragEvent mouseDragEvent) {
+                        System.out.println("zebi");
+                        ((ImageView) mouseDragEvent.getSource()).setImage(topLayerImages.get(stringTopLayerMap.get(buildingToDrop)));
+                        cells[finalI][finalJ].setCurrentTopLayer(stringTopLayerMap.get(buildingToDrop));
+                        System.out.println(((ImageView)mouseDragEvent.getSource()).getId());
+                    }
+                });
+                topLayer.setOnMouseDragOver(new EventHandler<MouseDragEvent>() {
+                    @Override
+                    public void handle(MouseDragEvent mouseDragEvent) {
+                        ((ImageView) mouseDragEvent.getSource()).setImage(topLayerImages.get(stringTopLayerMap.get(buildingToDrop)));
+                        System.out.println("setOnMouseDragOver");
+                    }
+                });
+                topLayer.setOnMouseDragExited(new EventHandler<MouseDragEvent>() {
+                    @Override
+                    public void handle(MouseDragEvent mouseDragEvent) {
+                        if(cells[finalI][finalJ].getCurrentTopLayer() != stringTopLayerMap.get(buildingToDrop))
+                            ((ImageView) mouseDragEvent.getSource()).setImage(topLayerImages.get(cells[finalI][finalJ].getCurrentTopLayer()));
+                        System.out.println("setOnMouseDragExited");
+                    }
+                });
+
 
                 ImageView resourceLayer = new ImageView(this.resourceLayerImages.get(cells[x][y].getCurrentResourceLayer()));
                 resourceLayer.setFitHeight(CELL_HEIGHT);
@@ -250,6 +290,38 @@ public class Grid implements GridInfos {
     }
 
     /**
+     * Loads all HashMap containing layer to image Map and string to top layer Map
+     */
+    void loadData(){
+
+        /* Top layer */
+        Image topLayerNone = new Image("file:src/main/resources/com/simpower/assets/textures/map/grass.jpg");
+        Image topLayerVerticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_2a_v.png");
+        Image topLayerRiver = new Image("file:src/main/resources/com/simpower/assets/textures/map/water.jpg");
+        Image topLayerHouse = new Image("file:src/main/resources/com/simpower/assets/textures/buildings/house.jpg");
+        Image topLayerWorkingBuilding = new Image("file:src/main/resources/com/simpower/assets/textures/buildings/working_building.jpg");
+        this.topLayerImages.put(topLayer.NONE,topLayerNone);
+        this.topLayerImages.put(topLayer.VERTICAL_ROAD,topLayerVerticalRoad);
+        this.topLayerImages.put(topLayer.RIVER,topLayerRiver);
+        this.topLayerImages.put(topLayer.HOUSE,topLayerHouse);
+        this.topLayerImages.put(topLayer.WORKING_BUILDING,topLayerWorkingBuilding);
+
+        /* Resource Layer */
+        Image resourceLayerCoal = new Image("file:src/main/resources/com/simpower/assets/textures/map/coal.png");
+        Image resourceLayerOil = new Image("file:src/main/resources/com/simpower/assets/textures/map/oil.png");
+        Image resourceLayerUranium = new Image("file:src/main/resources/com/simpower/assets/textures/map/uranium.png");
+        Image resourceLayerGas = new Image("file:src/main/resources/com/simpower/assets/textures/map/gas.png");
+        this.resourceLayerImages.put(resourceLayer.COAL, resourceLayerCoal);
+        this.resourceLayerImages.put(resourceLayer.OIL, resourceLayerOil);
+        this.resourceLayerImages.put(resourceLayer.URANIUM, resourceLayerUranium);
+        this.resourceLayerImages.put(resourceLayer.GAS, resourceLayerGas);
+
+        /* String to top layer map */
+        this.stringTopLayerMap.put("WORKING_BUILDING",topLayer.WORKING_BUILDING);
+        this.stringTopLayerMap.put("HOUSE",topLayer.HOUSE);
+    }
+
+    /**
      * Add resources randomly next to the original cell
      * @param spread_value the number of resources to spawn (included)
      * @param resourceType the type of resource to spawn (included)
@@ -298,36 +370,6 @@ public class Grid implements GridInfos {
             throw new IllegalArgumentException("max must be greater than min");
         }
         return (int)(Math.random() * ((max - min) + 1)) + min;
-    }
-
-    /**
-     * Loads image for the map
-     */
-    void loadImg(){
-        /* TOP LAYER */
-        Image topLayerGrass = new Image("file:src/main/resources/com/simpower/assets/textures/map/tile_grass.jpg");
-        Image topLayerRiver = new Image("file:src/main/resources/com/simpower/assets/textures/map/tile_water.jpg");
-        Image topLayerSnow = new Image("file:src/main/resources/com/simpower/assets/textures/map/tile_snow.jpg");
-        Image topLayerIce = new Image("file:src/main/resources/com/simpower/assets/textures/map/tile_ice.jpg");
-        this.topLayerImages.put(topLayer.GRASS, topLayerGrass);
-        this.topLayerImages.put(topLayer.RIVER, topLayerRiver);
-        this.topLayerImages.put(topLayer.SNOW, topLayerSnow);
-        this.topLayerImages.put(topLayer.ICE, topLayerIce);
-
-        /* BUILDING LAYER */
-        Image buildingLayerVerticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_2a_v.png");
-        this.buildingLayerImages.put(buildingLayer.VERTICAL_ROAD, buildingLayerVerticalRoad);
-
-        /* RESOURCE LAYER */
-        Image resourceLayerCoal = new Image("file:src/main/resources/com/simpower/assets/textures/map/resource_coal.png");
-        Image resourceLayerOil = new Image("file:src/main/resources/com/simpower/assets/textures/map/resource_oil.png");
-        Image resourceLayerUranium = new Image("file:src/main/resources/com/simpower/assets/textures/map/resource_uranium.png");
-        Image resourceLayerGas = new Image("file:src/main/resources/com/simpower/assets/textures/map/resource_gas.png");
-        this.resourceLayerImages.put(resourceLayer.COAL, resourceLayerCoal);
-        this.resourceLayerImages.put(resourceLayer.OIL, resourceLayerOil);
-        this.resourceLayerImages.put(resourceLayer.URANIUM, resourceLayerUranium);
-        this.resourceLayerImages.put(resourceLayer.GAS, resourceLayerGas);
-
     }
 
     /**
