@@ -53,10 +53,10 @@ public class Grid implements GridInfos {
      * Add the resource layer : coal, gas, uranium, oil
      */
     private void addResourceLayer(){
-        layResource(resourceLayer.COAL, 4);
-        layResource(resourceLayer.OIL, 1);
-        layResource(resourceLayer.URANIUM,1);
-        layResource(resourceLayer.GAS,3);
+        layResource(resourceLayer.COAL, 8);
+        layResource(resourceLayer.OIL, 3);
+        layResource(resourceLayer.URANIUM,3);
+        layResource(resourceLayer.GAS,6);
     }
 
     /**
