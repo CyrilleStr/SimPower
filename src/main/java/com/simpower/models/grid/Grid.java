@@ -1,5 +1,6 @@
 package com.simpower.models.grid;
 
+import com.simpower.models.time.Clock;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
@@ -31,9 +32,7 @@ public class Grid implements GridInfos {
         this.addTopLayer();
         this.addBuildingLayer();
         this.loadImg();
-        this.showTopLayer();
-        this.showResourceLayer();
-        this.showBuildingLayer();
+        this.showLayers();
         this.infoLabel = infoLabel;
     }
 
@@ -149,12 +148,12 @@ public class Grid implements GridInfos {
      */
     private void hoverListener(ImageView imgView, int x, int y, boolean newVal){
         this.infoLabel.setText(
-                "X: " + cells[x][y].getPos_x()
-                        + " Y: " + cells[x][y].getPos_y()
-                        + " " + (cells[x][y].getCurrentTopLayer() == topLayer.NONE ? "" : cells[x][y].getCurrentTopLayer())
-                        + " " + (cells[x][y].getCurrentBuildingLayer() == buildingLayer.NONE ? "" : cells[x][y].getCurrentBuildingLayer())
-                        + " " + (cells[x][y].getCurrentPollutionLayer() == pollutionLayer.NONE ? "" : cells[x][y].getCurrentPollutionLayer())
-                        + " " + (cells[x][y].getCurrentResourceLayer() == resourceLayer.NONE ? "" : cells[x][y].getCurrentResourceLayer())
+            "X: " + cells[x][y].getPos_x()
+            + " Y: " + cells[x][y].getPos_y()
+            + " " + (cells[x][y].getCurrentTopLayer() == topLayer.NONE ? "" : cells[x][y].getCurrentTopLayer())
+            + " " + (cells[x][y].getCurrentBuildingLayer() == buildingLayer.NONE ? "" : cells[x][y].getCurrentBuildingLayer())
+            + " " + (cells[x][y].getCurrentPollutionLayer() == pollutionLayer.NONE ? "" : cells[x][y].getCurrentPollutionLayer())
+            + " " + (cells[x][y].getCurrentResourceLayer() == resourceLayer.NONE ? "" : cells[x][y].getCurrentResourceLayer())
         );
 
         ColorAdjust colorAdjust = new ColorAdjust();
@@ -167,73 +166,52 @@ public class Grid implements GridInfos {
     }
 
     /**
-     * Call the view to show the grid top layer
+     * Call the vue to show all layers
      */
-    public void showTopLayer() {
-        for (int i = 0; i < NB_CELLS_HEIGHT; i++) {
-            this.gridContainer.getRowConstraints().addAll(new RowConstraints(CELL_HEIGHT));
-
-            for (int j = 0; j < NB_CELLS_WIDTH; j++) {
-                this.gridContainer.getColumnConstraints().addAll(new ColumnConstraints(CELL_WIDTH));
-
-                ImageView imgView = new ImageView(this.topLayerImages.get(cells[i][j].getCurrentTopLayer()));
-                imgView.setFitWidth(CELL_WIDTH);
-                imgView.setFitHeight(CELL_HEIGHT);
-
-                /* Hovering effect */
-                int finalI = i;
-                int finalJ = j;
-                imgView.hoverProperty().addListener((observable, oldVal, newVal) -> {
-                    this.hoverListener(imgView, finalI, finalJ, newVal);
-                });
-
-                this.gridContainer.add(imgView, i, j);
-            }
-        }
-    }
-
-    /**
-     * Call the view to show the grid resource layer
-     */
-    public void showResourceLayer(){
-        for(int i=0; i<NB_CELLS_HEIGHT; i++){
-            for(int j=0; j<NB_CELLS_WIDTH; j++){
-                ImageView imgView = new ImageView(this.resourceLayerImages.get(cells[i][j].getCurrentResourceLayer()));
-                imgView.setFitHeight(CELL_HEIGHT);
-                imgView.setFitWidth(CELL_WIDTH);
-
-                /* Hovering effect */
-                int finalI = i;
-                int finalJ = j;
-                imgView.hoverProperty().addListener((observable, oldVal, newVal) -> {
-                    this.hoverListener(imgView, finalI, finalJ, newVal);
-                });
-
-                this.gridContainer.add(imgView,i,j);
-            }
-        }
-    }
-
-    /**
-     * Call the view to show the building grid layer
-     */
-    public void showBuildingLayer() {
+    public void showLayers() {
         for (int x = 0; x < NB_CELLS_WIDTH; x++) {
             for (int y = 0; y < NB_CELLS_HEIGHT; y++) {
-                ImageView imgView = new ImageView(this.buildingLayerImages.get(cells[x][y].getCurrentBuildingLayer()));
-                imgView.setFitHeight(CELL_HEIGHT);
-                imgView.setFitWidth(CELL_WIDTH);
 
-                /* Hovering effect */
-                int finalI = x;
-                int finalJ = y;
-                imgView.hoverProperty().addListener((observable, oldVal, newVal) -> {
-                    this.hoverListener(imgView, finalI, finalJ, newVal);
+                int finalX = x;
+                int finalY = y;
+
+                ImageView topLayer = new ImageView(this.topLayerImages.get(cells[x][y].getCurrentTopLayer()));
+                topLayer.setFitWidth(CELL_WIDTH);
+                topLayer.setFitHeight(CELL_HEIGHT);
+                topLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
+                    this.hoverListener(topLayer, finalX, finalY, newVal);
                 });
 
-                this.gridContainer.add(imgView, x, y);
+                ImageView resourceLayer = new ImageView(this.resourceLayerImages.get(cells[x][y].getCurrentResourceLayer()));
+                resourceLayer.setFitHeight(CELL_HEIGHT);
+                resourceLayer.setFitWidth(CELL_WIDTH);
+                resourceLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
+                    this.hoverListener(resourceLayer, finalX, finalY, newVal);
+                });
+
+                ImageView buildingLayer = new ImageView(this.buildingLayerImages.get(cells[x][y].getCurrentBuildingLayer()));
+                buildingLayer.setFitHeight(CELL_HEIGHT);
+                buildingLayer.setFitWidth(CELL_WIDTH);
+                buildingLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
+                    this.hoverListener(buildingLayer, finalX, finalY, newVal);
+                });
+
+                ImageView pollutionLayer = new ImageView(this.pollutionLayerImages.get(cells[x][y].getCurrentPollutionLayer()));
+                pollutionLayer.setFitHeight(CELL_HEIGHT);
+                pollutionLayer.setFitWidth(CELL_WIDTH);
+                pollutionLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
+                    this.hoverListener(pollutionLayer, finalX, finalY, newVal);
+                });
+
+                this.gridContainer.add(topLayer, x, y);
+                this.gridContainer.add(resourceLayer, x, y);
+                this.gridContainer.add(pollutionLayer, x, y);
+                this.gridContainer.add(buildingLayer, x, y);
             }
         }
+
+        this.gridContainer.getRowConstraints().addAll(new RowConstraints(CELL_HEIGHT));
+        this.gridContainer.getColumnConstraints().addAll(new ColumnConstraints(CELL_WIDTH));
     }
 
     /**
@@ -327,20 +305,24 @@ public class Grid implements GridInfos {
      */
     void loadImg(){
         /* TOP LAYER */
-        Image topLayerGrass = new Image("file:src/main/resources/com/simpower/assets/textures/map/grass.jpg");
-        Image topLayerRiver = new Image("file:src/main/resources/com/simpower/assets/textures/map/water.jpg");
+        Image topLayerGrass = new Image("file:src/main/resources/com/simpower/assets/textures/map/tile_grass.jpg");
+        Image topLayerRiver = new Image("file:src/main/resources/com/simpower/assets/textures/map/tile_water.jpg");
+        Image topLayerSnow = new Image("file:src/main/resources/com/simpower/assets/textures/map/tile_snow.jpg");
+        Image topLayerIce = new Image("file:src/main/resources/com/simpower/assets/textures/map/tile_ice.jpg");
         this.topLayerImages.put(topLayer.GRASS, topLayerGrass);
         this.topLayerImages.put(topLayer.RIVER, topLayerRiver);
+        this.topLayerImages.put(topLayer.SNOW, topLayerSnow);
+        this.topLayerImages.put(topLayer.ICE, topLayerIce);
 
         /* BUILDING LAYER */
         Image buildingLayerVerticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_2a_v.png");
         this.buildingLayerImages.put(buildingLayer.VERTICAL_ROAD, buildingLayerVerticalRoad);
 
         /* RESOURCE LAYER */
-        Image resourceLayerCoal = new Image("file:src/main/resources/com/simpower/assets/textures/map/coal.png");
-        Image resourceLayerOil = new Image("file:src/main/resources/com/simpower/assets/textures/map/oil.png");
-        Image resourceLayerUranium = new Image("file:src/main/resources/com/simpower/assets/textures/map/uranium.png");
-        Image resourceLayerGas = new Image("file:src/main/resources/com/simpower/assets/textures/map/gas.png");
+        Image resourceLayerCoal = new Image("file:src/main/resources/com/simpower/assets/textures/map/resource_coal.png");
+        Image resourceLayerOil = new Image("file:src/main/resources/com/simpower/assets/textures/map/resource_oil.png");
+        Image resourceLayerUranium = new Image("file:src/main/resources/com/simpower/assets/textures/map/resource_uranium.png");
+        Image resourceLayerGas = new Image("file:src/main/resources/com/simpower/assets/textures/map/resource_gas.png");
         this.resourceLayerImages.put(resourceLayer.COAL, resourceLayerCoal);
         this.resourceLayerImages.put(resourceLayer.OIL, resourceLayerOil);
         this.resourceLayerImages.put(resourceLayer.URANIUM, resourceLayerUranium);
@@ -605,5 +587,9 @@ public class Grid implements GridInfos {
         updateRoad(this.cells[cell.getPos_x()][cell.getPos_y()-1]);
         updateRoad(this.cells[cell.getPos_x()+1][cell.getPos_y()]);
         updateRoad(this.cells[cell.getPos_x()][cell.getPos_y()+1]);
+    }
+
+    public Cell[][] getCells() {
+        return this.cells;
     }
 }
