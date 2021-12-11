@@ -58,6 +58,7 @@ public interface GridInfos {
 
     enum topLayer{
         NONE,
+        GRASS,
         RIVER,
     }
 

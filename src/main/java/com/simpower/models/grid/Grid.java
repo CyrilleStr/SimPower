@@ -29,6 +29,7 @@ public class Grid implements GridInfos {
         this.generateEmptyGrid();
         this.addResourceLayer();
         this.addTopLayer();
+        this.addBuildingLayer();
         this.loadImg();
         this.showTopLayer();
         this.showResourceLayer();
@@ -51,7 +52,7 @@ public class Grid implements GridInfos {
     /**
      * Add the resource layer : coal, gas, uranium, oil
      */
-    public void addResourceLayer(){
+    private void addResourceLayer(){
         layResource(resourceLayer.COAL, 4);
         layResource(resourceLayer.OIL, 1);
         layResource(resourceLayer.URANIUM,1);
@@ -61,24 +62,108 @@ public class Grid implements GridInfos {
     /**
      * Add the top layer : a road on top and random rivers
      */
-    public void addTopLayer() {
-        /*Generate random river*/
-        int isGenerateVertically = this.generateRandomInt(0,1);
-
-        int step = 0;
-        int y = 0;
-        int x = this.generateRandomInt(0, NB_CELLS_WIDTH - 1);
-        cells[(isGenerateVertically == 0) ? x : y][(isGenerateVertically == 0) ? y :x].setCurrentTopLayer(topLayer.RIVER);
-        for (y = 1; y <((isGenerateVertically == 0) ? NB_CELLS_HEIGHT : NB_CELLS_WIDTH);  y++){
-            do {
-                step = this.generateRandomInt(-1,1);
-            } while (step+x < 0 || step+x >= ((isGenerateVertically == 0) ? NB_CELLS_WIDTH : NB_CELLS_HEIGHT));
-            x += step;
-            cells[(isGenerateVertically == 0) ? x : y][(isGenerateVertically == 0) ? y :x].setCurrentTopLayer(topLayer.RIVER);
+    private void addTopLayer() {
+        for (int x = 0; x < NB_CELLS_WIDTH; x++) {
+            for (int y = 0; y < NB_CELLS_HEIGHT; y++) {
+                this.cells[x][y].setCurrentTopLayer(topLayer.GRASS);
+            }
         }
 
+        /* Generating nb € [1,3] river(s) */
+        for (int nb = 0; nb < this.generateRandomInt(1, 3); nb++) this.generateRiver();
+    }
+
+    private void addBuildingLayer() {
         /* Set start road */
-        cells[NB_CELLS_WIDTH/2][0].setCurrentBuildingLayer(buildingLayer.VERTICAL_ROAD);
+        this.cells[NB_CELLS_WIDTH/2][0].setCurrentBuildingLayer(buildingLayer.VERTICAL_ROAD);
+    }
+
+    /**
+     * Draw circle of river
+     * Rosetta Code implementation
+     */
+    private void drawRiver(int cx, int cy, int r) {
+        int d = (5 - r * 4) / 4;
+        int x = 0;
+        int y = r;
+
+        do {
+            try { this.cells[cx + x][cy + y].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
+            try { this.cells[cx + x][cy - y].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
+            try { this.cells[cx - x][cy + y].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
+            try { this.cells[cx - x][cy - y].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
+            try { this.cells[cx + y][cy + x].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
+            try { this.cells[cx + y][cy - x].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
+            try { this.cells[cx - y][cy + x].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
+            try { this.cells[cx - y][cy - x].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
+
+            if (d < 0) d += 2 * x + 1;
+            else {
+                d += 2 * (x - y) + 1;
+                y--;
+            }
+
+            x++;
+        } while (x <= y);
+
+        // draw smaller circle to "fill" the circle
+        if (r - 1 > 0) drawRiver(cx, cy, r - 1);
+
+        // filling empty spot
+        this.cells[cx][cy].setCurrentTopLayer(topLayer.RIVER);
+    }
+
+    /**
+     * Generate river through the map grid
+     */
+    private void generateRiver() {
+        int step = 0;
+        int Rr = this.generateRandomInt(1, 3);
+        int Ry = 0;
+        int Rx = this.generateRandomInt(0, NB_CELLS_WIDTH - 1);
+        boolean vertical = this.generateRandomInt(0, 1) == 0 ? true : false;
+
+        // Vertical OR horizontal river -> swap x & y coordinates
+        if (vertical) {
+            Ry = Rx;
+            Rx = 0;
+        }
+
+        drawRiver(Rx, Ry, Rr);
+        for (Ry = 1; Ry < (vertical ? NB_CELLS_HEIGHT : NB_CELLS_WIDTH); Ry++) {
+            do {
+                step = this.generateRandomInt(-1, 1);
+            } while (step + Rx < 0 || step + Rx >= (vertical ? NB_CELLS_HEIGHT : NB_CELLS_WIDTH));
+
+            Rx += step;
+            drawRiver(Rx, Ry, Rr);
+        }
+    }
+
+    /**
+     * Small function used in hover listener when hovering a cell
+     * @param imgView current img view hovered
+     * @param x coordinate of the cell
+     * @param y coordinate of the cell
+     * @param newVal true if the cell is hovered
+     */
+    private void hoverListener(ImageView imgView, int x, int y, boolean newVal){
+        this.infoLabel.setText(
+                "X: " + cells[x][y].getPos_x()
+                        + " Y: " + cells[x][y].getPos_y()
+                        + " " + (cells[x][y].getCurrentTopLayer() == topLayer.NONE ? "" : cells[x][y].getCurrentTopLayer())
+                        + " " + (cells[x][y].getCurrentBuildingLayer() == buildingLayer.NONE ? "" : cells[x][y].getCurrentBuildingLayer())
+                        + " " + (cells[x][y].getCurrentPollutionLayer() == pollutionLayer.NONE ? "" : cells[x][y].getCurrentPollutionLayer())
+                        + " " + (cells[x][y].getCurrentResourceLayer() == resourceLayer.NONE ? "" : cells[x][y].getCurrentResourceLayer())
+        );
+
+        ColorAdjust colorAdjust = new ColorAdjust();
+
+        // lighter when hovered, elsewhere, 0 (default brightness) (1 == white)
+        if (newVal) colorAdjust.setBrightness(.5);
+        else colorAdjust.setBrightness(0);
+
+        imgView.setEffect(colorAdjust);
     }
 
     /**
@@ -105,32 +190,6 @@ public class Grid implements GridInfos {
                 this.gridContainer.add(imgView, i, j);
             }
         }
-    }
-
-    /**
-     * Small function used in hover listener when hovering a cell
-     * @param imgView current img view hovered
-     * @param x coordinate of the cell
-     * @param y coordinate of the cell
-     * @param newVal true if the cell is hovered
-     */
-    private void hoverListener(ImageView imgView, int x, int y, boolean newVal){
-        this.infoLabel.setText(
-            "X: " + cells[x][y].getPos_x()
-            + " Y: " + cells[x][y].getPos_y()
-            + " " + (cells[x][y].getCurrentTopLayer() == topLayer.NONE ? "" : cells[x][y].getCurrentTopLayer())
-            + " " + (cells[x][y].getCurrentBuildingLayer() == buildingLayer.NONE ? "" : cells[x][y].getCurrentBuildingLayer())
-            + " " + (cells[x][y].getCurrentPollutionLayer() == pollutionLayer.NONE ? "" : cells[x][y].getCurrentPollutionLayer())
-            + " " + (cells[x][y].getCurrentResourceLayer() == resourceLayer.NONE ? "" : cells[x][y].getCurrentResourceLayer())
-        );
-
-        ColorAdjust colorAdjust = new ColorAdjust();
-
-        // lighter when hovered, elsewhere, 0 (default brightness) (1 == white)
-        if (newVal) colorAdjust.setBrightness(.5);
-        else colorAdjust.setBrightness(0);
-
-        imgView.setEffect(colorAdjust);
     }
 
     /**
@@ -267,11 +326,10 @@ public class Grid implements GridInfos {
      * Loads image for the map
      */
     void loadImg(){
-
         /* TOP LAYER */
-        Image topLayerNone = new Image("file:src/main/resources/com/simpower/assets/textures/map/grass.jpg");
+        Image topLayerGrass = new Image("file:src/main/resources/com/simpower/assets/textures/map/grass.jpg");
         Image topLayerRiver = new Image("file:src/main/resources/com/simpower/assets/textures/map/water.jpg");
-        this.topLayerImages.put(topLayer.NONE, topLayerNone);
+        this.topLayerImages.put(topLayer.GRASS, topLayerGrass);
         this.topLayerImages.put(topLayer.RIVER, topLayerRiver);
 
         /* BUILDING LAYER */
