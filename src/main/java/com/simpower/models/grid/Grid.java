@@ -32,6 +32,7 @@ public class Grid implements GridInfos {
         this.loadImg();
         this.showTopLayer();
         this.showResourceLayer();
+        this.showBuildingLayer();
         this.infoLabel = infoLabel;
     }
 
@@ -51,10 +52,10 @@ public class Grid implements GridInfos {
      * Add the resource layer : coal, gas, uranium, oil
      */
     public void addResourceLayer(){
-        layResource(resourceLayer.COAL, 3);
+        layResource(resourceLayer.COAL, 4);
         layResource(resourceLayer.OIL, 1);
-        layResource(resourceLayer.URANIUM,0);
-        layResource(resourceLayer.GAS,2);
+        layResource(resourceLayer.URANIUM,1);
+        layResource(resourceLayer.GAS,3);
     }
 
     /**
@@ -75,8 +76,9 @@ public class Grid implements GridInfos {
             x += step;
             cells[(isGenerateVertically == 0) ? x : y][(isGenerateVertically == 0) ? y :x].setCurrentTopLayer(topLayer.RIVER);
         }
-        /*Set start road*/
-        cells[(Integer) NB_CELLS_WIDTH/2][0].setCurrentBuildingLayer(buildingLayer.VERTICAL_ROAD);
+
+        /* Set start road */
+        cells[NB_CELLS_WIDTH/2][0].setCurrentBuildingLayer(buildingLayer.VERTICAL_ROAD);
     }
 
     /**
@@ -97,27 +99,38 @@ public class Grid implements GridInfos {
                 int finalI = i;
                 int finalJ = j;
                 imgView.hoverProperty().addListener((observable, oldVal, newVal) -> {
-                    this.infoLabel.setText(
-                            "X: " + cells[finalI][finalJ].getPos_x()
-                            + " Y: " + cells[finalI][finalJ].getPos_y()
-                            + " " + (cells[finalI][finalJ].getCurrentTopLayer() == topLayer.NONE ? "" : cells[finalI][finalJ].getCurrentTopLayer())
-                            + " " + (cells[finalI][finalJ].getCurrentBuildingLayer() == buildingLayer.NONE ? "" : cells[finalI][finalJ].getCurrentBuildingLayer())
-                            + " " + (cells[finalI][finalJ].getCurrentPollutionLayer() == pollutionLayer.NONE ? "" : cells[finalI][finalJ].getCurrentPollutionLayer())
-                            + " " + (cells[finalI][finalJ].getCurrentResourceLayer() == resourceLayer.NONE ? "" : cells[finalI][finalJ].getCurrentResourceLayer())
-                    );
-
-                    ColorAdjust colorAdjust = new ColorAdjust();
-
-                    // lighter when hovered, elsewhere, 0 (default brightness) (1 == white)
-                    if (newVal) colorAdjust.setBrightness(.5);
-                    else colorAdjust.setBrightness(0);
-
-                    imgView.setEffect(colorAdjust);
+                    this.hoverListener(imgView, finalI, finalJ, newVal);
                 });
 
                 this.gridContainer.add(imgView, i, j);
             }
         }
+    }
+
+    /**
+     * Small function used in hover listener when hovering a cell
+     * @param imgView current img view hovered
+     * @param x coordinate of the cell
+     * @param y coordinate of the cell
+     * @param newVal true if the cell is hovered
+     */
+    private void hoverListener(ImageView imgView, int x, int y, boolean newVal){
+        this.infoLabel.setText(
+            "X: " + cells[x][y].getPos_x()
+            + " Y: " + cells[x][y].getPos_y()
+            + " " + (cells[x][y].getCurrentTopLayer() == topLayer.NONE ? "" : cells[x][y].getCurrentTopLayer())
+            + " " + (cells[x][y].getCurrentBuildingLayer() == buildingLayer.NONE ? "" : cells[x][y].getCurrentBuildingLayer())
+            + " " + (cells[x][y].getCurrentPollutionLayer() == pollutionLayer.NONE ? "" : cells[x][y].getCurrentPollutionLayer())
+            + " " + (cells[x][y].getCurrentResourceLayer() == resourceLayer.NONE ? "" : cells[x][y].getCurrentResourceLayer())
+        );
+
+        ColorAdjust colorAdjust = new ColorAdjust();
+
+        // lighter when hovered, elsewhere, 0 (default brightness) (1 == white)
+        if (newVal) colorAdjust.setBrightness(.5);
+        else colorAdjust.setBrightness(0);
+
+        imgView.setEffect(colorAdjust);
     }
 
     /**
@@ -128,8 +141,38 @@ public class Grid implements GridInfos {
             for(int j=0; j<NB_CELLS_WIDTH; j++){
                 ImageView imgView = new ImageView(this.resourceLayerImages.get(cells[i][j].getCurrentResourceLayer()));
                 imgView.setFitHeight(CELL_HEIGHT);
-                imgView.setFitWidth(CELL_HEIGHT);
+                imgView.setFitWidth(CELL_WIDTH);
+
+                /* Hovering effect */
+                int finalI = i;
+                int finalJ = j;
+                imgView.hoverProperty().addListener((observable, oldVal, newVal) -> {
+                    this.hoverListener(imgView, finalI, finalJ, newVal);
+                });
+
                 this.gridContainer.add(imgView,i,j);
+            }
+        }
+    }
+
+    /**
+     * Call the view to show the building grid layer
+     */
+    public void showBuildingLayer() {
+        for (int x = 0; x < NB_CELLS_WIDTH; x++) {
+            for (int y = 0; y < NB_CELLS_HEIGHT; y++) {
+                ImageView imgView = new ImageView(this.buildingLayerImages.get(cells[x][y].getCurrentBuildingLayer()));
+                imgView.setFitHeight(CELL_HEIGHT);
+                imgView.setFitWidth(CELL_WIDTH);
+
+                /* Hovering effect */
+                int finalI = x;
+                int finalJ = y;
+                imgView.hoverProperty().addListener((observable, oldVal, newVal) -> {
+                    this.hoverListener(imgView, finalI, finalJ, newVal);
+                });
+
+                this.gridContainer.add(imgView, x, y);
             }
         }
     }

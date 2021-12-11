@@ -8,8 +8,8 @@ import java.util.Map;
 public interface GridInfos {
     Map<buildingLayer, Image> buildingLayerImages = new HashMap<>();
     Map<resourceLayer, Image> resourceLayerImages = new HashMap<>();
-    Map<pollutionLayer,Image> pollutionLayerImages = new HashMap<>();
-    Map<topLayer,Image> topLayerImages = new HashMap<>();
+    Map<pollutionLayer, Image> pollutionLayerImages = new HashMap<>();
+    Map<topLayer, Image> topLayerImages = new HashMap<>();
 
     int CELL_WIDTH = 64;
     int CELL_HEIGHT = CELL_WIDTH; // square :)
