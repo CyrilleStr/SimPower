@@ -46,6 +46,11 @@ public class Clock extends Thread implements TimeInfos {
         else if (this.dateTime.getDayOfYear() >= solstice[1]) this.season = Season.SUMMER;
         else if (this.dateTime.getDayOfYear() >= solstice[0])  this.season = Season.SPRING;
         else this.season = Season.WINTER;
+
+        // if user start a game after moonrise, start at night
+        if (this.dateTime.getHour() <= sunrise[this.getSeason().ordinal()] || this.dateTime.getHour() >= moonrise[this.getSeason().ordinal()]) {
+            this.switchLight();
+        }
     }
 
     public Clock(Grid grid, LocalDateTime savedDateTime, double savedTime){
