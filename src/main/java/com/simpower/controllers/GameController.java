@@ -14,6 +14,8 @@ import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import java.io.IOException;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 
 public class GameController {
     private Grid grid;
@@ -27,9 +29,9 @@ public class GameController {
     @FXML private Text info;
     @FXML private GridPane gridContainer;
     @FXML private Label clockLabel;
+    @FXML private Label infoLabel;
     @FXML private Button pauseGameBtn;
     @FXML private Button changeClockSpeedBtn;
-
     /**
      * Instance a new game controller
      */
@@ -51,11 +53,11 @@ public class GameController {
      */
     @FXML
     public void initialize(){
-        this.grid = new Grid(gridContainer);
-        this.game = new Game();
-        this.clock = new Clock(clockLabel);
+        this.grid = new Grid(gridContainer, infoLabel);
+
+        this.clock = new Clock(grid, clockLabel);
         this.clock.start();
-        this.clockSpeeds = new int[]{1,2,5,10};
+        this.clockSpeeds = new int[]{1,4,7,10,100};
         this.clockSpeedNumber = 0;
         this.pauseImgView = new ImageView(new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/pause.png"));
         this.playImgView = new ImageView(new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/play.png"));
@@ -63,6 +65,8 @@ public class GameController {
         this.playImgView.setFitWidth(25);
         this.pauseImgView.setFitWidth(25);
         this.pauseImgView.setFitHeight(25);
+
+        this.game = new Game(grid, clock);
     }
 
     @FXML
@@ -72,20 +76,22 @@ public class GameController {
         quitGameBtn.getScene().setRoot(fxmlLoader.load());
     }
 
+    /* Clock */
+
     /**
      * Play/pause the timer on user action while changing the pause btn image
-     *
      * @param event
      * @throws InterruptedException
      */
     @FXML
     void pauseGameAction(ActionEvent event) throws InterruptedException {
-        if(this.clock.isTicking()){
+        if (this.clock.isTicking()) {
             this.pauseGameBtn.setGraphic(this.playImgView);
             // Deprecated method but used in lesson
             this.clock.suspend();
             this.clock.setTicking(false);
-        }else{
+        }
+        else {
             this.pauseGameBtn.setGraphic(this.pauseImgView);
             // Deprecated method but used in lesson
             this.clock.resume();
@@ -94,16 +100,38 @@ public class GameController {
     }
 
     /**
-     * Change the clock speed on user action (x1,x2,x5,x10)
-     *
+     * Change the clock speed on user action (x1, x2, x5, x10)
      * @param event
      */
     @FXML
     void changeClockSpeedAction(ActionEvent event) {
         this.clockSpeedNumber++;
-        if(this.clockSpeedNumber>3)
-            this.clockSpeedNumber = 0;
+        if (this.clockSpeedNumber > this.clockSpeeds.length - 1) this.clockSpeedNumber = 0;
         this.changeClockSpeedBtn.setText("x"+this.clockSpeeds[this.clockSpeedNumber]);
         this.clock.setSpeed(this.clockSpeeds[this.clockSpeedNumber]);
+    }
+
+    /* Implement drag and drop */
+    //SourceField
+
+    @FXML
+    void onMousePressedHandler(MouseEvent event) {
+        event.setDragDetect(true);
+    }
+
+    @FXML
+    void onMouseReleasedHandler(MouseEvent event) {
+        ((ImageView) event.getSource()).setMouseTransparent(false);
+    }
+
+    @FXML
+    void onMouseDraggedHandler(MouseEvent event) {
+        event.setDragDetect(false);
+    }
+
+    @FXML
+    void onDragDetectedHandler(MouseEvent event) {
+        ((ImageView) event.getSource()).startFullDrag();
+        this.grid.setBuildingToDrop(((ImageView) event.getSource()).getId());
     }
 }
