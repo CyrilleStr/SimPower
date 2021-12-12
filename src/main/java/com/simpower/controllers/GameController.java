@@ -141,4 +141,9 @@ public class GameController {
         this.isTabPaneOpen = !this.isTabPaneOpen;
         this.tabPane.setVisible(this.isTabPaneOpen);
     }
+
+    @FXML
+    void showGridResources(ActionEvent event) {
+        this.grid.showResources();
+    }
 }
