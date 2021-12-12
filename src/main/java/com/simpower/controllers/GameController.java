@@ -3,6 +3,7 @@ package com.simpower.controllers;
 import com.simpower.Main;
 import com.simpower.models.Game;
 import com.simpower.models.grid.Grid;
+import com.simpower.models.grid.GridInfos;
 import com.simpower.models.time.Clock;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,10 +15,9 @@ import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import java.io.IOException;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 
-public class GameController {
+public class GameController implements GridInfos {
     private Grid grid;
     private Game game;
     private Clock clock;
@@ -25,6 +25,8 @@ public class GameController {
     private int clockSpeedNumber;
     private ImageView pauseImgView;
     private ImageView playImgView;
+    private buildingLayer buildingType = buildingLayer.NONE;
+
     @FXML private Button quitGameBtn;
     @FXML private Text info;
     @FXML private GridPane gridContainer;
@@ -32,6 +34,7 @@ public class GameController {
     @FXML private Label infoLabel;
     @FXML private Button pauseGameBtn;
     @FXML private Button changeClockSpeedBtn;
+
     /**
      * Instance a new game controller
      */
@@ -53,7 +56,7 @@ public class GameController {
      */
     @FXML
     public void initialize(){
-        this.grid = new Grid(gridContainer, infoLabel);
+        this.grid = new Grid(gridContainer, infoLabel, buildingType);
 
         this.clock = new Clock(grid, clockLabel);
         this.clock.start();
@@ -133,5 +136,12 @@ public class GameController {
     void onDragDetectedHandler(MouseEvent event) {
         ((ImageView) event.getSource()).startFullDrag();
         this.grid.setBuildingToDrop(((ImageView) event.getSource()).getId());
+    }
+
+    @FXML
+    void addRoadOnAction(ActionEvent event){
+        this.grid.setBuildingType(buildingLayer.ROAD);
+        // Cell test = new Cell(GridInfos.NB_CELLS_WIDTH/2, 1);
+        // this.grid.roadBuilder(test);
     }
 }

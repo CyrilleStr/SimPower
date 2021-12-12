@@ -3,12 +3,19 @@ package com.simpower.models.grid;
 import com.simpower.models.grid.buildings.Buildings;
 
 public class Cell implements GridInfos {
-    private int pos_x = 0;
-    private int pos_y = 0;
+    private int pos_x = -1;
+    private int pos_y = -1;
     private buildingLayer currentBuildingLayer;
     private resourceLayer currentResourceLayer;
     private topLayer currentTopLayer;
     private pollutionLayer currentPollutionLayer;
+
+    public Cell() {
+        currentBuildingLayer = buildingLayer.NONE;
+        currentResourceLayer = resourceLayer.NONE;
+        currentTopLayer = topLayer.NONE;
+        currentPollutionLayer = pollutionLayer.NONE;
+    }
 
     public Cell(int x, int y){
         this.pos_x = x;

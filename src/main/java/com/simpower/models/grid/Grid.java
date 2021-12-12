@@ -1,13 +1,9 @@
 package com.simpower.models.grid;
 
-import com.simpower.models.time.Clock;
-import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.event.EventHandler;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -20,15 +16,17 @@ public class Grid implements GridInfos {
     private Label infoLabel;
     private GridPane gridContainer;
     private String buildingToDrop;
+    private buildingLayer buildingType;
     private Map<String, buildingLayer> stringTopLayerMap = new HashMap<>();
 
     /**
      * Instance a Grid, add the resource layer, add the top layer and show the top layer
      * @param gridContainer
      */
-    public Grid(GridPane gridContainer, Label infoLabel) {
+    public Grid(GridPane gridContainer, Label infoLabel, buildingLayer buildingType) {
         this.gridContainer = gridContainer;
         this.infoLabel = infoLabel;
+        this.buildingType = buildingType;
         this.generateEmptyGrid();
         this.addResourceLayer();
         this.addTopLayer();
@@ -75,7 +73,7 @@ public class Grid implements GridInfos {
 
     private void addBuildingLayer() {
         /* Set start road */
-        this.cells[NB_CELLS_WIDTH/2][0].setCurrentBuildingLayer(buildingLayer.VERTICAL_ROAD);
+        this.cells[NB_CELLS_WIDTH/2][0].setCurrentBuildingLayer(buildingLayer.ROAD_NORTH_SOUTH);
     }
 
     /**
@@ -162,10 +160,10 @@ public class Grid implements GridInfos {
         this.infoLabel.setText(
             "X: " + cells[x][y].getPos_x()
             + " Y: " + cells[x][y].getPos_y()
-            + " " + (cells[x][y].getCurrentTopLayer() == topLayer.NONE ? "" : cells[x][y].getCurrentTopLayer())
-            + " " + (cells[x][y].getCurrentBuildingLayer() == buildingLayer.NONE ? "" : cells[x][y].getCurrentBuildingLayer())
-            + " " + (cells[x][y].getCurrentPollutionLayer() == pollutionLayer.NONE ? "" : cells[x][y].getCurrentPollutionLayer())
-            + " " + (cells[x][y].getCurrentResourceLayer() == resourceLayer.NONE ? "" : cells[x][y].getCurrentResourceLayer())
+            + (cells[x][y].getCurrentTopLayer() == topLayer.NONE ? "" : (" " + cells[x][y].getCurrentTopLayer()))
+            + (cells[x][y].getCurrentBuildingLayer() == buildingLayer.NONE ? "" : (" " + cells[x][y].getCurrentBuildingLayer()))
+            + (cells[x][y].getCurrentPollutionLayer() == pollutionLayer.NONE ? "" : (" " + cells[x][y].getCurrentPollutionLayer()))
+            + (cells[x][y].getCurrentResourceLayer() == resourceLayer.NONE ? "" : (" " + cells[x][y].getCurrentResourceLayer()))
         );
 
         ColorAdjust colorAdjust = new ColorAdjust();
@@ -180,6 +178,10 @@ public class Grid implements GridInfos {
     public void refreshLayers() {
         this.gridContainer.getChildren().clear();
         this.showLayers();
+    }
+
+    public void setBuildingType(buildingLayer b){
+        this.buildingType = b;
     }
 
     /**
@@ -199,7 +201,13 @@ public class Grid implements GridInfos {
                     this.hoverListener(topLayer, finalX, finalY, newVal);
                 });
 
-                topLayer.setOnMouseDragReleased(mouseDragEvent -> {
+                topLayer.setOnMouseClicked(event -> {
+                    if (buildingType == buildingLayer.ROAD) {
+                        roadBuilder(cells[finalX][finalY]);
+                    }
+                });
+
+                /*topLayer.setOnMouseDragReleased(mouseDragEvent -> {
                     ((ImageView) mouseDragEvent.getSource()).setImage(buildingLayerImages.get(stringTopLayerMap.get(buildingToDrop)));
                     cells[finalX][finalY].setCurrentBuildingLayer(stringTopLayerMap.get(buildingToDrop));
                     System.out.println(((ImageView) mouseDragEvent.getSource()).getId());
@@ -210,7 +218,7 @@ public class Grid implements GridInfos {
                 topLayer.setOnMouseDragExited(mouseDragEvent -> {
                     if(cells[finalX][finalY].getCurrentBuildingLayer() != stringTopLayerMap.get(buildingToDrop))
                         ((ImageView) mouseDragEvent.getSource()).setImage(topLayerImages.get(cells[finalX][finalY].getCurrentTopLayer()));
-                });
+                });*/
 
                 ImageView resourceLayer = new ImageView(this.resourceLayerImages.get(cells[x][y].getCurrentResourceLayer()));
                 resourceLayer.setFitHeight(CELL_HEIGHT);
@@ -290,7 +298,25 @@ public class Grid implements GridInfos {
         this.topLayerImages.put(topLayer.ICE, new Image("file:src/main/resources/com/simpower/assets/textures/tile/ice.jpg"));
 
         /* Building Layer */
-        this.buildingLayerImages.put(buildingLayer.VERTICAL_ROAD, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_2a_v.png"));
+        // -- roads
+        this.buildingLayerImages.put(buildingLayer.ROAD, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_SOUTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_south.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_WEST_EAST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_west_east"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_EAST_SOUTH_WEST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_east_south_west.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_EAST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_east.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_EAST_SOUTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_east_south.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_SOUTH_WEST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_south_west.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_WEST_NORTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_west_north.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_EAST_SOUTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_east_south.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_EAST_SOUTH_WEST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_east_south_west.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_SOUTH_WEST_NORTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_south_west_north.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_WEST_NORTH_EAST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_west_north_east.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_NORTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_EAST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_east.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_SOUTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_south.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_WEST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_west.png"));
+
+        // -- houses & working building
         this.buildingLayerImages.put(buildingLayer.HOUSE, new Image("file:src/main/resources/com/simpower/assets/textures/buildings/house.jpg"));
         this.buildingLayerImages.put(buildingLayer.WORKING_BUILDING, new Image("file:src/main/resources/com/simpower/assets/textures/buildings/working_building.jpg"));
 
@@ -350,272 +376,131 @@ public class Grid implements GridInfos {
      * @return the random number
      */
     int generateRandomInt(int min, int max){
-        if (min >= max) {
-            throw new IllegalArgumentException("max must be greater than min");
-        }
+        if (min >= max) throw new IllegalArgumentException("max must be greater than min");
         return (int)(Math.random() * ((max - min) + 1)) + min;
     }
 
     /**
-     * Allows the player to create new roads in the game with a parse
-     *
-     * @param cell the cell to study
+     * Tell if a cell exist
+     * @param x coordinate
+     * @param y coordinate
+     * @return true if cell exist
      */
-    public void addRoad(Cell cell){
-
-        //on vérifie que y a pas de bâtiment là
-        if (
-            this.cells[cell.getPos_x()-1][cell.getPos_y()].getCurrentBuildingLayer() != buildingLayer.COAL_MINE &&
-            this.cells[cell.getPos_x()-1][cell.getPos_y()].getCurrentBuildingLayer() != buildingLayer.GAS_MINE &&
-            this.cells[cell.getPos_x()-1][cell.getPos_y()].getCurrentBuildingLayer() != buildingLayer.URANIUM_MINE &&
-            this.cells[cell.getPos_x()-1][cell.getPos_y()].getCurrentBuildingLayer() != buildingLayer.OIL_MINE &&
-            this.cells[cell.getPos_x()-1][cell.getPos_y()].getCurrentBuildingLayer() != buildingLayer.COAL_GENERATOR &&
-            this.cells[cell.getPos_x()-1][cell.getPos_y()].getCurrentBuildingLayer() != buildingLayer.GAS_GENERATOR &&
-            this.cells[cell.getPos_x()-1][cell.getPos_y()].getCurrentBuildingLayer() != buildingLayer.OIL_GENERATOR &&
-            this.cells[cell.getPos_x()-1][cell.getPos_y()].getCurrentBuildingLayer() != buildingLayer.URANIUM_GENERATOR &&
-            this.cells[cell.getPos_x()-1][cell.getPos_y()].getCurrentBuildingLayer() != buildingLayer.SOLAR_GENERATOR &&
-            this.cells[cell.getPos_x()-1][cell.getPos_y()].getCurrentBuildingLayer() != buildingLayer.WATER_GENERATOR &&
-            this.cells[cell.getPos_x()-1][cell.getPos_y()].getCurrentBuildingLayer() != buildingLayer.WIND_GENERATOR
-        ){
-            switch (this.cells[cell.getPos_x()-1][cell.getPos_y()].getCurrentBuildingLayer()) {
-                case VERTICAL_ROAD:
-                case HORIZONTAL_ROAD:
-                case TRI_ROAD:
-                case TURNED_ROAD:
-                case CROSS_ROAD:
-                case END_ROAD:
-                    switch (this.cells[cell.getPos_x()][cell.getPos_y()-1].getCurrentBuildingLayer()){
-                        case VERTICAL_ROAD:
-                        case HORIZONTAL_ROAD:
-                        case TRI_ROAD:
-                        case TURNED_ROAD:
-                        case CROSS_ROAD:
-                        case END_ROAD:
-                            switch (this.cells[cell.getPos_x()+1][cell.getPos_y()].getCurrentBuildingLayer()){
-                                case VERTICAL_ROAD:
-                                case HORIZONTAL_ROAD:
-                                case TRI_ROAD:
-                                case TURNED_ROAD:
-                                case CROSS_ROAD:
-                                case END_ROAD:
-                                    switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentBuildingLayer()){
-                                        case VERTICAL_ROAD:
-                                        case HORIZONTAL_ROAD:
-                                        case TRI_ROAD:
-                                        case TURNED_ROAD:
-                                        case CROSS_ROAD:
-                                        case END_ROAD:
-                                            //4 branches
-                                            Image crossRoad = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_4.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.CROSS_ROAD);
-                                            buildingLayerImages.put(buildingLayer.CROSS_ROAD, crossRoad);
-                                            break;
-                                        default:
-                                            //T envers
-                                            Image triRoadUpside = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_3_upside.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.TRI_ROAD);
-                                            buildingLayerImages.put(buildingLayer.TRI_ROAD, triRoadUpside);
-                                            break;
-                                    }
-                                break;
-                                default:
-                                    switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentBuildingLayer()){
-                                        case VERTICAL_ROAD:
-                                        case HORIZONTAL_ROAD:
-                                        case TRI_ROAD:
-                                        case TURNED_ROAD:
-                                        case CROSS_ROAD:
-                                        case END_ROAD:
-                                            //T gauche
-                                            Image triRoadLeft = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_3_left.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.TRI_ROAD);
-                                            buildingLayerImages.put(buildingLayer.TRI_ROAD, triRoadLeft);
-                                            break;
-                                        default:
-                                            //virage haut droit
-                                            Image turnedRoadTopRight = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_2_hd.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.TURNED_ROAD);
-                                            buildingLayerImages.put(buildingLayer.TURNED_ROAD, turnedRoadTopRight);
-                                            break;
-                                    }
-                            }
-                        break;
-                        default:
-                            switch (this.cells[cell.getPos_x()+1][cell.getPos_y()].getCurrentBuildingLayer()){
-                                case VERTICAL_ROAD:
-                                case HORIZONTAL_ROAD:
-                                case TRI_ROAD:
-                                case TURNED_ROAD:
-                                case CROSS_ROAD:
-                                case END_ROAD:
-                                    switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentBuildingLayer()){
-                                        case VERTICAL_ROAD:
-                                        case HORIZONTAL_ROAD:
-                                        case TRI_ROAD:
-                                        case TURNED_ROAD:
-                                        case CROSS_ROAD:
-                                        case END_ROAD:
-                                            //T normal
-                                            Image triRoadNormal = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_3_normal.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.TRI_ROAD);
-                                            buildingLayerImages.put(buildingLayer.TRI_ROAD, triRoadNormal);
-                                        break;
-                                        default:
-                                            //Droite horizontale
-                                            Image horizontalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_2a_h.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.HORIZONTAL_ROAD);
-                                            buildingLayerImages.put(buildingLayer.HORIZONTAL_ROAD, horizontalRoad);
-                                        break;
-                                    }
-                                default:
-                                    switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentBuildingLayer()){
-                                        case VERTICAL_ROAD:
-                                        case HORIZONTAL_ROAD:
-                                        case TRI_ROAD:
-                                        case TURNED_ROAD:
-                                        case CROSS_ROAD:
-                                        case END_ROAD:
-                                            //Virage bas droit
-                                            Image turnedRoadBottomRight = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_2b_bd.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.TURNED_ROAD);
-                                            buildingLayerImages.put(buildingLayer.TURNED_ROAD, turnedRoadBottomRight);
-                                        break;
-                                        default:
-                                            //Cul-de-sac droit
-                                            Image endRoadRight = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_1_d.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.END_ROAD);
-                                            buildingLayerImages.put(buildingLayer.END_ROAD, endRoadRight);
-                                    }
-                                    break;
-                            }
-                    }
-                break;
-                default:
-                    switch (this.cells[cell.getPos_x()][cell.getPos_y()-1].getCurrentBuildingLayer()){
-                        case VERTICAL_ROAD:
-                        case HORIZONTAL_ROAD:
-                        case TRI_ROAD:
-                        case TURNED_ROAD:
-                        case CROSS_ROAD:
-                        case END_ROAD:
-                            switch (this.cells[cell.getPos_x()+1][cell.getPos_y()].getCurrentBuildingLayer()){
-                                case VERTICAL_ROAD:
-                                case HORIZONTAL_ROAD:
-                                case TRI_ROAD:
-                                case TURNED_ROAD:
-                                case CROSS_ROAD:
-                                case END_ROAD:
-                                    switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentBuildingLayer()){
-                                        case VERTICAL_ROAD:
-                                        case HORIZONTAL_ROAD:
-                                        case TRI_ROAD:
-                                        case TURNED_ROAD:
-                                        case CROSS_ROAD:
-                                        case END_ROAD:
-                                            //T droit
-                                            Image triRoadRight = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_3_right.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.TRI_ROAD);
-                                            buildingLayerImages.put(buildingLayer.TRI_ROAD, triRoadRight);
-                                            break;
-                                        default:
-                                            //Virage haut gauche
-                                            Image turnedRoadTopLeft = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_2b_hg.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.TURNED_ROAD);
-                                            buildingLayerImages.put(buildingLayer.TURNED_ROAD, turnedRoadTopLeft);
-                                            break;
-                                    }
-                                    break;
-                                default:
-                                    switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentBuildingLayer()){
-                                        case VERTICAL_ROAD:
-                                        case HORIZONTAL_ROAD:
-                                        case TRI_ROAD:
-                                        case TURNED_ROAD:
-                                        case CROSS_ROAD:
-                                        case END_ROAD:
-                                            //Droit vertical
-                                            Image verticalRoad = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_2a_v.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.VERTICAL_ROAD);
-                                            buildingLayerImages.put(buildingLayer.VERTICAL_ROAD, verticalRoad);
-                                            break;
-                                        default:
-                                            //Cul-de-sac haut
-                                            Image endRoadTop = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_1_h.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.END_ROAD);
-                                            buildingLayerImages.put(buildingLayer.END_ROAD, endRoadTop);
-                                            break;
-                                    }
-                                    break;
-                            }
-                        break;
-                        default:
-                            switch (this.cells[cell.getPos_x()+1][cell.getPos_y()].getCurrentBuildingLayer()){
-                                case VERTICAL_ROAD:
-                                case HORIZONTAL_ROAD:
-                                case TRI_ROAD:
-                                case TURNED_ROAD:
-                                case CROSS_ROAD:
-                                case END_ROAD:
-                                    switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentBuildingLayer()){
-                                        case VERTICAL_ROAD:
-                                        case HORIZONTAL_ROAD:
-                                        case TRI_ROAD:
-                                        case TURNED_ROAD:
-                                        case CROSS_ROAD:
-                                        case END_ROAD:
-                                            //Virage bas gauche
-                                            Image turnedRoadBottomLeft = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_2b_bg.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.TURNED_ROAD);
-                                            buildingLayerImages.put(buildingLayer.TURNED_ROAD, turnedRoadBottomLeft);
-                                            break;
-                                        default:
-                                            //Cul-de-sac gauche
-                                            Image endRoadLeft = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_1_g.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.END_ROAD);
-                                            buildingLayerImages.put(buildingLayer.END_ROAD, endRoadLeft);
-                                            break;
-                                    }
-                                    break;
-                                default:
-                                    switch (this.cells[cell.getPos_x()][cell.getPos_y()+1].getCurrentBuildingLayer()){
-                                        case VERTICAL_ROAD:
-                                        case HORIZONTAL_ROAD:
-                                        case TRI_ROAD:
-                                        case TURNED_ROAD:
-                                        case CROSS_ROAD:
-                                        case END_ROAD:
-                                            //Cul-de-sac bas
-                                            Image endRoadBottom = new Image("file:src/main/resources/com/simpower/assets/textures/road/road_1_b.png");
-                                            this.cells[cell.getPos_x()][cell.getPos_y()].setCurrentBuildingLayer(buildingLayer.END_ROAD);
-                                            buildingLayerImages.put(buildingLayer.END_ROAD, endRoadBottom);
-                                            break;
-                                        default:
-                                            //TODO Pas de route possible
-                                            //Faire une info-bulle sur la souris ou un truc du genre
-                                            break;
-                                    }
-                                    break;
-                            }
-
-                        break;
-                }
-            }
+    private boolean isCellValid(int x, int y) {
+        Cell tmp;
+        try {
+            tmp = this.cells[x][y];
+            return true;
+        } catch (Throwable e) {
+            return false;
         }
     }
 
     /**
-     * Update the cell next to a new road if a road was already there
-     * @param cell cell to update
+     * Tell if a building layer is a road
+     * @param layer building layer
+     * @return true if it's a road
      */
-    public void updateRoad(Cell cell){
-        if (
-            this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentBuildingLayer() == buildingLayer.TURNED_ROAD ||
-            this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentBuildingLayer() == buildingLayer.END_ROAD ||
-            this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentBuildingLayer() == buildingLayer.TRI_ROAD ||
-            this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentBuildingLayer() == buildingLayer.CROSS_ROAD ||
-            this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentBuildingLayer() == buildingLayer.VERTICAL_ROAD ||
-            this.cells[cell.getPos_x()][cell.getPos_y()].getCurrentBuildingLayer() == buildingLayer.HORIZONTAL_ROAD
-        ) addRoad(this.cells[cell.getPos_x()][cell.getPos_y()]);
+    private boolean isBuildingLayerRoad(buildingLayer layer) {
+        switch (layer) {
+            case ROAD,
+                ROAD_NORTH_SOUTH,
+                ROAD_WEST_EAST,
+                ROAD_NORTH_EAST_SOUTH_WEST,
+                ROAD_NORTH_EAST,
+                ROAD_EAST_SOUTH,
+                ROAD_SOUTH_WEST,
+                ROAD_WEST_NORTH,
+                ROAD_NORTH_EAST_SOUTH,
+                ROAD_EAST_SOUTH_WEST,
+                ROAD_SOUTH_WEST_NORTH,
+                ROAD_WEST_NORTH_EAST,
+                ROAD_NORTH,
+                ROAD_EAST,
+                ROAD_SOUTH,
+                ROAD_WEST : return true;
+            default: return false;
+        }
+    }
+
+    /**
+     * get the corresponding building layer following neighboor cells
+     * @param x coordinate
+     * @param y coordinate
+     * @return corresponding building layer
+     */
+    private buildingLayer getCorrespondingBuildingLayer(int x, int y) {
+
+        int neighboor = 0;
+        boolean north = false;
+        boolean west = false;
+        boolean east = false;
+        boolean south = false;
+
+        /**
+         * . p .
+         * p o p
+         * . p .
+         */
+        if (isCellValid(x, y-1) && isBuildingLayerRoad(this.getCell(x, -1).getCurrentBuildingLayer())) {
+            neighboor++;
+            north = true;
+        }
+        if (isCellValid(x-1, y) && isBuildingLayerRoad(this.getCell(x-1, y).getCurrentBuildingLayer())) {
+            neighboor++;
+            west = true;
+        }
+        if (isCellValid(x+1, y) && isBuildingLayerRoad(this.getCell(x+1, y).getCurrentBuildingLayer())) {
+            neighboor++;
+            east = true;
+        }
+        if (isCellValid(x, y+1) && isBuildingLayerRoad(this.getCell(x, y+1).getCurrentBuildingLayer())) {
+            neighboor++;
+            south = true;
+        }
+
+        switch (neighboor) {
+            case 1:
+                if (north) return buildingLayer.ROAD_NORTH;
+                if (south) return buildingLayer.ROAD_SOUTH;
+                if (west) return buildingLayer.ROAD_WEST;
+                if (east) return buildingLayer.ROAD_EAST;
+            case 2:
+                if (north && east) return buildingLayer.ROAD_NORTH_EAST;
+                if (east && south) return buildingLayer.ROAD_EAST_SOUTH;
+                if (south && west) return buildingLayer.ROAD_SOUTH_WEST;
+                if (west && north) return buildingLayer.ROAD_WEST_NORTH;
+
+                if (north && south) return buildingLayer.ROAD_NORTH_SOUTH;
+                if (east && west) return buildingLayer.ROAD_WEST_EAST;
+
+            case 3:
+                if (north && east && south) return buildingLayer.ROAD_NORTH_EAST_SOUTH;
+                if (east && south && west) return buildingLayer.ROAD_EAST_SOUTH_WEST;
+                if (south && west && north) return buildingLayer.ROAD_SOUTH_WEST_NORTH;
+                if (west && north && east) return buildingLayer.ROAD_WEST_NORTH_EAST;
+            case 4:
+                return buildingLayer.ROAD_NORTH_EAST_SOUTH_WEST;
+            default:
+            case 0: return buildingLayer.ROAD;
+        }
+    }
+
+    /**
+     * Place road on building layer
+     * @param x coordinate
+     * @param y coordinate
+     * @param update tell if it's an update or a new placement
+     */
+    private void placeRoad(int x, int y, boolean update) {
+        // if empty -> place road
+        if (this.getCell(x, y).getCurrentBuildingLayer() == buildingLayer.NONE && update == false) {
+            this.getCell(x, y).setCurrentBuildingLayer(this.getCorrespondingBuildingLayer(x, y));
+        }
+
+        // if there is a road already -> update road
+        if (this.isBuildingLayerRoad(this.getCell(x, y).getCurrentBuildingLayer()))
+            this.getCell(x, y).setCurrentBuildingLayer(this.getCorrespondingBuildingLayer(x, y));
     }
 
     /**
@@ -623,18 +508,49 @@ public class Grid implements GridInfos {
      * @param cell the cell where you want to add a new road
      */
     public void roadBuilder(Cell cell){
-        addRoad(this.cells[cell.getPos_x()][cell.getPos_y()]);
-        updateRoad(this.cells[cell.getPos_x()-1][cell.getPos_y()]);
-        updateRoad(this.cells[cell.getPos_x()][cell.getPos_y()-1]);
-        updateRoad(this.cells[cell.getPos_x()+1][cell.getPos_y()]);
-        updateRoad(this.cells[cell.getPos_x()][cell.getPos_y()+1]);
+        /**
+         * . p .
+         * p o p
+         * . p .
+         */
+        if (this.isCellValid(cell.getPos_x(), cell.getPos_y())) placeRoad(cell.getPos_x(), cell.getPos_y(), false);
+        if (this.isCellValid(cell.getPos_x(), cell.getPos_y() - 1)) placeRoad(cell.getPos_x(), cell.getPos_y()-1, true);
+        if (this.isCellValid(cell.getPos_x() - 1, cell.getPos_y())) placeRoad(cell.getPos_x()-1, cell.getPos_y(), true);
+        if (this.isCellValid(cell.getPos_x() + 1, cell.getPos_y())) placeRoad(cell.getPos_x()+1, cell.getPos_y(), true);
+        if (this.isCellValid(cell.getPos_x(), cell.getPos_y() + 1)) placeRoad(cell.getPos_x(), cell.getPos_y()+1, true);
+
+        this.refreshLayers();
     }
 
+    /**
+     * get all the cells of the grid
+     * @return cells
+     */
     public Cell[][] getCells() {
         return this.cells;
     }
 
+    /**
+     * get the grid container (container of cells)
+     * @return gridContainer
+     */
     public GridPane getGridcontainer() {
         return this.gridContainer;
+    }
+
+    /**
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    public Cell getCell(int x, int y) {
+        Cell tmp;
+        try {
+            tmp = this.cells[x][y];
+        } catch (Throwable e) {
+            tmp = new Cell();
+        }
+        return tmp;
     }
 }

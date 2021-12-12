@@ -48,12 +48,60 @@ public interface GridInfos {
         GAS_MINE,
         OIL_MINE,
         URANIUM_MINE,
-        VERTICAL_ROAD,
-        HORIZONTAL_ROAD,
-        CROSS_ROAD,
-        TURNED_ROAD,
-        TRI_ROAD,
-        END_ROAD
+
+        /*Roads*/
+
+        /**
+         * . . .
+         * . o .
+         * . . .
+         */
+        ROAD,
+
+        /**
+         * . | .
+         * . o .
+         * . | .
+         */
+        ROAD_NORTH_SOUTH,
+        ROAD_WEST_EAST,
+
+        /**
+         * . | .
+         * - o -
+         * . | .
+         */
+        ROAD_NORTH_EAST_SOUTH_WEST,
+
+        /**
+         * . | .
+         * . o -
+         * . . .
+         */
+        ROAD_NORTH_EAST,
+        ROAD_EAST_SOUTH,
+        ROAD_SOUTH_WEST,
+        ROAD_WEST_NORTH,
+
+        /**
+         * . | .
+         * . o -
+         * . | .
+         */
+        ROAD_NORTH_EAST_SOUTH,
+        ROAD_EAST_SOUTH_WEST,
+        ROAD_SOUTH_WEST_NORTH,
+        ROAD_WEST_NORTH_EAST,
+
+        /**
+         * . | .
+         * . o .
+         * . . .
+         */
+        ROAD_NORTH,
+        ROAD_EAST,
+        ROAD_SOUTH,
+        ROAD_WEST
     }
 
     enum topLayer{
