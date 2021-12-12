@@ -18,6 +18,7 @@ public class Grid implements GridInfos {
     private String buildingToDrop;
     private buildingLayer buildingAction;
     private Map<String, buildingLayer> stringTopLayerMap = new HashMap<>();
+    private boolean resourcesShown = false;
 
     /**
      * Instance a Grid, add the resource layer, add the top layer and show the top layer
@@ -31,7 +32,7 @@ public class Grid implements GridInfos {
         this.addResourceLayer();
         this.addTopLayer();
         this.loadData();
-        this.showLayers();
+        this.showLayers(false);
     }
 
     /**
@@ -50,6 +51,12 @@ public class Grid implements GridInfos {
      * Add the resource layer : coal, gas, uranium, oil
      */
     private void addResourceLayer(){
+        for (int x = 0; x < NB_CELLS_WIDTH; x++) {
+            for (int y = 0; y < NB_CELLS_HEIGHT; y++) {
+                this.cells[x][y].setCurrentResourceLayer(resourceLayer.NONE);
+            }
+        }
+
         layResource(resourceLayer.COAL, 8);
         layResource(resourceLayer.OIL, 3);
         layResource(resourceLayer.URANIUM,3);
@@ -164,7 +171,6 @@ public class Grid implements GridInfos {
      * On mouse clicked event
      */
     private void mouseClicked(int x, int y) {
-        System.out.println(this.buildingAction);
         switch (this.buildingAction) {
             case ROAD:
                 this.roadBuilder(this.getCell(x, y));
@@ -183,7 +189,12 @@ public class Grid implements GridInfos {
 
     public void refreshLayers() {
         this.gridContainer.getChildren().clear();
-        this.showLayers();
+        this.showLayers(this.resourcesShown);
+    }
+
+    public void showResources() {
+        this.resourcesShown = !this.resourcesShown;
+        this.refreshLayers();
     }
 
     public void setBuildingAction(buildingLayer b){
@@ -194,7 +205,7 @@ public class Grid implements GridInfos {
     /**
      * Call the vue to show all layers
      */
-    private void showLayers() {
+    private void showLayers(boolean notTop) {
         for (int x = 0; x < NB_CELLS_WIDTH; x++) {
             for (int y = 0; y < NB_CELLS_HEIGHT; y++) {
 
@@ -215,6 +226,7 @@ public class Grid implements GridInfos {
                 resourceLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
                     this.hoverListener(resourceLayer, finalX, finalY, newVal);
                 });
+                resourceLayer.setOnMouseClicked(event -> this.mouseClicked(finalX, finalY));
 
                 ImageView buildingLayer = new ImageView(this.buildingLayerImages.get(cells[x][y].getCurrentBuildingLayer()));
                 buildingLayer.setFitHeight(CELL_HEIGHT);
@@ -231,8 +243,9 @@ public class Grid implements GridInfos {
                     this.hoverListener(pollutionLayer, finalX, finalY, newVal);
                 });
 
-                this.gridContainer.add(topLayer, x, y);
-                this.gridContainer.add(resourceLayer, x, y);
+                if (notTop) this.gridContainer.add(resourceLayer, x, y);
+                else this.gridContainer.add(topLayer, x, y);
+
                 this.gridContainer.add(pollutionLayer, x, y);
                 this.gridContainer.add(buildingLayer, x, y);
             }
@@ -307,10 +320,11 @@ public class Grid implements GridInfos {
         this.buildingLayerImages.put(buildingLayer.ROAD_WEST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_west.png"));
 
         // -- houses & working building
-        this.buildingLayerImages.put(buildingLayer.HOUSE, new Image("file:src/main/resources/com/simpower/assets/textures/buildings/house.jpg"));
+        this.buildingLayerImages.put(buildingLayer.HOUSE, new Image("file:src/main/resources/com/simpower/assets/textures/buildings/houses/level_1/a.png"));
         this.buildingLayerImages.put(buildingLayer.WORKING_BUILDING, new Image("file:src/main/resources/com/simpower/assets/textures/buildings/working_building.jpg"));
 
         /* Resource Layer */
+        this.resourceLayerImages.put(resourceLayer.NONE, new Image("file:src/main/resources/com/simpower/assets/textures/tile/dirt.jpg"));
         this.resourceLayerImages.put(resourceLayer.COAL, new Image("file:src/main/resources/com/simpower/assets/textures/resources/coal.png"));
         this.resourceLayerImages.put(resourceLayer.OIL, new Image("file:src/main/resources/com/simpower/assets/textures/resources/oil.png"));
         this.resourceLayerImages.put(resourceLayer.URANIUM, new Image("file:src/main/resources/com/simpower/assets/textures/resources/uranium.png"));

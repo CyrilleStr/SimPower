@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
 public class Clock extends Thread implements TimeInfos {
     private double time; //  1 unit time = 1 Minute = 1 for loop run
     private LocalDateTime dateTime;
-    private boolean infiniteDay = true;
+    private boolean infiniteDay = false;
     private int speed;
     private boolean ticking;
     private Season season;
@@ -46,6 +46,11 @@ public class Clock extends Thread implements TimeInfos {
         else if (this.dateTime.getDayOfYear() >= solstice[1]) this.season = Season.SUMMER;
         else if (this.dateTime.getDayOfYear() >= solstice[0])  this.season = Season.SPRING;
         else this.season = Season.WINTER;
+
+        // if user start a game after moonrise, start at night
+        if (this.dateTime.getHour() <= sunrise[this.getSeason().ordinal()] || this.dateTime.getHour() >= moonrise[this.getSeason().ordinal()]) {
+            this.switchLight();
+        }
     }
 
     public Clock(Grid grid, LocalDateTime savedDateTime, double savedTime){
@@ -66,7 +71,6 @@ public class Clock extends Thread implements TimeInfos {
                 Platform.runLater(() -> {
                     // seasons checker
                     if (this.dateTime.getHour() == 0 && this.dateTime.getMinute() == 0 && this.contains(this.solstice, this.dateTime.getDayOfYear())) {
-                        System.out.println("Changement de saison zebi");
                         this.nextSeason();
                     }
 
@@ -97,23 +101,29 @@ public class Clock extends Thread implements TimeInfos {
      * Change current season for the next one
      */
     private void nextSeason() {
-        System.out.println(Season.values()[(this.getSeason().ordinal() + 1) % Season.values().length]);
         this.setSeason(Season.values()[(this.getSeason().ordinal() + 1) % Season.values().length]);
 
-        System.out.println(this.getSeason());
-        if (this.getSeason() == Season.WINTER) {
-           for (Cell[] tmp : this.grid.getCells()) for (Cell cell : tmp) {
-               switch(cell.getCurrentTopLayer()) {
-                   case GRASS:
-                       cell.setCurrentTopLayer(GridInfos.topLayer.SNOW);
-                       break;
-                   case RIVER:
-                       cell.setCurrentTopLayer(GridInfos.topLayer.ICE);
-                       break;
-               }
-           }
-
-           this.grid.refreshLayers();
+        switch (this.getSeason()) {
+            case WINTER:
+            case SPRING:
+                for (Cell[] tmp : this.grid.getCells()) for (Cell cell : tmp) {
+                    switch(cell.getCurrentTopLayer()) {
+                        case GRASS:
+                            cell.setCurrentTopLayer(GridInfos.topLayer.SNOW);
+                            break;
+                        case RIVER:
+                            cell.setCurrentTopLayer(GridInfos.topLayer.ICE);
+                            break;
+                        case SNOW:
+                            cell.setCurrentTopLayer(GridInfos.topLayer.GRASS);
+                            break;
+                        case ICE:
+                            cell.setCurrentTopLayer(GridInfos.topLayer.RIVER);
+                            break;
+                    }
+                }
+                this.grid.refreshLayers();
+                break;
         }
     }
 

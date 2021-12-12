@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,9 +15,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" styleClass="background" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simpower.controllers.GameController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="720.0" prefWidth="1080.0" styleClass="background" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simpower.controllers.GameController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
@@ -55,6 +57,9 @@
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
+               <tooltip>
+                  <Tooltip text="Delete any buildings, warning!" />
+               </tooltip>
             </Button>
             <Button mnemonicParsing="false" onAction="#openTabPane" prefWidth="130.0" text="Build">
                <font>
@@ -63,14 +68,20 @@
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
+               <tooltip>
+                  <Tooltip text="Open tabs to construct buildings" />
+               </tooltip>
             </Button>
-            <Button mnemonicParsing="false" prefWidth="130.0" text="Resources">
+            <Button mnemonicParsing="false" onAction="#showGridResources" prefWidth="130.0" text="Resources">
                <font>
                   <Font name="Leelawadee UI" size="16.0" />
                </font>
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
+               <tooltip>
+                  <Tooltip text="Show resources in the underground!" />
+               </tooltip>
             </Button>
          </children>
       </HBox>
@@ -99,6 +110,9 @@
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
+                     <tooltip>
+                        <Tooltip text="Amount of uranium of your city" />
+                     </tooltip>
                   </Label>
                </children>
                <GridPane.margin>
@@ -119,6 +133,9 @@
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
+                     <tooltip>
+                        <Tooltip text="Amount of gas of your city" />
+                     </tooltip>
                   </Label>
                </children>
             </HBox>
@@ -136,6 +153,9 @@
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
+                     <tooltip>
+                        <Tooltip text="Amount of oil of your city" />
+                     </tooltip>
                   </Label>
                </children>
             </HBox>
@@ -153,6 +173,9 @@
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
+                     <tooltip>
+                        <Tooltip text="Amount of coal of your city" />
+                     </tooltip>
                   </Label>
                </children>
             </HBox>
@@ -172,6 +195,9 @@
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
+               <tooltip>
+                  <Tooltip text="Current money of your city!" />
+               </tooltip>
             </Label>
          </children>
       </HBox>
@@ -189,6 +215,9 @@
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
+               <tooltip>
+                  <Tooltip text="Amount of water of your city" />
+               </tooltip>
             </Label>
          </children>
       </HBox>
@@ -212,6 +241,9 @@
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
+               <tooltip>
+                  <Tooltip text="Current time in your city" />
+               </tooltip>
             </Label>
             <Button fx:id="pauseGameBtn" mnemonicParsing="false" onAction="#pauseGameAction" prefHeight="35.0" prefWidth="35.0" styleClass="button-pause" GridPane.halignment="RIGHT">
                <font>
@@ -230,6 +262,9 @@
                      </image>
                   </ImageView>
                </graphic>
+               <tooltip>
+                  <Tooltip text="Pause the time" />
+               </tooltip>
             </Button>
             <Button fx:id="changeClockSpeedBtn" mnemonicParsing="false" onAction="#changeClockSpeedAction" prefHeight="36.0" prefWidth="51.0" text="x1" GridPane.columnIndex="2" GridPane.halignment="LEFT">
                <font>
@@ -238,6 +273,9 @@
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>
+               <tooltip>
+                  <Tooltip text="Make the time goes faster" />
+               </tooltip>
             </Button>
          </children>
       </GridPane>
@@ -248,6 +286,9 @@
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
+         <tooltip>
+            <Tooltip text="Debug information" />
+         </tooltip>
       </Label>
       <TabPane fx:id="tabPane" prefHeight="108.0" prefWidth="507.0" style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE" visible="false" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="2">
         <tabs>
@@ -259,7 +300,7 @@
                            <children>
                               <ImageView fitHeight="64.0" fitWidth="64.0" onMouseClicked="#setHouseAsBuildingAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../assets/textures/buildings/house.jpg" />
+                                    <Image url="@../assets/textures/buildings/houses/level_1/a.png" />
                                  </image>
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />
@@ -316,5 +357,52 @@
             </Tab>
         </tabs>
       </TabPane>
+      <GridPane fx:id="pauseMenu" prefHeight="720.0" prefWidth="1080.0" visible="false" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" percentHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" percentHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox alignment="CENTER" prefHeight="288.0" prefWidth="470.0" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#hidePauseMenu" prefHeight="56.0" prefWidth="500.0" text="Resume">
+                     <font>
+                        <Font name="Leelawadee UI" size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+                  <Button disable="true" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="500.0" text="Options">
+                     <font>
+                        <Font name="Leelawadee UI" size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+                  <Button layoutX="10.0" layoutY="66.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="56.0" prefWidth="500.0" text="Quit Game">
+                     <font>
+                        <Font name="Leelawadee UI" size="16.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+            <Label alignment="CENTER" prefHeight="128.0" prefWidth="500.0" text="Game Paused" textAlignment="CENTER" textFill="#323131" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font name="Leelawadee UI" size="60.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </GridPane>
    </children>
 </GridPane>

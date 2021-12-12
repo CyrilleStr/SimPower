@@ -11,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
@@ -26,11 +28,11 @@ public class GameController {
     private ImageView pauseImgView;
     private ImageView playImgView;
     private boolean isTabPaneOpen = false;
+    private boolean isPauseMenuOpen = false;
     private buildingLayer buildingType = buildingLayer.NONE;
 
+    @FXML private GridPane pauseMenu;
     @FXML private TabPane tabPane;
-    @FXML private Button quitGameBtn;
-    @FXML private Text info;
     @FXML private GridPane gridContainer;
     @FXML private Label clockLabel;
     @FXML private Label infoLabel;
@@ -64,8 +66,10 @@ public class GameController {
         this.clock.start();
         this.clockSpeeds = new int[]{1,4,7,10,100};
         this.clockSpeedNumber = 0;
+
         this.pauseImgView = new ImageView(new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/pause.png"));
         this.playImgView = new ImageView(new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/play.png"));
+
         this.playImgView.setFitHeight(25);
         this.playImgView.setFitWidth(25);
         this.pauseImgView.setFitWidth(25);
@@ -75,21 +79,38 @@ public class GameController {
     }
 
     @FXML
+    void onKeyPressed(KeyEvent ke) {
+        switch (ke.getCode()) {
+            case ESCAPE:
+                this.pauseGame();
+                break;
+            case SPACE: // todo: find why it doesn't work
+                this.pauseTime();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @FXML
     void quitGame(ActionEvent event) throws IOException {
         // TODO implement a quitGame button
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/main.fxml"));
-        quitGameBtn.getScene().setRoot(fxmlLoader.load());
+        changeClockSpeedBtn.getScene().setRoot(fxmlLoader.load()); // getting root scene using element of that scene :)
     }
 
-    /* Clock */
-
-    /**
-     * Play/pause the timer on user action while changing the pause btn image
-     * @param event
-     * @throws InterruptedException
-     */
     @FXML
-    void pauseGameAction(ActionEvent event) throws InterruptedException {
+    void hidePauseMenu(ActionEvent event) throws IOException {
+        this.pauseGame();
+    }
+
+    private void pauseGame() {
+        this.isPauseMenuOpen = !this.isPauseMenuOpen;
+        this.pauseMenu.setVisible(this.isPauseMenuOpen);
+        this.pauseTime();
+    }
+
+    private void pauseTime() {
         if (this.clock.isTicking()) {
             this.pauseGameBtn.setGraphic(this.playImgView);
             // Deprecated method but used in lesson
@@ -102,6 +123,16 @@ public class GameController {
             this.clock.resume();
             this.clock.setTicking(true);
         }
+    }
+
+    /**
+     * Play/pause the timer on user action while changing the pause btn image
+     * @param event
+     * @throws InterruptedException
+     */
+    @FXML
+    void pauseGameAction(ActionEvent event) throws InterruptedException {
+        this.pauseTime();
     }
 
     /**
@@ -136,9 +167,18 @@ public class GameController {
         this.grid.setBuildingAction(buildingLayer.NONE);
     }
 
-    @FXML
-    void openTabPane(ActionEvent event) {
+    private void swapTabPane() {
         this.isTabPaneOpen = !this.isTabPaneOpen;
         this.tabPane.setVisible(this.isTabPaneOpen);
+    }
+
+    @FXML
+    void openTabPane(ActionEvent event) {
+        this.swapTabPane();
+    }
+
+    @FXML
+    void showGridResources(ActionEvent event) {
+        this.grid.showResources();
     }
 }
