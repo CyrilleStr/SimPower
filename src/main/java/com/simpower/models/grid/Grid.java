@@ -301,7 +301,7 @@ public class Grid implements GridInfos {
         // -- roads
         this.buildingLayerImages.put(buildingLayer.ROAD, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_SOUTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_south.png"));
-        this.buildingLayerImages.put(buildingLayer.ROAD_WEST_EAST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_west_east"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_WEST_EAST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_west_east.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_EAST_SOUTH_WEST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_east_south_west.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_EAST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_east.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_EAST_SOUTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_east_south.png"));
@@ -438,26 +438,29 @@ public class Grid implements GridInfos {
         boolean south = false;
 
         /**
-         * . p .
-         * p o p
-         * . p .
+         *  .  y-1  .
+         * x-1  c  x+1
+         *  .  y+1  .
          */
-        if (isCellValid(x, y-1) && isBuildingLayerRoad(this.getCell(x, -1).getCurrentBuildingLayer())) {
+        if (isCellValid(x, y - 1) && isBuildingLayerRoad(this.getCell(x, y - 1).getCurrentBuildingLayer())) {
             neighboor++;
             north = true;
         }
-        if (isCellValid(x-1, y) && isBuildingLayerRoad(this.getCell(x-1, y).getCurrentBuildingLayer())) {
+        if (isCellValid(x - 1, y) && isBuildingLayerRoad(this.getCell(x - 1, y).getCurrentBuildingLayer())) {
             neighboor++;
             west = true;
         }
-        if (isCellValid(x+1, y) && isBuildingLayerRoad(this.getCell(x+1, y).getCurrentBuildingLayer())) {
+        if (isCellValid(x + 1, y) && isBuildingLayerRoad(this.getCell(x + 1, y).getCurrentBuildingLayer())) {
             neighboor++;
             east = true;
         }
-        if (isCellValid(x, y+1) && isBuildingLayerRoad(this.getCell(x, y+1).getCurrentBuildingLayer())) {
+        if (isCellValid(x, y + 1) && isBuildingLayerRoad(this.getCell(x, y + 1).getCurrentBuildingLayer())) {
             neighboor++;
             south = true;
         }
+
+        System.out.println("----");
+        System.out.println("X: " + x + " Y: " + y + " v: " + neighboor + " N: " + north + " E: " + east + " S:" + south + " W:" + west);
 
         switch (neighboor) {
             case 1:
@@ -472,7 +475,7 @@ public class Grid implements GridInfos {
                 if (west && north) return buildingLayer.ROAD_WEST_NORTH;
 
                 if (north && south) return buildingLayer.ROAD_NORTH_SOUTH;
-                if (east && west) return buildingLayer.ROAD_WEST_EAST;
+                if (west && east) return buildingLayer.ROAD_WEST_EAST;
 
             case 3:
                 if (north && east && south) return buildingLayer.ROAD_NORTH_EAST_SOUTH;
@@ -493,14 +496,13 @@ public class Grid implements GridInfos {
      * @param update tell if it's an update or a new placement
      */
     private void placeRoad(int x, int y, boolean update) {
-        // if empty -> place road
-        if (this.getCell(x, y).getCurrentBuildingLayer() == buildingLayer.NONE && update == false) {
+        if (
+            (this.getCell(x, y).getCurrentBuildingLayer() == buildingLayer.NONE && update == false) ||
+            this.isBuildingLayerRoad(this.getCell(x, y).getCurrentBuildingLayer())
+        ) {
             this.getCell(x, y).setCurrentBuildingLayer(this.getCorrespondingBuildingLayer(x, y));
         }
 
-        // if there is a road already -> update road
-        if (this.isBuildingLayerRoad(this.getCell(x, y).getCurrentBuildingLayer()))
-            this.getCell(x, y).setCurrentBuildingLayer(this.getCorrespondingBuildingLayer(x, y));
     }
 
     /**
@@ -514,6 +516,7 @@ public class Grid implements GridInfos {
          * . p .
          */
         if (this.isCellValid(cell.getPos_x(), cell.getPos_y())) placeRoad(cell.getPos_x(), cell.getPos_y(), false);
+
         if (this.isCellValid(cell.getPos_x(), cell.getPos_y() - 1)) placeRoad(cell.getPos_x(), cell.getPos_y()-1, true);
         if (this.isCellValid(cell.getPos_x() - 1, cell.getPos_y())) placeRoad(cell.getPos_x()-1, cell.getPos_y(), true);
         if (this.isCellValid(cell.getPos_x() + 1, cell.getPos_y())) placeRoad(cell.getPos_x()+1, cell.getPos_y(), true);
