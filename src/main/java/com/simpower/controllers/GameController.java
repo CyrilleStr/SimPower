@@ -3,10 +3,12 @@ package com.simpower.controllers;
 import com.simpower.Main;
 import com.simpower.models.Game;
 import com.simpower.models.grid.Grid;
+import com.simpower.models.grid.GridInfos.buildingLayer;
 import com.simpower.models.time.Clock;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -14,8 +16,6 @@ import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import java.io.IOException;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
 
 public class GameController {
     private Grid grid;
@@ -25,6 +25,10 @@ public class GameController {
     private int clockSpeedNumber;
     private ImageView pauseImgView;
     private ImageView playImgView;
+    private boolean isTabPaneOpen = false;
+    private buildingLayer buildingType = buildingLayer.NONE;
+
+    @FXML private TabPane tabPane;
     @FXML private Button quitGameBtn;
     @FXML private Text info;
     @FXML private GridPane gridContainer;
@@ -32,6 +36,7 @@ public class GameController {
     @FXML private Label infoLabel;
     @FXML private Button pauseGameBtn;
     @FXML private Button changeClockSpeedBtn;
+
     /**
      * Instance a new game controller
      */
@@ -53,7 +58,7 @@ public class GameController {
      */
     @FXML
     public void initialize(){
-        this.grid = new Grid(gridContainer, infoLabel);
+        this.grid = new Grid(gridContainer, infoLabel, buildingType);
 
         this.clock = new Clock(grid, clockLabel);
         this.clock.start();
@@ -111,27 +116,29 @@ public class GameController {
         this.clock.setSpeed(this.clockSpeeds[this.clockSpeedNumber]);
     }
 
-    /* Implement drag and drop */
-    //SourceField
-
     @FXML
-    void onMousePressedHandler(MouseEvent event) {
-        event.setDragDetect(true);
+    void setHouseAsBuildingAction() {
+        this.grid.setBuildingAction(buildingLayer.HOUSE);
     }
 
     @FXML
-    void onMouseReleasedHandler(MouseEvent event) {
-        ((ImageView) event.getSource()).setMouseTransparent(false);
+    void setWorkingBuildAsBuildingAction() {
+        this.grid.setBuildingAction(buildingLayer.WORKING_BUILDING);
     }
 
     @FXML
-    void onMouseDraggedHandler(MouseEvent event) {
-        event.setDragDetect(false);
+    void setRoadAsBuildingAction(){
+        this.grid.setBuildingAction(buildingLayer.ROAD);
     }
 
     @FXML
-    void onDragDetectedHandler(MouseEvent event) {
-        ((ImageView) event.getSource()).startFullDrag();
-        this.grid.setBuildingToDrop(((ImageView) event.getSource()).getId());
+    void setDeleteAsBuildingAction(ActionEvent event) {
+        this.grid.setBuildingAction(buildingLayer.NONE);
+    }
+
+    @FXML
+    void openTabPane(ActionEvent event) {
+        this.isTabPaneOpen = !this.isTabPaneOpen;
+        this.tabPane.setVisible(this.isTabPaneOpen);
     }
 }
