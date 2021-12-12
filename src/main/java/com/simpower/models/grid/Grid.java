@@ -16,7 +16,7 @@ public class Grid implements GridInfos {
     private Label infoLabel;
     private GridPane gridContainer;
     private String buildingToDrop;
-    private buildingLayer buildingType;
+    private buildingLayer buildingAction;
     private Map<String, buildingLayer> stringTopLayerMap = new HashMap<>();
 
     /**
@@ -26,11 +26,10 @@ public class Grid implements GridInfos {
     public Grid(GridPane gridContainer, Label infoLabel, buildingLayer buildingType) {
         this.gridContainer = gridContainer;
         this.infoLabel = infoLabel;
-        this.buildingType = buildingType;
+        this.buildingAction = buildingType;
         this.generateEmptyGrid();
         this.addResourceLayer();
         this.addTopLayer();
-        this.addBuildingLayer();
         this.loadData();
         this.showLayers();
     }
@@ -69,11 +68,6 @@ public class Grid implements GridInfos {
 
         /* Generating nb € [1,3] river(s) */
         for (int nb = 0; nb < this.generateRandomInt(1, 3); nb++) this.generateRiver();
-    }
-
-    private void addBuildingLayer() {
-        /* Set start road */
-        this.cells[NB_CELLS_WIDTH/2][0].setCurrentBuildingLayer(buildingLayer.ROAD_NORTH_SOUTH);
     }
 
     /**
@@ -141,15 +135,6 @@ public class Grid implements GridInfos {
     }
 
     /**
-     * Set the building to drop
-     *
-     * @param buildingToDrop_p
-     */
-    public void setBuildingToDrop(String buildingToDrop_p){
-        this.buildingToDrop = buildingToDrop_p;
-    }
-
-    /**
      * Small function used in hover listener when hovering a cell
      * @param imgView current img view hovered
      * @param x coordinate of the cell
@@ -175,14 +160,36 @@ public class Grid implements GridInfos {
         imgView.setEffect(colorAdjust);
     }
 
+    /**
+     * On mouse clicked event
+     */
+    private void mouseClicked(int x, int y) {
+        System.out.println(this.buildingAction);
+        switch (this.buildingAction) {
+            case ROAD:
+                this.roadBuilder(this.getCell(x, y));
+                break;
+            case WORKING_BUILDING:
+            case HOUSE:
+                this.buildingBuilder(this.getCell(x, y), this.buildingAction);
+                break;
+            case NONE:
+                this.getCell(x, y).setCurrentBuildingLayer(buildingLayer.NONE);
+                break;
+        }
+
+        this.refreshLayers();
+    }
+
     public void refreshLayers() {
         this.gridContainer.getChildren().clear();
         this.showLayers();
     }
 
-    public void setBuildingType(buildingLayer b){
-        this.buildingType = b;
+    public void setBuildingAction(buildingLayer b){
+        this.buildingAction = b;
     }
+    public buildingLayer getBuildingAction() { return this.buildingAction; }
 
     /**
      * Call the vue to show all layers
@@ -200,25 +207,7 @@ public class Grid implements GridInfos {
                 topLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
                     this.hoverListener(topLayer, finalX, finalY, newVal);
                 });
-
-                topLayer.setOnMouseClicked(event -> {
-                    if (buildingType == buildingLayer.ROAD) {
-                        roadBuilder(cells[finalX][finalY]);
-                    }
-                });
-
-                /*topLayer.setOnMouseDragReleased(mouseDragEvent -> {
-                    ((ImageView) mouseDragEvent.getSource()).setImage(buildingLayerImages.get(stringTopLayerMap.get(buildingToDrop)));
-                    cells[finalX][finalY].setCurrentBuildingLayer(stringTopLayerMap.get(buildingToDrop));
-                    System.out.println(((ImageView) mouseDragEvent.getSource()).getId());
-                });
-                topLayer.setOnMouseDragOver(mouseDragEvent -> {
-                    ((ImageView) mouseDragEvent.getSource()).setImage(buildingLayerImages.get(stringTopLayerMap.get(buildingToDrop)));
-                });
-                topLayer.setOnMouseDragExited(mouseDragEvent -> {
-                    if(cells[finalX][finalY].getCurrentBuildingLayer() != stringTopLayerMap.get(buildingToDrop))
-                        ((ImageView) mouseDragEvent.getSource()).setImage(topLayerImages.get(cells[finalX][finalY].getCurrentTopLayer()));
-                });*/
+                topLayer.setOnMouseClicked(event -> this.mouseClicked(finalX, finalY));
 
                 ImageView resourceLayer = new ImageView(this.resourceLayerImages.get(cells[x][y].getCurrentResourceLayer()));
                 resourceLayer.setFitHeight(CELL_HEIGHT);
@@ -233,6 +222,7 @@ public class Grid implements GridInfos {
                 buildingLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
                     this.hoverListener(buildingLayer, finalX, finalY, newVal);
                 });
+                buildingLayer.setOnMouseClicked(event -> this.mouseClicked(finalX, finalY));
 
                 ImageView pollutionLayer = new ImageView(this.pollutionLayerImages.get(cells[x][y].getCurrentPollutionLayer()));
                 pollutionLayer.setFitHeight(CELL_HEIGHT);
@@ -325,10 +315,6 @@ public class Grid implements GridInfos {
         this.resourceLayerImages.put(resourceLayer.OIL, new Image("file:src/main/resources/com/simpower/assets/textures/resources/oil.png"));
         this.resourceLayerImages.put(resourceLayer.URANIUM, new Image("file:src/main/resources/com/simpower/assets/textures/resources/uranium.png"));
         this.resourceLayerImages.put(resourceLayer.GAS, new Image("file:src/main/resources/com/simpower/assets/textures/resources/gas.png"));
-
-        /* String to top layer map */
-        this.stringTopLayerMap.put("WORKING_BUILDING", buildingLayer.WORKING_BUILDING);
-        this.stringTopLayerMap.put("HOUSE", buildingLayer.HOUSE);
     }
 
     /**
@@ -459,9 +445,6 @@ public class Grid implements GridInfos {
             south = true;
         }
 
-        System.out.println("----");
-        System.out.println("X: " + x + " Y: " + y + " v: " + neighboor + " N: " + north + " E: " + east + " S:" + south + " W:" + west);
-
         switch (neighboor) {
             case 1:
                 if (north) return buildingLayer.ROAD_NORTH;
@@ -506,10 +489,10 @@ public class Grid implements GridInfos {
     }
 
     /**
-     * Function to use when you want to build a road. Combine addRoad() with updateRoad()
+     * Place a road & update cells around it
      * @param cell the cell where you want to add a new road
      */
-    public void roadBuilder(Cell cell){
+    private void roadBuilder(Cell cell){
         /**
          * . p .
          * p o p
@@ -521,8 +504,29 @@ public class Grid implements GridInfos {
         if (this.isCellValid(cell.getPos_x() - 1, cell.getPos_y())) placeRoad(cell.getPos_x()-1, cell.getPos_y(), true);
         if (this.isCellValid(cell.getPos_x() + 1, cell.getPos_y())) placeRoad(cell.getPos_x()+1, cell.getPos_y(), true);
         if (this.isCellValid(cell.getPos_x(), cell.getPos_y() + 1)) placeRoad(cell.getPos_x(), cell.getPos_y()+1, true);
+    }
 
-        this.refreshLayers();
+    /**
+     * Place a building only if there is a road next to it
+     * @param cell where the building is placed
+     * @param buildingType what kind of building it is
+     */
+    private void buildingBuilder(Cell cell, buildingLayer buildingType) {
+        /**
+         * . p .
+         * p o p
+         * . p .
+         */
+        if (
+            cell.getCurrentBuildingLayer() == buildingLayer.NONE && (
+                this.isCellValid(cell.getPos_x(), cell.getPos_y() - 1) && this.isBuildingLayerRoad(this.getCell(cell.getPos_x(), cell.getPos_y() - 1).getCurrentBuildingLayer()) ||
+                this.isCellValid(cell.getPos_x(), cell.getPos_y() + 1) && this.isBuildingLayerRoad(this.getCell(cell.getPos_x(), cell.getPos_y() + 1).getCurrentBuildingLayer()) ||
+                this.isCellValid(cell.getPos_x() - 1, cell.getPos_y()) && this.isBuildingLayerRoad(this.getCell(cell.getPos_x() - 1, cell.getPos_y()).getCurrentBuildingLayer()) ||
+                this.isCellValid(cell.getPos_x() + 1, cell.getPos_y()) && this.isBuildingLayerRoad(this.getCell(cell.getPos_x() + 1, cell.getPos_y()).getCurrentBuildingLayer())
+            )
+        ) {
+            cell.setCurrentBuildingLayer(buildingType);
+        }
     }
 
     /**
