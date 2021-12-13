@@ -85,7 +85,7 @@ public class GameController {
                 this.pauseGame();
                 break;
             case SPACE: // todo: find why it doesn't work
-                this.pauseTime();
+                this.pauseTime(false);
                 break;
             default:
                 break;
@@ -107,11 +107,11 @@ public class GameController {
     private void pauseGame() {
         this.isPauseMenuOpen = !this.isPauseMenuOpen;
         this.pauseMenu.setVisible(this.isPauseMenuOpen);
-        this.pauseTime();
+        this.pauseTime(true);
     }
 
-    private void pauseTime() {
-        if (this.clock.isTicking()) {
+    private void pauseTime(boolean forcePause) {
+        if (this.clock.isTicking() || forcePause) {
             this.pauseGameBtn.setGraphic(this.playImgView);
             // Deprecated method but used in lesson
             this.clock.suspend();
@@ -132,7 +132,7 @@ public class GameController {
      */
     @FXML
     void pauseGameAction(ActionEvent event) throws InterruptedException {
-        this.pauseTime();
+        this.pauseTime(false);
     }
 
     /**
