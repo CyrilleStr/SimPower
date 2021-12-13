@@ -23,8 +23,6 @@ public class GameController {
     private Grid grid;
     private Game game;
     private Clock clock;
-    private int clockSpeeds[];
-    private int clockSpeedNumber;
     private ImageView pauseImgView;
     private ImageView playImgView;
     private boolean isTabPaneOpen = false;
@@ -64,8 +62,6 @@ public class GameController {
 
         this.clock = new Clock(grid, clockLabel);
         this.clock.start();
-        this.clockSpeeds = new int[]{1,4,7,10,100};
-        this.clockSpeedNumber = 0;
 
         this.pauseImgView = new ImageView(new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/pause.png"));
         this.playImgView = new ImageView(new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/play.png"));
@@ -136,15 +132,13 @@ public class GameController {
     }
 
     /**
-     * Change the clock speed on user action (x1, x2, x5, x10)
+     * Change the clock speed on user action
      * @param event
      */
     @FXML
     void changeClockSpeedAction(ActionEvent event) {
-        this.clockSpeedNumber++;
-        if (this.clockSpeedNumber > this.clockSpeeds.length - 1) this.clockSpeedNumber = 0;
-        this.changeClockSpeedBtn.setText("x"+this.clockSpeeds[this.clockSpeedNumber]);
-        this.clock.setSpeed(this.clockSpeeds[this.clockSpeedNumber]);
+        this.clock.nextSpeed();
+        this.changeClockSpeedBtn.setText("✕" + this.clock.getSpeed());
     }
 
     @FXML

@@ -266,7 +266,7 @@
                   <Tooltip text="Pause the time" />
                </tooltip>
             </Button>
-            <Button fx:id="changeClockSpeedBtn" mnemonicParsing="false" onAction="#changeClockSpeedAction" prefHeight="36.0" prefWidth="51.0" text="x1" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+            <Button fx:id="changeClockSpeedBtn" mnemonicParsing="false" onAction="#changeClockSpeedAction" prefHeight="36.0" prefWidth="51.0" text="✕1" GridPane.columnIndex="2" GridPane.halignment="LEFT">
                <font>
                   <Font name="Leelawadee UI" size="16.0" />
                </font>
