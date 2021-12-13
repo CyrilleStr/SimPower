@@ -25,8 +25,6 @@ public class GameController {
     private Grid grid;
     private Game game;
     private Clock clock;
-    private int clockSpeeds[];
-    private int clockSpeedNumber;
     private ImageView pauseImgView;
     private ImageView playImgView;
     private boolean isTabPaneOpen = false;
@@ -68,8 +66,6 @@ public class GameController {
 
         this.clock = new Clock(grid, clockLabel);
         this.clock.start();
-        this.clockSpeeds = new int[]{1,4,7,10,100};
-        this.clockSpeedNumber = 0;
 
         this.pauseImgView = new ImageView(new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/pause.png"));
         this.playImgView = new ImageView(new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/play.png"));
@@ -80,6 +76,7 @@ public class GameController {
         this.pauseImgView.setFitHeight(25);
 
         this.game = new Game(grid, clock);
+        this.game.start();
     }
 
     @FXML
@@ -89,7 +86,7 @@ public class GameController {
                 this.pauseGame();
                 break;
             case SPACE: // todo: find why it doesn't work
-                this.pauseTime();
+                this.pauseTime(false);
                 break;
             default:
                 break;
@@ -99,6 +96,10 @@ public class GameController {
     @FXML
     void quitGame(ActionEvent event) throws IOException {
         // TODO implement a quitGame button
+
+        this.game.stop();
+        this.clock.stop();
+
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/main.fxml"));
         changeClockSpeedBtn.getScene().setRoot(fxmlLoader.load()); // getting root scene using element of that scene :)
     }
@@ -111,11 +112,11 @@ public class GameController {
     private void pauseGame() {
         this.isPauseMenuOpen = !this.isPauseMenuOpen;
         this.pauseMenu.setVisible(this.isPauseMenuOpen);
-        this.pauseTime();
+        this.pauseTime(true);
     }
 
-    private void pauseTime() {
-        if (this.clock.isTicking()) {
+    private void pauseTime(boolean forcePause) {
+        if (this.clock.isTicking() || forcePause) {
             this.pauseGameBtn.setGraphic(this.playImgView);
             // Deprecated method but used in lesson
             this.clock.suspend();
@@ -136,20 +137,17 @@ public class GameController {
      */
     @FXML
     void pauseGameAction(ActionEvent event) throws InterruptedException {
-        this.pauseTime();
+        this.pauseTime(false);
     }
 
     /**
-     * Change the clock speed on user action (x1, x4, x7, x10, x100)
-     *
+     * Change the clock speed on user action
      * @param event
      */
     @FXML
     void changeClockSpeedAction(ActionEvent event) {
-        this.clockSpeedNumber++;
-        if (this.clockSpeedNumber > this.clockSpeeds.length - 1) this.clockSpeedNumber = 0;
-        this.changeClockSpeedBtn.setText("x"+this.clockSpeeds[this.clockSpeedNumber]);
-        this.clock.setSpeed(this.clockSpeeds[this.clockSpeedNumber]);
+        this.clock.nextSpeed();
+        this.changeClockSpeedBtn.setText("✕" + this.clock.getSpeed());
     }
 
     /**
