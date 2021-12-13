@@ -75,7 +75,7 @@ public class Clock extends Thread {
         ) this.switchLight();
     }
 
-    public void run(){
+    public void run() {
         try {
             this.setTicking(true);
             while (true) {

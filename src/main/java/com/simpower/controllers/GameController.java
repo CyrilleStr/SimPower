@@ -72,6 +72,7 @@ public class GameController {
         this.pauseImgView.setFitHeight(25);
 
         this.game = new Game(grid, clock);
+        this.game.start();
     }
 
     @FXML
@@ -91,6 +92,10 @@ public class GameController {
     @FXML
     void quitGame(ActionEvent event) throws IOException {
         // TODO implement a quitGame button
+
+        this.game.stop();
+        this.clock.stop();
+
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/main.fxml"));
         changeClockSpeedBtn.getScene().setRoot(fxmlLoader.load()); // getting root scene using element of that scene :)
     }
