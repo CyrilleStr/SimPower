@@ -12,12 +12,14 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javafx.scene.input.MouseEvent;
 
 public class GameController {
     private Grid grid;
@@ -27,6 +29,7 @@ public class GameController {
     private ImageView playImgView;
     private boolean isTabPaneOpen = false;
     private boolean isPauseMenuOpen = false;
+    private Map<String, buildingLayer> stringToBuildingLayerMap = new HashMap<>();
     private buildingLayer buildingType = buildingLayer.NONE;
 
     @FXML private GridPane pauseMenu;
@@ -58,6 +61,7 @@ public class GameController {
      */
     @FXML
     public void initialize(){
+        this.loadData();
         this.grid = new Grid(gridContainer, infoLabel, buildingType);
 
         this.clock = new Clock(grid, clockLabel);
@@ -146,24 +150,24 @@ public class GameController {
         this.changeClockSpeedBtn.setText("✕" + this.clock.getSpeed());
     }
 
+    /**
+     * Call the grid method to set a given building (the building layer type is store in the id)
+     *
+     * @param event
+     */
     @FXML
-    void setHouseAsBuildingAction() {
-        this.grid.setBuildingAction(buildingLayer.HOUSE);
+    void setBuildingAction(MouseEvent event) {
+        this.grid.setBuilding(this.stringToBuildingLayerMap.get(((ImageView) event.getSource()).getId()));
     }
 
+    /**
+     * Call the grid to delete a given building
+     *
+     * @param event
+     */
     @FXML
-    void setWorkingBuildAsBuildingAction() {
-        this.grid.setBuildingAction(buildingLayer.WORKING_BUILDING);
-    }
-
-    @FXML
-    void setRoadAsBuildingAction(){
-        this.grid.setBuildingAction(buildingLayer.ROAD);
-    }
-
-    @FXML
-    void setDeleteAsBuildingAction(ActionEvent event) {
-        this.grid.setBuildingAction(buildingLayer.NONE);
+    void deleteBuildingAction(ActionEvent event) {
+        this.grid.setBuilding(buildingLayer.NONE);
     }
 
     private void swapTabPane() {
@@ -179,5 +183,11 @@ public class GameController {
     @FXML
     void showGridResources(ActionEvent event) {
         this.grid.showResources();
+    }
+
+    void loadData(){
+        this.stringToBuildingLayerMap.put("roadBtn",buildingLayer.ROAD);
+        this.stringToBuildingLayerMap.put("houseBtn",buildingLayer.HOUSE);
+        this.stringToBuildingLayerMap.put("workingBuildingBtn",buildingLayer.WORKING_BUILDING);
     }
 }

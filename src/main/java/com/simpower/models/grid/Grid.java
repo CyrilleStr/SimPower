@@ -8,16 +8,12 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Grid implements GridInfos {
     private Cell[][] cells;
     private Label infoLabel;
     private GridPane gridContainer;
     private String buildingToDrop;
     private buildingLayer buildingAction;
-    private Map<String, buildingLayer> stringTopLayerMap = new HashMap<>();
     private boolean resourcesShown = false;
 
     /**
@@ -197,9 +193,10 @@ public class Grid implements GridInfos {
         this.refreshLayers();
     }
 
-    public void setBuildingAction(buildingLayer b){
+    public void setBuilding(buildingLayer b){
         this.buildingAction = b;
     }
+
     public buildingLayer getBuildingAction() { return this.buildingAction; }
 
     /**
