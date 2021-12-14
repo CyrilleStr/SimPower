@@ -8,6 +8,9 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Grid implements GridInfos {
     private Cell[][] cells;
     private Label infoLabel;
@@ -15,6 +18,7 @@ public class Grid implements GridInfos {
     private String buildingToDrop;
     private buildingLayer buildingAction;
     private boolean resourcesShown = false;
+    private Map<buildingLayer,resourceLayer> buildingLayerToResourceLayerMap = new HashMap<>();
 
     /**
      * Instance a Grid, add the resource layer, add the top layer and show the top layer
@@ -175,6 +179,17 @@ public class Grid implements GridInfos {
             case HOUSE:
                 this.lookAround("placeBuilding", x, y);
                 break;
+            case COAL_MINE:
+            case OIL_MINE:
+            case GAS_MINE:
+            case URANIUM_MINE:
+                if(this.checkMineRessource(this.getCell(x, y), this.buildingAction)){
+                    this.lookAround("placeBuilding",x,y);
+                }else{
+                    //message d'erreur
+                }
+
+                break;
             case NONE:
                 break;
         }
@@ -303,6 +318,10 @@ public class Grid implements GridInfos {
         this.buildingLayerImages.put(buildingLayer.ROAD_EAST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_east.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_SOUTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_south.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_WEST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_west.png"));
+        this.buildingLayerImages.put(buildingLayer.COAL_MINE, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/mines/coalmine.png"));
+        this.buildingLayerImages.put(buildingLayer.OIL_MINE, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/mines/oilmine.png"));
+        this.buildingLayerImages.put(buildingLayer.GAS_MINE, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/mines/gasmine.png"));
+        this.buildingLayerImages.put(buildingLayer.URANIUM_MINE, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/mines/uraniummine.png"));
 
         // -- houses & working building
         this.buildingLayerImages.put(buildingLayer.HOUSE, new Image("file:src/main/resources/com/simpower/assets/textures/buildings/houses/level_1/a.png"));
@@ -315,6 +334,12 @@ public class Grid implements GridInfos {
         this.resourceLayerImages.put(resourceLayer.URANIUM, new Image("file:src/main/resources/com/simpower/assets/textures/resources/uranium.png"));
         this.resourceLayerImages.put(resourceLayer.GAS, new Image("file:src/main/resources/com/simpower/assets/textures/resources/gas.png"));
         this.resourceLayerImages.put(resourceLayer.RIVER, new Image("file:src/main/resources/com/simpower/assets/textures/tile/water.jpg"));
+
+        /* Link resource layer to building layer */
+        buildingLayerToResourceLayerMap.put(buildingLayer.COAL_MINE,resourceLayer.COAL);
+        buildingLayerToResourceLayerMap.put(buildingLayer.GAS_MINE,resourceLayer.GAS);
+        buildingLayerToResourceLayerMap.put(buildingLayer.URANIUM_MINE,resourceLayer.URANIUM);
+        buildingLayerToResourceLayerMap.put(buildingLayer.OIL_MINE,resourceLayer.OIL);
     }
 
     /**
@@ -327,6 +352,7 @@ public class Grid implements GridInfos {
      */
     void spreadResource(int spread_value, resourceLayer resourceType, int x, int y){
         int tmp_x, tmp_y;
+        int iterations =0;
         for (int i = 0; i<spread_value; i++) {
             do {
                 do {
@@ -348,8 +374,13 @@ public class Grid implements GridInfos {
                             break;
                     }
                 } while ((0 > tmp_x) || (tmp_x > (NB_CELLS_WIDTH-1) ) || (0>tmp_y) || (tmp_y > (NB_CELLS_HEIGHT-1) ) );
-            } while ((cells[tmp_x][tmp_y].getCurrentTopLayer() != topLayer.NONE) || (cells[tmp_x][tmp_y].getCurrentResourceLayer() != resourceLayer.NONE));
 
+                iterations++;
+                if(iterations > spread_value+20){
+                    return;
+                }
+
+            } while ((cells[tmp_x][tmp_y].getCurrentTopLayer() != topLayer.NONE) || (cells[tmp_x][tmp_y].getCurrentResourceLayer() != resourceLayer.NONE));
             x = tmp_x;
             y = tmp_y;
             cells[x][y].setCurrentResourceLayer(resourceType);
@@ -539,6 +570,10 @@ public class Grid implements GridInfos {
                     break;
             }
         }
+    }
+
+    private boolean checkMineRessource (Cell cell, buildingLayer buildingType){
+        return (cell.getCurrentResourceLayer() == this.buildingLayerToResourceLayerMap.get(buildingType));
     }
 
     /**

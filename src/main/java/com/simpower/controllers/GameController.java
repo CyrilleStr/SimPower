@@ -152,7 +152,7 @@ public class GameController {
     }
 
     /**
-     * Call the grid method to set a given building (the building layer type is store in the id)
+     * Call the grid method to set a given building (the building layer type is stored in the id)
      *
      * @param event
      */
@@ -190,5 +190,10 @@ public class GameController {
         this.stringToBuildingLayerMap.put("roadBtn",buildingLayer.ROAD);
         this.stringToBuildingLayerMap.put("houseBtn",buildingLayer.HOUSE);
         this.stringToBuildingLayerMap.put("workingBuildingBtn",buildingLayer.WORKING_BUILDING);
+        this.stringToBuildingLayerMap.put("CoalMineBtn", buildingLayer.COAL_MINE);
+        this.stringToBuildingLayerMap.put("OilMineBtn", buildingLayer.OIL_MINE);
+        this.stringToBuildingLayerMap.put("GasMineBtn", buildingLayer.GAS_MINE);
+        this.stringToBuildingLayerMap.put("UraniumMineBtn", buildingLayer.URANIUM_MINE);
+
     }
 }
