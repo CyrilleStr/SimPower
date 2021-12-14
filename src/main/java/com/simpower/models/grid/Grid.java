@@ -184,7 +184,7 @@ public class Grid implements GridInfos {
             case GAS_MINE:
             case URANIUM_MINE:
                 if(this.checkMineRessource(this.getCell(x, y), this.buildingAction)){
-                    this.buildingBuilder(this.getCell(x,y), this.buildingAction);
+                    this.lookAround("placeBuilding",x,y);
                 }else{
                     //message d'erreur
                 }
