@@ -1,9 +1,9 @@
 package com.simpower.models.grid.buildings.generators;
 
-import com.simpower.models.grid.buildings.Generator;
+import com.simpower.models.grid.buildings.ProducerEnergyBuilding;
 
-public class WindGenerator extends Generator {
-    public WindGenerator() {
-        super(25, true, "Wind turbine", 15, 1, 0, 2500);
+public class WindGenerator extends ProducerEnergyBuilding {
+    public WindGenerator(int servicingCost, int pollutionRadius, int production) {
+        super(servicingCost,pollutionRadius,production);
     }
 }

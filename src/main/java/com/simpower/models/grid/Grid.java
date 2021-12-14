@@ -77,20 +77,19 @@ public class Grid implements GridInfos {
      * Draw circle of river
      * Rosetta Code implementation
      */
-    private void drawRiver(int cx, int cy, int r) {
-        int d = (5 - r * 4) / 4;
+    private void drawRiver(int cx, int cy, int r) {        int d = (5 - r * 4) / 4;
         int x = 0;
         int y = r;
 
         do {
-            try { this.cells[cx + x][cy + y].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx + x][cy - y].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx - x][cy + y].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx - x][cy - y].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx + y][cy + x].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx + y][cy - x].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx - y][cy + x].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx - y][cy - x].setCurrentTopLayer(topLayer.RIVER); } catch (Throwable e) {}
+            try { this.cells[cx + x][cy + y].setCurrentTopLayer(topLayer.RIVER); this.cells[cx + x][cy + y].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
+            try { this.cells[cx + x][cy - y].setCurrentTopLayer(topLayer.RIVER); this.cells[cx + x][cy - y].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
+            try { this.cells[cx - x][cy + y].setCurrentTopLayer(topLayer.RIVER); this.cells[cx - x][cy + y].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
+            try { this.cells[cx - x][cy - y].setCurrentTopLayer(topLayer.RIVER); this.cells[cx - x][cy - y].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
+            try { this.cells[cx + y][cy + x].setCurrentTopLayer(topLayer.RIVER); this.cells[cx + y][cy + x].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
+            try { this.cells[cx + y][cy - x].setCurrentTopLayer(topLayer.RIVER); this.cells[cx + y][cy - x].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
+            try { this.cells[cx - y][cy + x].setCurrentTopLayer(topLayer.RIVER); this.cells[cx - y][cy + x].setCurrentResourceLayer(resourceLayer.RIVER);  } catch (Throwable e) {}
+            try { this.cells[cx - y][cy - x].setCurrentTopLayer(topLayer.RIVER); this.cells[cx - y][cy - x].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
 
             if (d < 0) d += 2 * x + 1;
             else {
@@ -106,6 +105,7 @@ public class Grid implements GridInfos {
 
         // filling empty spot
         this.cells[cx][cy].setCurrentTopLayer(topLayer.RIVER);
+        this.cells[cx][cy].setCurrentResourceLayer(resourceLayer.RIVER);
     }
 
     /**
@@ -314,10 +314,12 @@ public class Grid implements GridInfos {
         this.resourceLayerImages.put(resourceLayer.OIL, new Image("file:src/main/resources/com/simpower/assets/textures/resources/oil.png"));
         this.resourceLayerImages.put(resourceLayer.URANIUM, new Image("file:src/main/resources/com/simpower/assets/textures/resources/uranium.png"));
         this.resourceLayerImages.put(resourceLayer.GAS, new Image("file:src/main/resources/com/simpower/assets/textures/resources/gas.png"));
+        this.resourceLayerImages.put(resourceLayer.RIVER, new Image("file:src/main/resources/com/simpower/assets/textures/tile/water.jpg"));
     }
 
     /**
      * Add resources randomly next to the original cell
+     *
      * @param spread_value the number of resources to spawn (included)
      * @param resourceType the type of resource to spawn (included)
      * @param x,y the coordinates of the original cell (included)
