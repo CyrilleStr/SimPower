@@ -1,16 +1,18 @@
 package com.simpower.models.grid.buildings;
 
-public class Mine extends WorkingBuilding {
+public class Mine extends ConsumerEnergyBuilding {
     private float productionRate;
 
-    public Mine(float prodP, String NameN, int serviceS, int levelL, int polluR, int buildingC) {
-
-        super(NameN, serviceS, levelL, polluR, buildingC);
-
-        setProductionRate(prodP);
+    public Mine(int servicingCost, int buildingCost,int consumeEnergy) {
+        super(servicingCost, buildingCost, consumeEnergy);
+        setProductionRate(1);
     }
 
-    public void setProductionRate(float prodP){
-        this.productionRate = prodP;
+    public void setProductionRate(float productionRate) {
+        this.productionRate = productionRate;
+    }
+
+    public float getProductionRate() {
+        return productionRate;
     }
 }

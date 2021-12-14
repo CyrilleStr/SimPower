@@ -27,7 +27,8 @@ public interface GridInfos {
         OIL,
         GAS,
         URANIUM,
-        COAL
+        COAL,
+        RIVER
     }
 
     enum buildingLayer {
