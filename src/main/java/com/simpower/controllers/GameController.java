@@ -5,6 +5,7 @@ import com.simpower.models.Game;
 import com.simpower.models.grid.Grid;
 import com.simpower.models.grid.GridInfos.buildingLayer;
 import com.simpower.models.time.Clock;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
