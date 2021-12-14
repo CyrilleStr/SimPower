@@ -1,18 +1,29 @@
 package com.simpower.models.grid.buildings;
 
-public class FossileGenerator extends Generator {
-    private int consumption;
+public class FossileGenerator extends ProducerEnergyBuilding {
 
-    public FossileGenerator(int consumptionC, int prodP, boolean activeN, String NameN, int serviceS, int levelL, int polluR, int buildingC) {
-        super(prodP, activeN, NameN, serviceS, levelL, polluR, buildingC);
-        setConsumption(consumptionC);
+    protected int resourceConsumption;
+    protected int pollutionRadius;
+
+    public FossileGenerator(int servicingCost, int buildingCost, int production, int resourceConsumption, int pollutionRadius) {
+        super(servicingCost,buildingCost,production);
+        setResourceConsumption(resourceConsumption);
+        setPollutionRadius(pollutionRadius);
     }
 
-    public void setConsumption(int consumptionC){
-        this.consumption = consumptionC;
+    public void setResourceConsumption(int consumptionC){
+        this.resourceConsumption = consumptionC;
     }
 
-    public void upgradeConsumption() {
+    public int getResourceConsumption() {
+        return resourceConsumption;
+    }
 
+    public void setPollutionRadius(int polluR){
+        this.pollutionRadius = polluR;
+    }
+
+    public int getPollutionRadius() {
+        return pollutionRadius;
     }
 }

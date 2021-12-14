@@ -1,33 +1,38 @@
 package com.simpower.models.grid.buildings;
 
-import com.simpower.models.Happiness;
+public class House extends ConsumerEnergyBuilding {
+    private int inhabitant;
+    private int inhabitantCapacity;
+    private int happiness;
 
-public class House extends Buildings {
-    private int level = 1;
-    private int citizens = 1;
-    private Happiness happiness;
-
-    public House(){
-        super("House");
-        happiness.setHappinessLevel(100);
-        level = 1;
-        citizens = 1;
+    public House(int servicingCost, int buildingCost,int consumeEnergy){
+        super(servicingCost, buildingCost, consumeEnergy);
+        setHappiness(100);
+        setInhabitant(1);
+        setInhabitantCapacity(5);
     }
 
-    public void setLevel(int levelL){
-        this.level = levelL;
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
     }
 
-    public void setCitizens(int citizensC){
-        this.citizens = citizensC;
+    public int getHappiness() {
+        return happiness;
     }
 
-    public int getCitizens() {
-        return this.citizens;
+    public void setInhabitant(int inhabitant) {
+        this.inhabitant = inhabitant;
     }
 
-    public int getLevel() {
-        return this.level;
+    public int getInhabitant() {
+        return inhabitant;
     }
 
+    public int getInhabitantCapacity() {
+        return inhabitantCapacity;
+    }
+
+    public void setInhabitantCapacity(int inhabitantCapacity) {
+        this.inhabitantCapacity = inhabitantCapacity;
+    }
 }

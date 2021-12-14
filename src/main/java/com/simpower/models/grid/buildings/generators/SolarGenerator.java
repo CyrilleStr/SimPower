@@ -1,9 +1,10 @@
 package com.simpower.models.grid.buildings.generators;
 
-import com.simpower.models.grid.buildings.Generator;
+import com.simpower.models.grid.buildings.ProducerEnergyBuilding;
 
-public class SolarGenerator extends Generator {
-    public SolarGenerator() {
-        super(20, false, "Solar pannel", 20, 1, 0, 1500);
+public class SolarGenerator extends ProducerEnergyBuilding {
+    public SolarGenerator(int servicingCost, int pollutionRadius, int production) {
+        super(servicingCost,pollutionRadius,production);
     }
+
 }
