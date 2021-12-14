@@ -4,7 +4,9 @@ public class Mine extends WorkingBuilding {
     private float productionRate;
 
     public Mine(float prodP, String NameN, int serviceS, int levelL, int polluR, int buildingC) {
+
         super(NameN, serviceS, levelL, polluR, buildingC);
+
         setProductionRate(prodP);
     }
 

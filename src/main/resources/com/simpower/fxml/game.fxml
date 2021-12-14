@@ -290,7 +290,7 @@
             <Tooltip text="Debug information" />
          </tooltip>
       </Label>
-      <TabPane fx:id="tabPane" prefHeight="108.0" prefWidth="507.0" style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE" visible="false" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="2">
+      <TabPane fx:id="tabPane" prefHeight="108.0" prefWidth="507.0" style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="2">
         <tabs>
           <Tab styleClass="button-delete" text="House">
             <content>
@@ -324,7 +324,48 @@
           </Tab>
             <Tab styleClass="button-delete" text="Mines">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="background-lighter" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="background-lighter">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="81.0" prefWidth="648.0">
+                           <children>
+                              <ImageView fx:id="CoalMineBtn" fitHeight="64.0" fitWidth="64.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/textures/buildings/mines/coalmine.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <ImageView fx:id="OilMineBtn" fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/textures/buildings/mines/oilmine.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <ImageView fx:id="GasMineBtn" fitHeight="64.0" fitWidth="64.0" layoutX="89.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/textures/buildings/mines/gasmine.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <ImageView fx:id="UraniumMineBtn" fitHeight="64.0" fitWidth="64.0" layoutX="153.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/textures/buildings/mines/uraniummine.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </HBox>
+                     </children></AnchorPane>
                </content>
             </Tab>
             <Tab styleClass="button-delete" text="Plants">
