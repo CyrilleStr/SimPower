@@ -364,6 +364,7 @@ public class Grid implements GridInfos {
      */
     void spreadResource(int spread_value, resourceLayer resourceType, int x, int y){
         int tmp_x, tmp_y;
+        int iterations =0;
         for (int i = 0; i<spread_value; i++) {
             do {
                 do {
@@ -385,8 +386,13 @@ public class Grid implements GridInfos {
                             break;
                     }
                 } while ((0 > tmp_x) || (tmp_x > (NB_CELLS_WIDTH-1) ) || (0>tmp_y) || (tmp_y > (NB_CELLS_HEIGHT-1) ) );
-            } while ((cells[tmp_x][tmp_y].getCurrentTopLayer() != topLayer.NONE) || (cells[tmp_x][tmp_y].getCurrentResourceLayer() != resourceLayer.NONE));
 
+                iterations++;
+                if(iterations > spread_value+20){
+                    return;
+                }
+
+            } while ((cells[tmp_x][tmp_y].getCurrentTopLayer() != topLayer.NONE) || (cells[tmp_x][tmp_y].getCurrentResourceLayer() != resourceLayer.NONE));
             x = tmp_x;
             y = tmp_y;
             cells[x][y].setCurrentResourceLayer(resourceType);
