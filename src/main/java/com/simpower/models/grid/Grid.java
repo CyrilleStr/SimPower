@@ -75,6 +75,8 @@ public class Grid implements GridInfos {
 
         /* Generating nb € [1,3] river(s) */
         for (int nb = 0; nb < this.generateRandomInt(1, 3); nb++) this.generateRiver();
+
+        this.cells[NB_CELLS_WIDTH/2][0].setCurrentBuildingLayer(buildingLayer.ROAD_START);
     }
 
     /**
@@ -303,6 +305,7 @@ public class Grid implements GridInfos {
         /* Building Layer */
         // -- roads
         this.buildingLayerImages.put(buildingLayer.ROAD, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_START, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_east_south_west.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_SOUTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_south.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_WEST_EAST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_west_east.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_EAST_SOUTH_WEST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_east_south_west.png"));
@@ -434,24 +437,25 @@ public class Grid implements GridInfos {
     private boolean isBuildingLayerRoad(buildingLayer layer) {
         switch (layer) {
             case ROAD,
-                    ROAD_NORTH_SOUTH,
-                    ROAD_WEST_EAST,
-                    ROAD_NORTH_EAST_SOUTH_WEST,
-                    ROAD_NORTH_EAST,
-                    ROAD_EAST_SOUTH,
-                    ROAD_SOUTH_WEST,
-                    ROAD_WEST_NORTH,
-                    ROAD_NORTH_EAST_SOUTH,
-                    ROAD_EAST_SOUTH_WEST,
-                    ROAD_SOUTH_WEST_NORTH,
-                    ROAD_WEST_NORTH_EAST,
-                    ROAD_NORTH,
-                    ROAD_EAST,
-                    ROAD_SOUTH,
-                    ROAD_WEST:
-                return true;
-            default:
-                return false;
+                ROAD_START,
+                ROAD_NORTH_SOUTH,
+                ROAD_WEST_EAST,
+                ROAD_NORTH_EAST_SOUTH_WEST,
+                ROAD_NORTH_EAST,
+                ROAD_EAST_SOUTH,
+                ROAD_SOUTH_WEST,
+                ROAD_WEST_NORTH,
+                ROAD_NORTH_EAST_SOUTH,
+                ROAD_EAST_SOUTH_WEST,
+                ROAD_SOUTH_WEST_NORTH,
+                ROAD_WEST_NORTH_EAST,
+                ROAD_NORTH,
+                ROAD_EAST,
+                ROAD_SOUTH,
+                ROAD_WEST :
+            return true;
+        default:
+            return false;
         }
     }
 
@@ -543,7 +547,7 @@ public class Grid implements GridInfos {
      */
     private void lookAround(String operation, int cx, int cy) {
         // center cell first
-        if (this.isCellValid(cx, cy)) switch (operation) {
+        if (this.isCellValid(cx, cy) && this.getCell(cx, cy).getCurrentBuildingLayer() != buildingLayer.ROAD_START) switch (operation) {
             case "placeRoad":
                 this.placeRoad(cx, cy, false);
                 break;
@@ -556,7 +560,7 @@ public class Grid implements GridInfos {
          * -1 1, 0 1, 1 1
          */
         for (int x : new int[]{-1, 0, 1}) for (int y : new int[]{-1, 0, 1}) {
-            if (this.isCellValid(cx + x, cy + y)) switch (operation) {
+            if (this.isCellValid(cx + x, cy + y) && this.getCell(cx + x, cy + y).getCurrentBuildingLayer() != buildingLayer.ROAD_START) switch (operation) {
                 case "placeRoad":
                     this.placeRoad(cx + x, cy + y, true);
                     break;
