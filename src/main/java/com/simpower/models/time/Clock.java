@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 public class Clock extends Thread {
     private double time; //  1 unit time = 1 Minute = 1 for loop run
     private LocalDateTime dateTime;
-    private boolean infiniteDay = false;
+    private boolean infiniteDay = true;
     private int speeds[] = new int[]{1,4,7,10,100};
     private int speedIndex = 0;
     private int speed;
