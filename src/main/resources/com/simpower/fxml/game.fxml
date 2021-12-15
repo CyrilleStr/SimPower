@@ -103,7 +103,7 @@
                         <Image url="@../assets/textures/hotbar/uranium.png" />
                      </image>
                   </ImageView>
-                  <Label prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 T" textFill="WHITE">
+                  <Label fx:id="uraniumLabel" prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 T" textFill="WHITE">
                      <font>
                         <Font name="Leelawadee UI" size="16.0" />
                      </font>
@@ -126,7 +126,7 @@
                         <Image url="@../assets/textures/hotbar/gas.png" />
                      </image>
                   </ImageView>
-                  <Label prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 L" textFill="WHITE">
+                  <Label fx:id="gazLabel" prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 L" textFill="WHITE">
                      <font>
                         <Font name="Leelawadee UI" size="16.0" />
                      </font>
@@ -146,7 +146,7 @@
                         <Image url="@../assets/textures/hotbar/oil.png" />
                      </image>
                   </ImageView>
-                  <Label prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 L" textFill="WHITE">
+                  <Label fx:id="oilLabel" prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 L" textFill="WHITE">
                      <font>
                         <Font name="Leelawadee UI" size="16.0" />
                      </font>
@@ -166,7 +166,7 @@
                         <Image url="@../assets/textures/hotbar/coal.png" />
                      </image>
                   </ImageView>
-                  <Label prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 T" textFill="WHITE">
+                  <Label fx:id="coalLabel" prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 T" textFill="WHITE">
                      <font>
                         <Font name="Leelawadee UI" size="16.0" />
                      </font>
@@ -188,7 +188,7 @@
                   <Image url="@../assets/textures/hotbar/bill.png" />
                </image>
             </ImageView>
-            <Label prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 €" textFill="WHITE">
+            <Label fx:id="moneyLabel" prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 €" textFill="WHITE">
                <font>
                   <Font name="Leelawadee UI" size="16.0" />
                </font>

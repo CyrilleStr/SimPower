@@ -232,4 +232,8 @@ public class Clock extends Thread {
     public void setTicking(boolean ticking) {
         this.ticking = ticking;
     }
+
+    public int getDayCount() {
+        return this.dateTime.getDayOfYear();
+    }
 }
