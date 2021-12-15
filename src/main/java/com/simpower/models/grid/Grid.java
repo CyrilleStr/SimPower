@@ -83,19 +83,44 @@ public class Grid implements GridInfos {
      * Draw circle of river
      * Rosetta Code implementation
      */
-    private void drawRiver(int cx, int cy, int r) {        int d = (5 - r * 4) / 4;
+    private void drawRiver(int cx, int cy, int r) {
+        int d = (5 - r * 4) / 4;
         int x = 0;
         int y = r;
 
         do {
-            try { this.cells[cx + x][cy + y].setCurrentTopLayer(topLayer.RIVER); this.cells[cx + x][cy + y].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx + x][cy - y].setCurrentTopLayer(topLayer.RIVER); this.cells[cx + x][cy - y].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx - x][cy + y].setCurrentTopLayer(topLayer.RIVER); this.cells[cx - x][cy + y].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx - x][cy - y].setCurrentTopLayer(topLayer.RIVER); this.cells[cx - x][cy - y].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx + y][cy + x].setCurrentTopLayer(topLayer.RIVER); this.cells[cx + y][cy + x].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx + y][cy - x].setCurrentTopLayer(topLayer.RIVER); this.cells[cx + y][cy - x].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx - y][cy + x].setCurrentTopLayer(topLayer.RIVER); this.cells[cx - y][cy + x].setCurrentResourceLayer(resourceLayer.RIVER);  } catch (Throwable e) {}
-            try { this.cells[cx - y][cy - x].setCurrentTopLayer(topLayer.RIVER); this.cells[cx - y][cy - x].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
+            if (this.isCellExist(cx + x, cy + y)) {
+                this.getCell(cx + x, cy + y).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx + x, cy + y).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
+            if (this.isCellExist(cx + x, cy - y)) {
+                this.getCell(cx + x, cy - y).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx + x, cy - y).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
+            if (this.isCellExist(cx - x, cy + y)) {
+                this.getCell(cx - x, cy + y).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx - x, cy + y).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
+            if (this.isCellExist(cx - x, cy - y)) {
+                this.getCell(cx - x, cy - y).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx - x, cy - y).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
+            if (this.isCellExist(cx + y, cy + x)) {
+                this.getCell(cx + y, cy + x).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx + y, cy + x).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
+            if (this.isCellExist(cx + y, cy - x)) {
+                this.getCell(cx + y, cy - x).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx + y, cy - x).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
+            if (this.isCellExist(cx - y, cy + x)) {
+                this.getCell(cx - y, cy + x).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx - y, cy + x).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
+            if (this.isCellExist(cx - y, cy - x)) {
+                this.getCell(cx - y, cy - x).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx - y, cy - x).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
 
             if (d < 0) d += 2 * x + 1;
             else {
@@ -539,9 +564,8 @@ public class Grid implements GridInfos {
     CellFunction placeRoad = (cells) -> {
         if (cells.length < 2) return;
 
-        if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer())) {
+        if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
             cells[0].setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(cells[0].getPos_x(), cells[0].getPos_y()));
-        }
 
         if (this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
             cells[1].setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(cells[1].getPos_x(), cells[1].getPos_y()));
