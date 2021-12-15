@@ -8,6 +8,9 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Grid implements GridInfos {
     private Cell[][] cells;
     private Label infoLabel;
@@ -15,6 +18,7 @@ public class Grid implements GridInfos {
     private String buildingToDrop;
     private buildingLayer buildingAction;
     private boolean resourcesShown = false;
+    private Map<buildingLayer,resourceLayer> buildingLayerToResourceLayerMap = new HashMap<>();
 
     /**
      * Instance a Grid, add the resource layer, add the top layer and show the top layer
@@ -71,6 +75,8 @@ public class Grid implements GridInfos {
 
         /* Generating nb € [1,3] river(s) */
         for (int nb = 0; nb < this.generateRandomInt(1, 3); nb++) this.generateRiver();
+
+        this.cells[NB_CELLS_WIDTH/2][0].setCurrentBuildingLayer(buildingLayer.ROAD_START);
     }
 
     /**
@@ -173,7 +179,21 @@ public class Grid implements GridInfos {
                 break;
             case WORKING_BUILDING:
             case HOUSE:
-                this.lookAroundCell(placeBuilding, cell);
+            case COAL_PLANT:
+            case GAS_PLANT:
+            case OIL_PLANT:
+            case URANIUM_PLANT:
+            case SOLAR_PLANT:
+            case WIND_PLANT:
+            case WATER_PLANT:
+                this.lookAround(placeBuilding, cell);
+                break;
+            case COAL_MINE:
+            case OIL_MINE:
+            case GAS_MINE:
+            case URANIUM_MINE:
+                if (this.checkMineRessource(cell, this.buildingAction)) this.lookAround(placeBuilding, cell);
+                // todo: else error message : action not possible
                 break;
             case NONE:
                 break;
@@ -288,6 +308,7 @@ public class Grid implements GridInfos {
         /* Building Layer */
         // -- roads
         this.buildingLayerImages.put(buildingLayer.ROAD, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road.png"));
+        this.buildingLayerImages.put(buildingLayer.ROAD_START, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_east_south_west.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_SOUTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_south.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_WEST_EAST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_west_east.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_EAST_SOUTH_WEST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_east_south_west.png"));
@@ -304,6 +325,21 @@ public class Grid implements GridInfos {
         this.buildingLayerImages.put(buildingLayer.ROAD_SOUTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_south.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_WEST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_west.png"));
 
+        // --mines
+        this.buildingLayerImages.put(buildingLayer.COAL_MINE, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/mines/coalmine.png"));
+        this.buildingLayerImages.put(buildingLayer.OIL_MINE, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/mines/oilmine.png"));
+        this.buildingLayerImages.put(buildingLayer.GAS_MINE, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/mines/gasmine.png"));
+        this.buildingLayerImages.put(buildingLayer.URANIUM_MINE, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/mines/uraniummine.png"));
+
+        // --plants
+        this.buildingLayerImages.put(buildingLayer.COAL_PLANT, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/plants/coalplant.png"));
+        this.buildingLayerImages.put(buildingLayer.OIL_PLANT, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/plants/oilplant.png"));
+        this.buildingLayerImages.put(buildingLayer.GAS_PLANT, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/plants/gasplant.png"));
+        this.buildingLayerImages.put(buildingLayer.URANIUM_PLANT, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/plants/uraniumplant.png"));
+        this.buildingLayerImages.put(buildingLayer.SOLAR_PLANT, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/plants/solarplant.png"));
+        this.buildingLayerImages.put(buildingLayer.WIND_PLANT, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/plants/windplant.png"));
+        this.buildingLayerImages.put(buildingLayer.WATER_PLANT, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/plants/waterplant.png"));
+
         // -- houses & working building
         this.buildingLayerImages.put(buildingLayer.HOUSE, new Image("file:src/main/resources/com/simpower/assets/textures/buildings/houses/level_1/a.png"));
         this.buildingLayerImages.put(buildingLayer.WORKING_BUILDING, new Image("file:src/main/resources/com/simpower/assets/textures/buildings/working_building.jpg"));
@@ -315,6 +351,12 @@ public class Grid implements GridInfos {
         this.resourceLayerImages.put(resourceLayer.URANIUM, new Image("file:src/main/resources/com/simpower/assets/textures/resources/uranium.png"));
         this.resourceLayerImages.put(resourceLayer.GAS, new Image("file:src/main/resources/com/simpower/assets/textures/resources/gas.png"));
         this.resourceLayerImages.put(resourceLayer.RIVER, new Image("file:src/main/resources/com/simpower/assets/textures/tile/water.jpg"));
+
+        /* Link resource layer to building layer */
+        buildingLayerToResourceLayerMap.put(buildingLayer.COAL_MINE,resourceLayer.COAL);
+        buildingLayerToResourceLayerMap.put(buildingLayer.GAS_MINE,resourceLayer.GAS);
+        buildingLayerToResourceLayerMap.put(buildingLayer.URANIUM_MINE,resourceLayer.URANIUM);
+        buildingLayerToResourceLayerMap.put(buildingLayer.OIL_MINE,resourceLayer.OIL);
     }
 
     /**
@@ -327,6 +369,7 @@ public class Grid implements GridInfos {
      */
     void spreadResource(int spread_value, resourceLayer resourceType, int x, int y){
         int tmp_x, tmp_y;
+        int iterations =0;
         for (int i = 0; i<spread_value; i++) {
             do {
                 do {
@@ -348,8 +391,13 @@ public class Grid implements GridInfos {
                             break;
                     }
                 } while ((0 > tmp_x) || (tmp_x > (NB_CELLS_WIDTH-1) ) || (0>tmp_y) || (tmp_y > (NB_CELLS_HEIGHT-1) ) );
-            } while ((cells[tmp_x][tmp_y].getCurrentTopLayer() != topLayer.NONE) || (cells[tmp_x][tmp_y].getCurrentResourceLayer() != resourceLayer.NONE));
 
+                iterations++;
+                if(iterations > spread_value+20){
+                    return;
+                }
+
+            } while ((cells[tmp_x][tmp_y].getCurrentTopLayer() != topLayer.NONE) || (cells[tmp_x][tmp_y].getCurrentResourceLayer() != resourceLayer.NONE));
             x = tmp_x;
             y = tmp_y;
             cells[x][y].setCurrentResourceLayer(resourceType);
@@ -402,24 +450,25 @@ public class Grid implements GridInfos {
     private boolean isBuildingLayerRoad(buildingLayer layer) {
         switch (layer) {
             case ROAD,
-                    ROAD_NORTH_SOUTH,
-                    ROAD_WEST_EAST,
-                    ROAD_NORTH_EAST_SOUTH_WEST,
-                    ROAD_NORTH_EAST,
-                    ROAD_EAST_SOUTH,
-                    ROAD_SOUTH_WEST,
-                    ROAD_WEST_NORTH,
-                    ROAD_NORTH_EAST_SOUTH,
-                    ROAD_EAST_SOUTH_WEST,
-                    ROAD_SOUTH_WEST_NORTH,
-                    ROAD_WEST_NORTH_EAST,
-                    ROAD_NORTH,
-                    ROAD_EAST,
-                    ROAD_SOUTH,
-                    ROAD_WEST:
-                return true;
-            default:
-                return false;
+                ROAD_START,
+                ROAD_NORTH_SOUTH,
+                ROAD_WEST_EAST,
+                ROAD_NORTH_EAST_SOUTH_WEST,
+                ROAD_NORTH_EAST,
+                ROAD_EAST_SOUTH,
+                ROAD_SOUTH_WEST,
+                ROAD_WEST_NORTH,
+                ROAD_NORTH_EAST_SOUTH,
+                ROAD_EAST_SOUTH_WEST,
+                ROAD_SOUTH_WEST_NORTH,
+                ROAD_WEST_NORTH_EAST,
+                ROAD_NORTH,
+                ROAD_EAST,
+                ROAD_SOUTH,
+                ROAD_WEST :
+            return true;
+        default:
+            return false;
         }
     }
 
@@ -532,6 +581,10 @@ public class Grid implements GridInfos {
                 function.run(cell, this.getCell(cell.getPos_x() + x, cell.getPos_y() + y));
             }
         }
+    }
+
+    private boolean checkMineRessource (Cell cell, buildingLayer buildingType){
+        return (cell.getCurrentResourceLayer() == this.buildingLayerToResourceLayerMap.get(buildingType));
     }
 
     /**
