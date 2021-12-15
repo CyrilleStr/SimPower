@@ -76,7 +76,7 @@ public class Grid implements GridInfos {
         /* Generating nb € [1,3] river(s) */
         for (int nb = 0; nb < this.generateRandomInt(1, 3); nb++) this.generateRiver();
 
-        this.cells[NB_CELLS_WIDTH/2][0].setCurrentBuildingLayer(buildingLayer.ROAD_START);
+        this.cells[roadStartX][0].setCurrentBuildingLayer(buildingLayer.ROAD_NORTH);
     }
 
     /**
@@ -308,7 +308,6 @@ public class Grid implements GridInfos {
         /* Building Layer */
         // -- roads
         this.buildingLayerImages.put(buildingLayer.ROAD, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road.png"));
-        this.buildingLayerImages.put(buildingLayer.ROAD_START, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_east_south_west.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_SOUTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_south.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_WEST_EAST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_west_east.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_EAST_SOUTH_WEST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_east_south_west.png"));
@@ -451,7 +450,6 @@ public class Grid implements GridInfos {
     private boolean isBuildingLayerRoad(buildingLayer layer) {
         switch (layer) {
             case ROAD,
-                ROAD_START,
                 ROAD_NORTH_SOUTH,
                 ROAD_WEST_EAST,
                 ROAD_NORTH_EAST_SOUTH_WEST,
@@ -491,7 +489,7 @@ public class Grid implements GridInfos {
          * x-1  c  x+1
          *  .  y+1  .
          */
-        if (isCellExist(x, y - 1) && isBuildingLayerRoad(this.getCell(x, y - 1).getCurrentBuildingLayer())) {
+        if ((isCellExist(x, y - 1) && isBuildingLayerRoad(this.getCell(x, y - 1).getCurrentBuildingLayer())) || (x == roadStartX && y == 0)) {
             neighboor++;
             north = true;
         }
