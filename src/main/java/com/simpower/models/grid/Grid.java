@@ -1,5 +1,12 @@
 package com.simpower.models.grid;
 
+import com.simpower.models.grid.buildings.Building;
+import com.simpower.models.grid.buildings.House;
+import com.simpower.models.grid.buildings.mines.CoalMine;
+import com.simpower.models.grid.buildings.mines.GasMine;
+import com.simpower.models.grid.buildings.mines.OilMine;
+import com.simpower.models.grid.buildings.mines.UraniumMine;
+import com.simpower.models.grid.buildings.plants.*;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -19,6 +26,7 @@ public class Grid implements GridInfos {
     private buildingLayer buildingAction;
     private boolean resourcesShown = false;
     private Map<buildingLayer,resourceLayer> buildingLayerToResourceLayerMap = new HashMap<>();
+    private Map<buildingLayer, Building> buildingLayerToBuildingMap = new HashMap<>();
 
     /**
      * Instance a Grid, add the resource layer, add the top layer and show the top layer
@@ -209,15 +217,15 @@ public class Grid implements GridInfos {
             case OIL_PLANT:
             case URANIUM_PLANT:
             case SOLAR_PLANT:
-            case WIND_PLANT:
-            case WATER_PLANT:
+            case WIND_FARM:
+            case WATER_MILL:
                 this.lookAroundCell(placeBuilding, cell);
                 break;
             case COAL_MINE:
             case OIL_MINE:
             case GAS_MINE:
             case URANIUM_MINE:
-                if (this.checkMineRessource(cell, this.buildingAction)) this.lookAroundCell(placeBuilding, cell);
+            if (this.checkMineRessource(cell, this.buildingAction)) this.lookAroundCell(placeBuilding, cell);
                 // todo: else error message : action not possible
                 break;
             case NONE:
@@ -361,8 +369,8 @@ public class Grid implements GridInfos {
         this.buildingLayerImages.put(buildingLayer.GAS_PLANT, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/plants/gasplant.png"));
         this.buildingLayerImages.put(buildingLayer.URANIUM_PLANT, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/plants/uraniumplant.png"));
         this.buildingLayerImages.put(buildingLayer.SOLAR_PLANT, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/plants/solarplant.png"));
-        this.buildingLayerImages.put(buildingLayer.WIND_PLANT, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/plants/windplant.png"));
-        this.buildingLayerImages.put(buildingLayer.WATER_PLANT, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/plants/waterplant.png"));
+        this.buildingLayerImages.put(buildingLayer.WIND_FARM, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/plants/windplant.png"));
+        this.buildingLayerImages.put(buildingLayer.WATER_MILL, new Image ("file:src/main/resources/com/simpower/assets/textures/buildings/plants/waterplant.png"));
 
         // -- houses & working building
         this.buildingLayerImages.put(buildingLayer.HOUSE, new Image("file:src/main/resources/com/simpower/assets/textures/buildings/houses/level_1/a.png"));
@@ -381,6 +389,19 @@ public class Grid implements GridInfos {
         buildingLayerToResourceLayerMap.put(buildingLayer.GAS_MINE,resourceLayer.GAS);
         buildingLayerToResourceLayerMap.put(buildingLayer.URANIUM_MINE,resourceLayer.URANIUM);
         buildingLayerToResourceLayerMap.put(buildingLayer.OIL_MINE,resourceLayer.OIL);
+
+        /* Link building layer to building object */
+        buildingLayerToBuildingMap.put(buildingLayer.HOUSE, new House());
+        buildingLayerToBuildingMap.put(buildingLayer.GAS_PLANT, new GasPlant());
+        buildingLayerToBuildingMap.put(buildingLayer.OIL_PLANT, new OilPlant());
+        buildingLayerToBuildingMap.put(buildingLayer.COAL_PLANT, new CoalPlant());
+        buildingLayerToBuildingMap.put(buildingLayer.SOLAR_PLANT, new SolarPlant());
+        buildingLayerToBuildingMap.put(buildingLayer.WIND_FARM, new WindFarm());
+        buildingLayerToBuildingMap.put(buildingLayer.WATER_MILL, new WaterMill());
+        buildingLayerToBuildingMap.put(buildingLayer.COAL_MINE, new CoalMine());
+        buildingLayerToBuildingMap.put(buildingLayer.GAS_MINE, new GasMine());
+        buildingLayerToBuildingMap.put(buildingLayer.OIL_MINE, new OilMine());
+        buildingLayerToBuildingMap.put(buildingLayer.URANIUM_MINE, new UraniumMine());
     }
 
     /**
@@ -579,6 +600,8 @@ public class Grid implements GridInfos {
         if (cells.length < 2) return;
         if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
             cells[0].setCurrentBuildingLayer(this.getBuildingAction());
+            cells[0].setCurrentBuilding(this.buildingLayerToBuildingMap.get(this.getBuildingAction()));
+        }
     };
 
     CellFunction refreshCells = (cells) -> {
@@ -598,7 +621,6 @@ public class Grid implements GridInfos {
     private void lookAroundCell(CellFunction function, Cell cell) {
         // center
         function.run(cell);
-
         // grid (center too)
         for (int x : new int[]{-1, 0, 1}) for (int y : new int[]{-1, 0, 1}) if (this.isCellExist(cell.getPos_x() + x, cell.getPos_y() + y)) {
             function.run(cell, this.getCell(cell.getPos_x() + x, cell.getPos_y() + y));

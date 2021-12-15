@@ -1,11 +1,11 @@
 package com.simpower.models.grid.buildings;
 
-public class FossileGenerator extends ProducerEnergyBuilding {
+public class FossilePlant extends ProducerEnergyBuilding {
 
     protected int resourceConsumption;
     protected int pollutionRadius;
 
-    public FossileGenerator(int servicingCost, int buildingCost, int production, int resourceConsumption, int pollutionRadius) {
+    public FossilePlant(int servicingCost, int buildingCost, int production, int resourceConsumption, int pollutionRadius) {
         super(servicingCost,buildingCost,production);
         setResourceConsumption(resourceConsumption);
         setPollutionRadius(pollutionRadius);

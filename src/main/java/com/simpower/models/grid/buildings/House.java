@@ -5,8 +5,8 @@ public class House extends ConsumerEnergyBuilding {
     private int inhabitantCapacity;
     private int happiness;
 
-    public House(int servicingCost, int buildingCost,int consumeEnergy){
-        super(servicingCost, buildingCost, consumeEnergy);
+    public House(){
+        super(100, 100, 100);
         setHappiness(100);
         setInhabitant(1);
         setInhabitantCapacity(5);

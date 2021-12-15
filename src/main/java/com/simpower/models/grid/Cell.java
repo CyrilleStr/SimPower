@@ -1,6 +1,7 @@
 package com.simpower.models.grid;
 
-import com.simpower.models.grid.buildings.Buildings;
+import com.simpower.models.grid.buildings.Building;
+import com.simpower.models.grid.buildings.plants.CoalPlant;
 
 public class Cell implements GridInfos {
     private int pos_x = -1;
@@ -9,6 +10,7 @@ public class Cell implements GridInfos {
     private resourceLayer currentResourceLayer;
     private topLayer currentTopLayer;
     private pollutionLayer currentPollutionLayer;
+    private Building currentBuilding;
 
     public Cell() {
         currentBuildingLayer = buildingLayer.NONE;
@@ -23,7 +25,6 @@ public class Cell implements GridInfos {
         currentBuildingLayer = buildingLayer.NONE;
         currentResourceLayer = resourceLayer.NONE;
         currentTopLayer = topLayer.NONE;
-        currentPollutionLayer = pollutionLayer.NONE;
     }
 
     /* Getters and Setters */
@@ -70,5 +71,13 @@ public class Cell implements GridInfos {
     public boolean isBuildingEmpty() {
         if (this.currentBuildingLayer == buildingLayer.NONE) return true;
         return false;
+    }
+
+    public void setCurrentBuilding(Building currentBuilding) {
+        this.currentBuilding = currentBuilding;
+    }
+
+    public Building getCurrentBuilding() {
+        return currentBuilding;
     }
 }
