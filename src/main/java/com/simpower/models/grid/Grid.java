@@ -162,7 +162,7 @@ public class Grid implements GridInfos {
 
         ColorAdjust colorAdjust = new ColorAdjust();
 
-        // lighter when hovered, elsewhere, 0 (default brightness) (1 == white)
+        // lighter when hovered, elsewhere, 0 (default brightness) (1 == full white)
         if (newVal) colorAdjust.setBrightness(.5);
         else colorAdjust.setBrightness(0);
 
@@ -537,11 +537,15 @@ public class Grid implements GridInfos {
      * Place road on building layer
      */
     CellFunction placeRoad = (cells) -> {
-        if (cells.length == 1 && cells[0].getCurrentBuildingLayer() == buildingLayer.NONE)
-            cells[0].setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(cells[0].getPos_x(), cells[0].getPos_y()));
+        if (cells.length < 2) return;
 
-        else if (cells.length == 2 && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
+        if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer())) {
+            cells[0].setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(cells[0].getPos_x(), cells[0].getPos_y()));
+        }
+
+        if (this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
             cells[1].setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(cells[1].getPos_x(), cells[1].getPos_y()));
+
     };
 
     /**
