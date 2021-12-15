@@ -186,13 +186,13 @@ public class Grid implements GridInfos {
             case SOLAR_PLANT:
             case WIND_PLANT:
             case WATER_PLANT:
-                this.lookAround(placeBuilding, cell);
+                this.lookAroundCell(placeBuilding, cell);
                 break;
             case COAL_MINE:
             case OIL_MINE:
             case GAS_MINE:
             case URANIUM_MINE:
-                if (this.checkMineRessource(cell, this.buildingAction)) this.lookAround(placeBuilding, cell);
+                if (this.checkMineRessource(cell, this.buildingAction)) this.lookAroundCell(placeBuilding, cell);
                 // todo: else error message : action not possible
                 break;
             case NONE:
@@ -403,6 +403,7 @@ public class Grid implements GridInfos {
             cells[x][y].setCurrentResourceLayer(resourceType);
         }
     }
+
     public void showResources() {
         this.resourcesShown = !this.resourcesShown;
         this.refreshLayers();
@@ -432,7 +433,7 @@ public class Grid implements GridInfos {
      * @param y coordinate
      * @return true if cell exist
      */
-    private boolean isCellValid(int x, int y) {
+    private boolean isCellExist(int x, int y) {
         Cell tmp;
         try {
             tmp = this.cells[x][y];
@@ -479,7 +480,6 @@ public class Grid implements GridInfos {
      * @return corresponding building layer
      */
     private buildingLayer getCorrespondingBuildingLayerRoad(int x, int y) {
-
         int neighboor = 0;
         boolean north = false;
         boolean west = false;
@@ -491,19 +491,19 @@ public class Grid implements GridInfos {
          * x-1  c  x+1
          *  .  y+1  .
          */
-        if (isCellValid(x, y - 1) && isBuildingLayerRoad(this.getCell(x, y - 1).getCurrentBuildingLayer())) {
+        if (isCellExist(x, y - 1) && isBuildingLayerRoad(this.getCell(x, y - 1).getCurrentBuildingLayer())) {
             neighboor++;
             north = true;
         }
-        if (isCellValid(x - 1, y) && isBuildingLayerRoad(this.getCell(x - 1, y).getCurrentBuildingLayer())) {
+        if (isCellExist(x - 1, y) && isBuildingLayerRoad(this.getCell(x - 1, y).getCurrentBuildingLayer())) {
             neighboor++;
             west = true;
         }
-        if (isCellValid(x + 1, y) && isBuildingLayerRoad(this.getCell(x + 1, y).getCurrentBuildingLayer())) {
+        if (isCellExist(x + 1, y) && isBuildingLayerRoad(this.getCell(x + 1, y).getCurrentBuildingLayer())) {
             neighboor++;
             east = true;
         }
-        if (isCellValid(x, y + 1) && isBuildingLayerRoad(this.getCell(x, y + 1).getCurrentBuildingLayer())) {
+        if (isCellExist(x, y + 1) && isBuildingLayerRoad(this.getCell(x, y + 1).getCurrentBuildingLayer())) {
             neighboor++;
             south = true;
         }
@@ -539,21 +539,24 @@ public class Grid implements GridInfos {
      * Place road on building layer
      */
     CellFunction placeRoad = (cells) -> {
-        if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE || this.isBuildingLayerRoad(cells[0].getCurrentBuildingLayer()))
+        if (cells.length == 1 && cells[0].getCurrentBuildingLayer() == buildingLayer.NONE)
             cells[0].setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(cells[0].getPos_x(), cells[0].getPos_y()));
+
+        else if (cells.length == 2 && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
+            cells[1].setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(cells[1].getPos_x(), cells[1].getPos_y()));
     };
 
     /**
      * Place building on building layer
      */
     CellFunction placeBuilding = (cells) -> {
-        if (cells[1] == null) return;
+        if (cells.length < 2) return;
         if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE || this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
             cells[0].setCurrentBuildingLayer(this.getBuildingAction());
     };
 
     CellFunction refreshCells = (cells) -> {
-        if (cells[1] == null) return;
+        if (cells.length < 2) return;
         constructLayers(cells[1].getPos_x(), cells[1].getPos_y(), this.isResourcesShown());
     };
 
@@ -567,19 +570,12 @@ public class Grid implements GridInfos {
      * @param cell center cell
      */
     private void lookAroundCell(CellFunction function, Cell cell) {
-        // center cell first
-        function.run(cell, null);
+        // center
+        function.run(cell);
 
-        /**
-         * all cells around next & center cell
-         * -1-1, 0-1, 1-1
-         * -1 0, 0 0, 1 0
-         * -1 1, 0 1, 1 1
-         */
-        for (int x : new int[]{-1, 0, 1}) for (int y : new int[]{-1, 0, 1}) {
-            if (this.isCellValid(cell.getPos_x() + x, cell.getPos_y() + y)) {
-                function.run(cell, this.getCell(cell.getPos_x() + x, cell.getPos_y() + y));
-            }
+        // grid (center too)
+        for (int x : new int[]{-1, 0, 1}) for (int y : new int[]{-1, 0, 1}) if (this.isCellExist(cell.getPos_x() + x, cell.getPos_y() + y)) {
+            function.run(cell, this.getCell(cell.getPos_x() + x, cell.getPos_y() + y));
         }
     }
 
