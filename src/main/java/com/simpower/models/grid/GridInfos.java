@@ -58,6 +58,7 @@ public interface GridInfos {
          * . . .
          */
         ROAD,
+        ROAD_START,
 
         /**
          * . | .
