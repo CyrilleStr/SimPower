@@ -9,6 +9,16 @@ public class CoalPlant extends FossilePlant {
 
     @Override
     public int collectResource(){
-        return 50;
+        return 5;
+    }
+
+    @Override
+    public int consumeResource(){
+        return 5;
+    }
+
+    @Override
+    public int produceElectricity(){
+        return 3;
     }
 }

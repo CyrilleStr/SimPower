@@ -5,6 +5,7 @@ import com.simpower.models.Game;
 import com.simpower.models.grid.Grid;
 import com.simpower.models.grid.GridInfos.buildingLayer;
 import com.simpower.models.time.Clock;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
@@ -86,6 +87,11 @@ public class GameController implements Runnable{
         this.game = new Game(grid, clock);
         this.eventLoop = new Thread(this);
         this.eventLoop.start();
+        this.coalLabel.setText(this.game.getCoalStock() + " T");
+        this.gazLabel.setText(this.game.getGasStock() + " L");
+        this.oilLabel.setText(this.game.getOilStock() + " L");
+        this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
+        this.moneyLabel.setText(this.game.getMoney() + " €");
     }
 
     @FXML
@@ -107,6 +113,7 @@ public class GameController implements Runnable{
         // TODO implement a quitGame button
 
         this.clock.stop();
+        this.eventLoop.stop();
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/main.fxml"));
         changeClockSpeedBtn.getScene().setRoot(fxmlLoader.load()); // getting root scene using element of that scene :)
@@ -205,23 +212,30 @@ public class GameController implements Runnable{
         this.stringToBuildingLayerMap.put("GasPlantBtn", buildingLayer.GAS_PLANT);
         this.stringToBuildingLayerMap.put("OilPlantBtn", buildingLayer.OIL_PLANT);
         this.stringToBuildingLayerMap.put("UraniumPlantBtn", buildingLayer.URANIUM_PLANT);
-        this.stringToBuildingLayerMap.put("WindPlantBtn", buildingLayer.WIND_PLANT);
-        this.stringToBuildingLayerMap.put("WaterPlantBtn", buildingLayer.WATER_PLANT);
+        this.stringToBuildingLayerMap.put("WindPlantBtn", buildingLayer.WIND_FARM);
+        this.stringToBuildingLayerMap.put("WaterPlantBtn", buildingLayer.WATER_MILL);
         this.stringToBuildingLayerMap.put("SolarPlantBtn", buildingLayer.SOLAR_PLANT);
 
     }
 
     @Override
     public void run() {
+        int day = this.clock.getDayCount();
         while(true){
             try {
                 if(this.clock.isTicking()){
-                    this.game.eachDay();
-                    this.coalLabel.setText(this.game.getCoalStock() + " T");
-                    this.gazLabel.setText(this.game.getGasStock() + " L");
-                    this.oilLabel.setText(this.game.getOilStock() + " L");
-                    this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
-                    this.moneyLabel.setText(this.game.getMoney() + " €");
+                    if(day < this.clock.getDayCount()){
+                        this.game.eachDay();
+                        Platform.runLater(() -> {
+                            this.coalLabel.setText(this.game.getCoalStock() + " T");
+                            this.gazLabel.setText(this.game.getGasStock() + " L");
+                            this.oilLabel.setText(this.game.getOilStock() + " L");
+                            this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
+                            this.moneyLabel.setText(this.game.getMoney() + " €");
+                        });
+                        day++;
+                        if(day > 365) day = 0;
+                    }
                 }
                 sleep(10);
             } catch (InterruptedException e) {

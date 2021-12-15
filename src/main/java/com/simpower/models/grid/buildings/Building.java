@@ -47,7 +47,7 @@ public class Building {
         return 0;
     }
 
-    public int productElectricity(){
+    public int produceElectricity(){
         return 0;
     }
 

@@ -42,8 +42,8 @@ public interface GridInfos {
         OIL_PLANT,
         SOLAR_PLANT,
         URANIUM_PLANT,
-        WATER_PLANT,
-        WIND_PLANT,
+        WATER_MILL,
+        WIND_FARM,
         /*Mines*/
         COAL_MINE,
         GAS_MINE,

@@ -6,10 +6,7 @@ import java.time.LocalDateTime;
 import com.simpower.models.grid.Cell;
 import com.simpower.models.grid.Grid;
 import com.simpower.models.grid.GridInfos;
-import com.simpower.models.grid.buildings.FossilePlant;
-import com.simpower.models.grid.buildings.House;
-import com.simpower.models.grid.buildings.Mine;
-import com.simpower.models.grid.buildings.ProducerEnergyBuilding;
+import com.simpower.models.grid.buildings.*;
 import com.simpower.models.grid.buildings.mines.CoalMine;
 import com.simpower.models.grid.buildings.mines.GasMine;
 import com.simpower.models.grid.buildings.mines.OilMine;
@@ -18,7 +15,6 @@ import com.simpower.models.grid.buildings.plants.CoalPlant;
 import com.simpower.models.grid.buildings.plants.GasPlant;
 import com.simpower.models.grid.buildings.plants.NuclearPlant;
 import com.simpower.models.grid.buildings.plants.OilPlant;
-import com.simpower.models.grid.resources.Oil;
 import com.simpower.models.time.Clock;
 
 public class Game implements GridInfos {
@@ -51,37 +47,40 @@ public class Game implements GridInfos {
     public void eachDay() {
         for (Cell[] cellX : this.grid.getCells()) {
             for (Cell cell : cellX) {
-                if(cell.getCurrentBuilding() != null) {
-                    if(cell.getCurrentBuilding() instanceof ProducerEnergyBuilding) { // Mines
-                        if (cell.getCurrentBuilding() instanceof CoalMine) {
-                            coalStock += cell.getCurrentBuilding().collectResource();
-                        } else if (cell.getCurrentBuilding() instanceof GasMine) {
-                            gasStock += cell.getCurrentBuilding().collectResource();
-                        } else if (cell.getCurrentBuilding() instanceof OilMine) {
-                            oilStock += cell.getCurrentBuilding().collectResource();
-                        } else if (cell.getCurrentBuilding() instanceof UraniumMine) {
-                            uraniumStock += cell.getCurrentBuilding().collectResource();
-                        }
-                        cell.getCurrentBuilding().collectMoneyOutcomes();
-                        cell.getCurrentBuilding().consumeElectricity();
-                    }else if(cell.getCurrentBuilding() instanceof ProducerEnergyBuilding){ // Plants
-                        if(cell.getCurrentBuilding() instanceof FossilePlant){ // Fossil plants
-                            if(cell.getCurrentBuilding() instanceof CoalPlant){
-                                coalStock -= cell.getCurrentBuilding().consumeResource();
-                            }else if(cell.getCurrentBuilding() instanceof GasPlant){
-                                gasStock -= cell.getCurrentBuilding().consumeResource();
-                            }else if(cell.getCurrentBuilding() instanceof NuclearPlant){
-                                uraniumStock -= cell.getCurrentBuilding().consumeResource();
-                            }else if(cell.getCurrentBuilding() instanceof OilPlant){
-                                oilStock -= cell.getCurrentBuilding().consumeResource();
-                            }else{
-                                System.out.println("Error: invalide building on case " + cell.getPos_x() + ":" + cell.getPos_y());
-                            }
-                        }
-                        electrictyStock += cell.getCurrentBuilding().productElectricity();
-                    }else if(cell.getCurrentBuilding() instanceof House){
-                        cell.getCurrentBuilding().collectMoneyIncomes();
-                        cell.getCurrentBuilding().consumeResource();
+                Building building = cell.getCurrentBuilding();
+                // todo check if building is not road
+                if(building != null) {
+                    if (building instanceof CoalMine) {
+                        coalStock += building.collectResource();
+                        money -= building.collectMoneyOutcomes();
+                        electrictyStock -= building.consumeElectricity();
+                    } else if (building instanceof GasMine) {
+                        gasStock += building.collectResource();
+                        money -= building.collectMoneyOutcomes();
+                        electrictyStock -= building.consumeElectricity();
+                    } else if (building instanceof OilMine) {
+                        oilStock += building.collectResource();
+                        money -= building.collectMoneyOutcomes();
+                        electrictyStock -= building.consumeElectricity();
+                    } else if (building instanceof UraniumMine) {
+                        uraniumStock += building.collectResource();
+                        money -= building.collectMoneyOutcomes();
+                        electrictyStock -= building.consumeElectricity();
+                    }else if(building instanceof CoalPlant){
+                        coalStock -= building.consumeResource();
+                        electrictyStock += building.produceElectricity();
+                    }else if(building instanceof GasPlant){
+                        gasStock -= building.consumeResource();
+                        electrictyStock += building.produceElectricity();
+                    }else if(building instanceof NuclearPlant){
+                        uraniumStock -= building.consumeResource();
+                        electrictyStock += building.produceElectricity();
+                    }else if(building instanceof OilPlant){
+                        oilStock -= building.consumeResource();
+                        electrictyStock += building.produceElectricity();
+                    }else if(building instanceof House){
+                        money += building.collectMoneyIncomes();
+                        electrictyStock -= building.consumeElectricity();
                     }else{
                         System.out.println("Error: invalide building on case " + cell.getPos_x() + ":" + cell.getPos_y());
                     }
