@@ -1,6 +1,6 @@
 package com.simpower.models.grid.buildings;
 
-public class ProducerEnergyBuilding extends Buildings{
+public class ProducerEnergyBuilding extends Building {
 
     private int production;
 
