@@ -599,9 +599,7 @@ public class Grid implements GridInfos {
     CellFunction placeBuilding = (cells) -> {
         if (cells.length < 2) return;
         if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
-            cells[0].setCurrentBuildingLayer(this.getBuildingAction());
             cells[0].setCurrentBuilding(this.buildingLayerToBuildingMap.get(this.getBuildingAction()));
-        }
     };
 
     CellFunction refreshCells = (cells) -> {
