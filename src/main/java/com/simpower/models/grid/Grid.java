@@ -166,25 +166,25 @@ public class Grid implements GridInfos {
     /**
      * On mouse clicked event
      */
-    private void mouseClicked(int x, int y) {
+    private void mouseClicked(Cell cell) {
         switch (this.getBuildingAction()) {
             case ROAD:
-                this.lookAround("placeRoad", x, y);
+                this.lookAroundCell(placeRoad, cell);
                 break;
             case WORKING_BUILDING:
             case HOUSE:
-                this.lookAround("placeBuilding", x, y);
+                this.lookAroundCell(placeBuilding, cell);
                 break;
             case NONE:
                 break;
         }
 
-        this.lookAround("refreshCells", x, y);
+        this.lookAroundCell(refreshCells, cell);
     }
 
     public void refreshLayers() {
         this.gridContainer.getChildren().clear();
-        this.showLayers(this.resourcesShown);
+        this.showLayers(this.isResourcesShown());
     }
 
     private void constructLayers(int x, int y, boolean notTop) {
@@ -194,7 +194,7 @@ public class Grid implements GridInfos {
         topLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
             this.hoverListener(topLayer, x, y, newVal);
         });
-        topLayer.setOnMouseClicked(event -> this.mouseClicked(x, y));
+        topLayer.setOnMouseClicked(event -> this.mouseClicked(this.getCell(x, y)));
 
         ImageView resourceLayer = new ImageView(this.resourceLayerImages.get(cells[x][y].getCurrentResourceLayer()));
         resourceLayer.setFitHeight(CELL_HEIGHT);
@@ -202,7 +202,7 @@ public class Grid implements GridInfos {
         resourceLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
             this.hoverListener(resourceLayer, x, y, newVal);
         });
-        resourceLayer.setOnMouseClicked(event -> this.mouseClicked(x, y));
+        resourceLayer.setOnMouseClicked(event -> this.mouseClicked(this.getCell(x, y)));
 
         ImageView buildingLayer = new ImageView(this.buildingLayerImages.get(cells[x][y].getCurrentBuildingLayer()));
         buildingLayer.setFitHeight(CELL_HEIGHT);
@@ -210,7 +210,7 @@ public class Grid implements GridInfos {
         buildingLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
             this.hoverListener(buildingLayer, x, y, newVal);
         });
-        buildingLayer.setOnMouseClicked(event -> this.mouseClicked(x, y));
+        buildingLayer.setOnMouseClicked(event -> this.mouseClicked(this.getCell(x, y)));
 
         ImageView pollutionLayer = new ImageView(this.pollutionLayerImages.get(cells[x][y].getCurrentPollutionLayer()));
         pollutionLayer.setFitHeight(CELL_HEIGHT);
@@ -355,18 +355,17 @@ public class Grid implements GridInfos {
             cells[x][y].setCurrentResourceLayer(resourceType);
         }
     }
-
     public void showResources() {
         this.resourcesShown = !this.resourcesShown;
         this.refreshLayers();
     }
-
+    public boolean isResourcesShown() {
+        return this.resourcesShown;
+    }
     public void setBuilding(buildingLayer b){
         this.buildingAction = b;
     }
-
     public buildingLayer getBuildingAction() { return this.buildingAction; }
-
 
     /**
      * Generate a random number between min and max
@@ -489,54 +488,48 @@ public class Grid implements GridInfos {
 
     /**
      * Place road on building layer
-     * @param x coordinate
-     * @param y coordinate
-     * @param update tell if it's an update or a new placement
      */
-    private void placeRoad(int x, int y, boolean update) {
-        if (
-            (this.getCell(x, y).getCurrentBuildingLayer() == buildingLayer.NONE && !update) ||
-            this.isBuildingLayerRoad(this.getCell(x, y).getCurrentBuildingLayer())
-        ) {
-            this.getCell(x, y).setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(x, y));
-        }
+    CellFunction placeRoad = (cells) -> {
+        if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE || this.isBuildingLayerRoad(cells[0].getCurrentBuildingLayer()))
+            cells[0].setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(cells[0].getPos_x(), cells[0].getPos_y()));
+    };
 
-    }
+    /**
+     * Place building on building layer
+     */
+    CellFunction placeBuilding = (cells) -> {
+        if (cells[1] == null) return;
+        if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE || this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
+            cells[0].setCurrentBuildingLayer(this.getBuildingAction());
+    };
+
+    CellFunction refreshCells = (cells) -> {
+        if (cells[1] == null) return;
+        constructLayers(cells[1].getPos_x(), cells[1].getPos_y(), this.isResourcesShown());
+    };
+
+    // interface for lambda expressions
+    interface CellFunction { void run(Cell... cell); }
 
     /**
      * Complex function to determine what operation should be done on all cells in the 3x3 area
      * around the center (cx, cy)
-     * @param operation operation to be done
-     * @param cx center cell x value
-     * @param cy center cell y value
+     * @param function operation to be done
+     * @param cell center cell
      */
-    private void lookAround(String operation, int cx, int cy) {
+    private void lookAroundCell(CellFunction function, Cell cell) {
         // center cell first
-        if (this.isCellValid(cx, cy)) switch (operation) {
-            case "placeRoad":
-                this.placeRoad(cx, cy, false);
-                break;
-        }
+        function.run(cell, null);
 
         /**
-         * all cells around next + center cell again
+         * all cells around next & center cell
          * -1-1, 0-1, 1-1
          * -1 0, 0 0, 1 0
          * -1 1, 0 1, 1 1
          */
         for (int x : new int[]{-1, 0, 1}) for (int y : new int[]{-1, 0, 1}) {
-            if (this.isCellValid(cx + x, cy + y)) switch (operation) {
-                case "placeRoad":
-                    this.placeRoad(cx + x, cy + y, true);
-                    break;
-                case "placeBuilding":
-                    if (this.getCell(cx, cy).getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(this.getCell(cx + x, cy + y).getCurrentBuildingLayer()))
-                        this.getCell(cx, cy).setCurrentBuildingLayer(this.getBuildingAction());
-                    break;
-                case "refreshCells":
-                    constructLayers(cx + x, cy + y, this.resourcesShown);
-                default:
-                    break;
+            if (this.isCellValid(cell.getPos_x() + x, cell.getPos_y() + y)) {
+                function.run(cell, this.getCell(cell.getPos_x() + x, cell.getPos_y() + y));
             }
         }
     }
