@@ -370,7 +370,72 @@
             </Tab>
             <Tab styleClass="button-delete" text="Plants">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="background-lighter" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="background-lighter">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="81.0" prefWidth="648.0">
+                           <children>
+                              <ImageView fx:id="CoalPlantBtn" fitHeight="64.0" fitWidth="64.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/textures/buildings/plants/coalplant.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <ImageView fx:id="OilPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/textures/buildings/plants/oilplant.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <ImageView fx:id="GasPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="89.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/textures/buildings/plants/gasplant.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <ImageView fx:id="UraniumPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="153.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/textures/buildings/plants/uraniumplant.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <ImageView fx:id="WindPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="257.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/textures/buildings/plants/windplant.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <ImageView fx:id="WaterPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="326.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/textures/buildings/plants/waterplant.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <ImageView fx:id="SolarPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="415.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/textures/buildings/plants/solarplant.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </HBox>
+                     </children></AnchorPane>
                </content>
             </Tab>
             <Tab styleClass="button-delete" text="Roads">
