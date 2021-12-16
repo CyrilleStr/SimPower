@@ -26,10 +26,11 @@ public class Grid implements GridInfos {
     private Label errorLabel;
     private GridPane gridContainer;
     private String buildingToDrop;
-    private buildingLayer buildingAction;
+    private buildingLayer buildingLayerAction;
+    private Building buildingObjectAction;
     private boolean resourcesShown = false;
     private Map<buildingLayer,resourceLayer> buildingLayerToResourceLayerMap = new HashMap<>();
-    private Map<buildingLayer, Building> buildingLayerToBuildingMap = new HashMap<>();
+
 
     /**
      * Instance a Grid, add the resource layer, add the top layer and show the top layer
@@ -39,7 +40,7 @@ public class Grid implements GridInfos {
         this.gridContainer = gridContainer;
         this.infoLabel = infoLabel;
         this.errorLabel = errorLabel;
-        this.buildingAction = buildingType;
+        this.buildingLayerAction = buildingType;
         this.generateEmptyGrid();
         this.addResourceLayer();
         this.addTopLayer();
@@ -223,11 +224,10 @@ public class Grid implements GridInfos {
      * On mouse clicked event
      */
     private void mouseClicked(Cell cell) {
-        switch (this.getBuildingAction()) {
+        switch (this.getBuildingLayerAction()) {
             case ROAD:
                 this.lookAroundCell(placeRoad, cell);
                 break;
-            case WORKING_BUILDING:
             case HOUSE:
             case COAL_PLANT:
             case GAS_PLANT:
@@ -242,7 +242,7 @@ public class Grid implements GridInfos {
             case OIL_MINE:
             case GAS_MINE:
             case URANIUM_MINE:
-                if (this.checkMineRessource(cell, this.buildingAction)) this.lookAroundCell(placeBuilding, cell);
+                if (this.checkMineRessource(cell, this.getBuildingLayerAction())) this.lookAroundCell(placeBuilding, cell);
                 else this.showErrorMessage("There is no resources here!");
                 break;
             case NONE:
@@ -393,7 +393,6 @@ public class Grid implements GridInfos {
 
         // -- houses & working building
         this.buildingLayerImages.put(buildingLayer.HOUSE, new Image("file:src/main/resources/com/simpower/assets/textures/buildings/houses/level_1/a.png"));
-        this.buildingLayerImages.put(buildingLayer.WORKING_BUILDING, new Image("file:src/main/resources/com/simpower/assets/textures/buildings/working_building.jpg"));
 
         /* Resource Layer */
         this.resourceLayerImages.put(resourceLayer.NONE, new Image("file:src/main/resources/com/simpower/assets/textures/tile/dirt.jpg"));
@@ -409,18 +408,7 @@ public class Grid implements GridInfos {
         buildingLayerToResourceLayerMap.put(buildingLayer.URANIUM_MINE,resourceLayer.URANIUM);
         buildingLayerToResourceLayerMap.put(buildingLayer.OIL_MINE,resourceLayer.OIL);
 
-        /* Link building layer to building object */
-        buildingLayerToBuildingMap.put(buildingLayer.HOUSE, new House());
-        buildingLayerToBuildingMap.put(buildingLayer.GAS_PLANT, new GasPlant());
-        buildingLayerToBuildingMap.put(buildingLayer.OIL_PLANT, new OilPlant());
-        buildingLayerToBuildingMap.put(buildingLayer.COAL_PLANT, new CoalPlant());
-        buildingLayerToBuildingMap.put(buildingLayer.SOLAR_PLANT, new SolarPlant());
-        buildingLayerToBuildingMap.put(buildingLayer.WIND_FARM, new WindFarm());
-        buildingLayerToBuildingMap.put(buildingLayer.WATER_MILL, new WaterMill());
-        buildingLayerToBuildingMap.put(buildingLayer.COAL_MINE, new CoalMine());
-        buildingLayerToBuildingMap.put(buildingLayer.GAS_MINE, new GasMine());
-        buildingLayerToBuildingMap.put(buildingLayer.OIL_MINE, new OilMine());
-        buildingLayerToBuildingMap.put(buildingLayer.URANIUM_MINE, new UraniumMine());
+
     }
 
     /**
@@ -472,13 +460,26 @@ public class Grid implements GridInfos {
         this.resourcesShown = !this.resourcesShown;
         this.refreshLayers();
     }
+
     public boolean isResourcesShown() {
         return this.resourcesShown;
     }
-    public void setBuilding(buildingLayer b){
-        this.buildingAction = b;
+
+    public void setBuildingLayerAction(buildingLayer b){
+        this.buildingLayerAction = b;
     }
-    public buildingLayer getBuildingAction() { return this.buildingAction; }
+
+    public buildingLayer getBuildingLayerAction() {
+        return this.buildingLayerAction;
+    }
+
+    public void setBuildingObjectAction(Building buildingObjectAction) {
+        this.buildingObjectAction = buildingObjectAction;
+    }
+
+    public Building getBuildingObjectAction() {
+        return buildingObjectAction;
+    }
 
     /**
      * Generate a random number between min and max
@@ -619,8 +620,8 @@ public class Grid implements GridInfos {
     CellFunction placeBuilding = (cells) -> {
         if (cells.length < 2) return;
         if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer())) {
-            cells[0].setCurrentBuildingLayer(this.getBuildingAction());
-            cells[0].setCurrentBuilding(this.buildingLayerToBuildingMap.get(this.getBuildingAction()));
+            cells[0].setCurrentBuilding(this.getBuildingObjectAction());
+            cells[0].setCurrentBuildingLayer(this.getBuildingLayerAction());
         } else this.showErrorMessage("There is no road next to it!");
     };
 

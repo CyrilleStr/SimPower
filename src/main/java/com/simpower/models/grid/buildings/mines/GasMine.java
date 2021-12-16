@@ -4,6 +4,7 @@ import com.simpower.models.grid.buildings.Mine;
 
 public class GasMine extends Mine {
     public GasMine(){
-        super(13,  150, 11);
+        super(100,  4000, 20);
+        setResourceProduction(60);
     }
 }

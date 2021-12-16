@@ -38,7 +38,6 @@ public interface GridInfos {
         NONE,
         /*Building*/
         HOUSE,
-        WORKING_BUILDING,
         /*Generators*/
         COAL_PLANT,
         GAS_PLANT,

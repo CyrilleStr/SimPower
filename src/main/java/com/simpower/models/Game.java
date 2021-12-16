@@ -11,10 +11,7 @@ import com.simpower.models.grid.buildings.mines.CoalMine;
 import com.simpower.models.grid.buildings.mines.GasMine;
 import com.simpower.models.grid.buildings.mines.OilMine;
 import com.simpower.models.grid.buildings.mines.UraniumMine;
-import com.simpower.models.grid.buildings.plants.CoalPlant;
-import com.simpower.models.grid.buildings.plants.GasPlant;
-import com.simpower.models.grid.buildings.plants.NuclearPlant;
-import com.simpower.models.grid.buildings.plants.OilPlant;
+import com.simpower.models.grid.buildings.plants.*;
 import com.simpower.models.time.Clock;
 
 public class Game implements GridInfos {
@@ -23,7 +20,7 @@ public class Game implements GridInfos {
     private Path savePath;
     private Grid grid;
     private int money;
-    private int electrictyStock;
+    private int electricityStock;
     private int coalStock;
     private int gasStock;
     private int oilStock;
@@ -33,12 +30,12 @@ public class Game implements GridInfos {
         this.grid = grid;
         this.clock = clock;
         this.createdAt = LocalDateTime.now();
-        setMoney(1000);
-        setElectrictyStock(100);
-        setCoalStock(100);
-        setGasStock(100);
-        setOilStock(100);
-        setUraniumStock(100);
+        setMoney(10000);
+        setElectricityStock(10000);
+        setCoalStock(0);
+        setGasStock(0);
+        setOilStock(0);
+        setUraniumStock(0);
     }
 
     /**
@@ -53,34 +50,36 @@ public class Game implements GridInfos {
                     if (building instanceof CoalMine) {
                         coalStock += building.collectResource();
                         money -= building.collectMoneyOutcomes();
-                        electrictyStock -= building.consumeElectricity();
+                        electricityStock -= building.consumeElectricity();
                     } else if (building instanceof GasMine) {
                         gasStock += building.collectResource();
                         money -= building.collectMoneyOutcomes();
-                        electrictyStock -= building.consumeElectricity();
+                        electricityStock -= building.consumeElectricity();
                     } else if (building instanceof OilMine) {
                         oilStock += building.collectResource();
                         money -= building.collectMoneyOutcomes();
-                        electrictyStock -= building.consumeElectricity();
+                        electricityStock -= building.consumeElectricity();
                     } else if (building instanceof UraniumMine) {
                         uraniumStock += building.collectResource();
                         money -= building.collectMoneyOutcomes();
-                        electrictyStock -= building.consumeElectricity();
+                        electricityStock -= building.consumeElectricity();
                     }else if(building instanceof CoalPlant){
                         coalStock -= building.consumeResource();
-                        electrictyStock += building.produceElectricity();
+                        electricityStock += building.produceElectricity();
                     }else if(building instanceof GasPlant){
                         gasStock -= building.consumeResource();
-                        electrictyStock += building.produceElectricity();
+                        electricityStock += building.produceElectricity();
                     }else if(building instanceof NuclearPlant){
                         uraniumStock -= building.consumeResource();
-                        electrictyStock += building.produceElectricity();
-                    }else if(building instanceof OilPlant){
+                        electricityStock += building.produceElectricity();
+                    }else if(building instanceof OilPlant) {
                         oilStock -= building.consumeResource();
-                        electrictyStock += building.produceElectricity();
+                        electricityStock += building.produceElectricity();
+                    }else if(building instanceof SolarPlant || building instanceof WaterMill || building instanceof WindFarm) {
+                        electricityStock += building.produceElectricity();
                     }else if(building instanceof House){
                         money += building.collectMoneyIncomes();
-                        electrictyStock -= building.consumeElectricity();
+                        electricityStock -= building.consumeElectricity();
                     }else{
                         System.out.println("Error: invalide building on case " + cell.getPos_x() + ":" + cell.getPos_y());
                     }
@@ -98,12 +97,12 @@ public class Game implements GridInfos {
         return money;
     }
 
-    public void setElectrictyStock(int electrictyStock) {
-        this.electrictyStock = electrictyStock;
+    public void setElectricityStock(int electricityStock) {
+        this.electricityStock = electricityStock;
     }
 
-    public int getElectrictyStock() {
-        return electrictyStock;
+    public int getElectricityStock() {
+        return electricityStock;
     }
 
     public void setCoalStock(int coalStock) {

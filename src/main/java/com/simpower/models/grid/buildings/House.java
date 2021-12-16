@@ -4,9 +4,10 @@ public class House extends ConsumerEnergyBuilding {
     private int inhabitant;
     private int inhabitantCapacity;
     private int happiness;
+    private int moneyIncome;
 
     public House(){
-        super(100, 100, 100);
+        super(0, 2000, 400);
         setHappiness(100);
         setInhabitant(1);
         setInhabitantCapacity(5);
@@ -34,5 +35,14 @@ public class House extends ConsumerEnergyBuilding {
 
     public void setInhabitantCapacity(int inhabitantCapacity) {
         this.inhabitantCapacity = inhabitantCapacity;
+    }
+
+    public void setMoneyIncome(int moneyIncome) {
+        this.moneyIncome = moneyIncome;
+    }
+
+    @Override
+    public int collectMoneyIncomes(){
+        return moneyIncome;
     }
 }
