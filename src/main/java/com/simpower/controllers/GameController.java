@@ -56,6 +56,7 @@ public class GameController implements Runnable{
     @FXML private Label uraniumLabel;
     @FXML private Label coalLabel;
     @FXML private Label gazLabel;
+    @FXML private Label errorLabel;
     @FXML private Label electrictyLabel;
 
     /**
@@ -80,7 +81,7 @@ public class GameController implements Runnable{
     @FXML
     public void initialize(){
         this.loadData();
-        this.grid = new Grid(gridContainer, infoLabel, buildingType);
+        this.grid = new Grid(gridContainer, infoLabel, buildingType, errorLabel);
 
         this.clock = new Clock(grid, clockLabel);
         this.clock.start();
