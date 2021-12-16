@@ -1,6 +1,6 @@
 package com.simpower.models.grid.buildings;
 
-public class ProducerEnergyBuilding extends Building {
+public abstract class ProducerEnergyBuilding extends Building {
 
     private int production;
 
@@ -14,6 +14,11 @@ public class ProducerEnergyBuilding extends Building {
     }
 
     int getProduction(){
+        return this.production;
+    }
+
+    @Override
+    public int produceElectricity(){
         return this.production;
     }
 }

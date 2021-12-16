@@ -4,6 +4,6 @@ import com.simpower.models.grid.buildings.ProducerEnergyBuilding;
 
 public class WaterMill extends ProducerEnergyBuilding {
     public WaterMill() {
-        super(100,100,100);
+        super(10,10000,80);
     }
 }

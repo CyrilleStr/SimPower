@@ -1,9 +1,9 @@
 package com.simpower.models.grid.buildings.plants;
 
-import com.simpower.models.grid.buildings.FossilePlant;
+import com.simpower.models.grid.buildings.FossilPlant;
 
-public class NuclearPlant extends FossilePlant {
+public class NuclearPlant extends FossilPlant {
     public NuclearPlant() {
-        super(8,5000, 150, 1000, 1);
+        super(200,30000, 300, 10, 0);
     }
 }

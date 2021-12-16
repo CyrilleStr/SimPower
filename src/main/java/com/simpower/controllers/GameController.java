@@ -4,6 +4,13 @@ import com.simpower.Main;
 import com.simpower.models.Game;
 import com.simpower.models.grid.Grid;
 import com.simpower.models.grid.GridInfos.buildingLayer;
+import com.simpower.models.grid.buildings.Building;
+import com.simpower.models.grid.buildings.House;
+import com.simpower.models.grid.buildings.mines.CoalMine;
+import com.simpower.models.grid.buildings.mines.GasMine;
+import com.simpower.models.grid.buildings.mines.OilMine;
+import com.simpower.models.grid.buildings.mines.UraniumMine;
+import com.simpower.models.grid.buildings.plants.*;
 import com.simpower.models.time.Clock;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -33,6 +40,7 @@ public class GameController implements Runnable{
     private boolean isTabPaneOpen = false;
     private boolean isPauseMenuOpen = false;
     private Map<String, buildingLayer> stringToBuildingLayerMap = new HashMap<>();
+    private Map<String, Building> stringToBuildingMap = new HashMap<>();
     private buildingLayer buildingType = buildingLayer.NONE;
     private Thread eventLoop;
 
@@ -48,6 +56,7 @@ public class GameController implements Runnable{
     @FXML private Label uraniumLabel;
     @FXML private Label coalLabel;
     @FXML private Label gazLabel;
+    @FXML private Label electrictyLabel;
 
     /**
      * Instance a new game controller
@@ -87,11 +96,7 @@ public class GameController implements Runnable{
         this.game = new Game(grid, clock);
         this.eventLoop = new Thread(this);
         this.eventLoop.start();
-        this.coalLabel.setText(this.game.getCoalStock() + " T");
-        this.gazLabel.setText(this.game.getGasStock() + " L");
-        this.oilLabel.setText(this.game.getOilStock() + " L");
-        this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
-        this.moneyLabel.setText(this.game.getMoney() + " €");
+        this.refreshHotBar();
     }
 
     @FXML
@@ -172,7 +177,22 @@ public class GameController implements Runnable{
      */
     @FXML
     void setBuildingAction(MouseEvent event) {
-        this.grid.setBuilding(this.stringToBuildingLayerMap.get(((ImageView) event.getSource()).getId()));
+        String id = ((ImageView) event.getSource()).getId();
+        if(this.stringToBuildingMap.get(id) == null) { // the building to construct is a road
+            buildingLayer tmpBL = this.stringToBuildingLayerMap.get(((ImageView) event.getSource()).getId());
+            this.grid.setBuildingLayerAction(this.stringToBuildingLayerMap.get(id));
+        }else{
+            if(this.game.getMoney() >= this.stringToBuildingMap.get(id).getBuildingCost()){ // check if the player has enough money to build to building
+                this.game.setMoney(this.game.getMoney() - this.stringToBuildingMap.get(id).getBuildingCost());
+                this.grid.setBuildingLayerAction(this.stringToBuildingLayerMap.get(id));
+                this.grid.setBuildingObjectAction(this.stringToBuildingMap.get(id));
+                this.refreshHotBar();
+            }else{
+                System.out.println("You don't have enough money to build this building");
+                this.grid.setBuildingLayerAction(buildingLayer.NONE);
+                // todo popup when user has not enough money to place a building
+            }
+        }
     }
 
     /**
@@ -182,7 +202,7 @@ public class GameController implements Runnable{
      */
     @FXML
     void deleteBuildingAction(ActionEvent event) {
-        this.grid.setBuilding(buildingLayer.NONE);
+        this.grid.setBuildingLayerAction(buildingLayer.NONE);
     }
 
     private void swapTabPane() {
@@ -203,7 +223,6 @@ public class GameController implements Runnable{
     void loadData(){
         this.stringToBuildingLayerMap.put("roadBtn",buildingLayer.ROAD);
         this.stringToBuildingLayerMap.put("houseBtn",buildingLayer.HOUSE);
-        this.stringToBuildingLayerMap.put("workingBuildingBtn",buildingLayer.WORKING_BUILDING);
         this.stringToBuildingLayerMap.put("CoalMineBtn", buildingLayer.COAL_MINE);
         this.stringToBuildingLayerMap.put("OilMineBtn", buildingLayer.OIL_MINE);
         this.stringToBuildingLayerMap.put("GasMineBtn", buildingLayer.GAS_MINE);
@@ -216,6 +235,28 @@ public class GameController implements Runnable{
         this.stringToBuildingLayerMap.put("WaterPlantBtn", buildingLayer.WATER_MILL);
         this.stringToBuildingLayerMap.put("SolarPlantBtn", buildingLayer.SOLAR_PLANT);
 
+        /* Link building layer to building object */
+        stringToBuildingMap.put("houseBtn", new House());
+        stringToBuildingMap.put("UraniumPlantBtn", new NuclearPlant());
+        stringToBuildingMap.put("GasPlantBtn", new GasPlant());
+        stringToBuildingMap.put("OilPlantBtn", new OilPlant());
+        stringToBuildingMap.put("CoalPlantBtn", new CoalPlant());
+        stringToBuildingMap.put("SolarPlantBtn", new SolarPlant());
+        stringToBuildingMap.put("WindPlantBtn", new WindFarm());
+        stringToBuildingMap.put("WaterPlantBtn", new WaterMill());
+        stringToBuildingMap.put("CoalMineBtn", new CoalMine());
+        stringToBuildingMap.put("GasMineBtn", new GasMine());
+        stringToBuildingMap.put("OilMineBtn", new OilMine());
+        stringToBuildingMap.put("UraniumMineBtn", new UraniumMine());
+    }
+
+    public void refreshHotBar(){
+        this.coalLabel.setText(this.game.getCoalStock() + " T");
+        this.gazLabel.setText(this.game.getGasStock() + " L");
+        this.oilLabel.setText(this.game.getOilStock() + " L");
+        this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
+        this.moneyLabel.setText(this.game.getMoney() + " €");
+        this.electrictyLabel.setText(this.game.getElectricityStock() + " W");
     }
 
     @Override
@@ -227,11 +268,7 @@ public class GameController implements Runnable{
                     if(day < this.clock.getDayCount()){
                         this.game.eachDay();
                         Platform.runLater(() -> {
-                            this.coalLabel.setText(this.game.getCoalStock() + " T");
-                            this.gazLabel.setText(this.game.getGasStock() + " L");
-                            this.oilLabel.setText(this.game.getOilStock() + " L");
-                            this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
-                            this.moneyLabel.setText(this.game.getMoney() + " €");
+                            this.refreshHotBar();
                         });
                         day++;
                         if(day > 365) day = 0;
