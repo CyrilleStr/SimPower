@@ -306,14 +306,6 @@
                                     <Insets left="10.0" right="5.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <ImageView fx:id="workingBuildingBtn" fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../assets/textures/buildings/working_building.jpg" />
-                                 </image>
-                                 <HBox.margin>
-                                    <Insets left="5.0" right="5.0" />
-                                 </HBox.margin>
-                              </ImageView>
                            </children>
                            <opaqueInsets>
                               <Insets />
