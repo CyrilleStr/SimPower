@@ -332,6 +332,8 @@ public class Grid implements GridInfos {
      * Loads all HashMap containing layer to image Map and string to top layer Map
      */
     void loadData(){
+        // todo: implement a for loop looking for files in corresponding dirs instead of a huge wall of code like below
+
         /* Top layer */
         this.topLayerImages.put(topLayer.GRASS, new Image("file:src/main/resources/com/simpower/assets/textures/tile/grass.jpg"));
         this.topLayerImages.put(topLayer.RIVER, new Image("file:src/main/resources/com/simpower/assets/textures/tile/water.jpg"));
@@ -598,8 +600,12 @@ public class Grid implements GridInfos {
      */
     CellFunction placeBuilding = (cells) -> {
         if (cells.length < 2) return;
-        if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
+
+
+        if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer())) {
+            cells[0].setCurrentBuildingLayer(this.getBuildingAction());
             cells[0].setCurrentBuilding(this.buildingLayerToBuildingMap.get(this.getBuildingAction()));
+        }
     };
 
     CellFunction refreshCells = (cells) -> {
