@@ -11,12 +11,15 @@ public interface GridInfos {
     Map<pollutionLayer, Image> pollutionLayerImages = new HashMap<>();
     Map<topLayer, Image> topLayerImages = new HashMap<>();
 
+
     int CELL_WIDTH = 32;
     int CELL_HEIGHT = CELL_WIDTH; // square :)
 
     int NB_CELLS_WIDTH = 64;
     int NB_CELLS_HEIGHT = 64;
     int NB_CELLS = NB_CELLS_HEIGHT * NB_CELLS_WIDTH;
+
+    int roadStartX = NB_CELLS_WIDTH / 2;
 
     int MAP_WIDTH = NB_CELLS_WIDTH * CELL_WIDTH;
     int MAP_HEIGHT = NB_CELLS_HEIGHT * CELL_HEIGHT;
@@ -58,7 +61,6 @@ public interface GridInfos {
          * . . .
          */
         ROAD,
-        ROAD_START,
 
         /**
          * . | .

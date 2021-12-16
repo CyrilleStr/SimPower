@@ -84,26 +84,51 @@ public class Grid implements GridInfos {
         /* Generating nb € [1,3] river(s) */
         for (int nb = 0; nb < this.generateRandomInt(1, 3); nb++) this.generateRiver();
 
-        this.cells[NB_CELLS_WIDTH/2][0].setCurrentBuildingLayer(buildingLayer.ROAD_START);
+        this.cells[roadStartX][0].setCurrentBuildingLayer(buildingLayer.ROAD_NORTH);
     }
 
     /**
      * Draw circle of river
      * Rosetta Code implementation
      */
-    private void drawRiver(int cx, int cy, int r) {        int d = (5 - r * 4) / 4;
+    private void drawRiver(int cx, int cy, int r) {
+        int d = (5 - r * 4) / 4;
         int x = 0;
         int y = r;
 
         do {
-            try { this.cells[cx + x][cy + y].setCurrentTopLayer(topLayer.RIVER); this.cells[cx + x][cy + y].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx + x][cy - y].setCurrentTopLayer(topLayer.RIVER); this.cells[cx + x][cy - y].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx - x][cy + y].setCurrentTopLayer(topLayer.RIVER); this.cells[cx - x][cy + y].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx - x][cy - y].setCurrentTopLayer(topLayer.RIVER); this.cells[cx - x][cy - y].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx + y][cy + x].setCurrentTopLayer(topLayer.RIVER); this.cells[cx + y][cy + x].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx + y][cy - x].setCurrentTopLayer(topLayer.RIVER); this.cells[cx + y][cy - x].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
-            try { this.cells[cx - y][cy + x].setCurrentTopLayer(topLayer.RIVER); this.cells[cx - y][cy + x].setCurrentResourceLayer(resourceLayer.RIVER);  } catch (Throwable e) {}
-            try { this.cells[cx - y][cy - x].setCurrentTopLayer(topLayer.RIVER); this.cells[cx - y][cy - x].setCurrentResourceLayer(resourceLayer.RIVER); } catch (Throwable e) {}
+            if (this.isCellExist(cx + x, cy + y)) {
+                this.getCell(cx + x, cy + y).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx + x, cy + y).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
+            if (this.isCellExist(cx + x, cy - y)) {
+                this.getCell(cx + x, cy - y).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx + x, cy - y).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
+            if (this.isCellExist(cx - x, cy + y)) {
+                this.getCell(cx - x, cy + y).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx - x, cy + y).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
+            if (this.isCellExist(cx - x, cy - y)) {
+                this.getCell(cx - x, cy - y).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx - x, cy - y).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
+            if (this.isCellExist(cx + y, cy + x)) {
+                this.getCell(cx + y, cy + x).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx + y, cy + x).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
+            if (this.isCellExist(cx + y, cy - x)) {
+                this.getCell(cx + y, cy - x).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx + y, cy - x).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
+            if (this.isCellExist(cx - y, cy + x)) {
+                this.getCell(cx - y, cy + x).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx - y, cy + x).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
+            if (this.isCellExist(cx - y, cy - x)) {
+                this.getCell(cx - y, cy - x).setCurrentTopLayer(topLayer.RIVER);
+                this.getCell(cx - y, cy - x).setCurrentResourceLayer(resourceLayer.RIVER);
+            }
 
             if (d < 0) d += 2 * x + 1;
             else {
@@ -170,7 +195,7 @@ public class Grid implements GridInfos {
 
         ColorAdjust colorAdjust = new ColorAdjust();
 
-        // lighter when hovered, elsewhere, 0 (default brightness) (1 == white)
+        // lighter when hovered, elsewhere, 0 (default brightness) (1 == full white)
         if (newVal) colorAdjust.setBrightness(.5);
         else colorAdjust.setBrightness(0);
 
@@ -307,6 +332,8 @@ public class Grid implements GridInfos {
      * Loads all HashMap containing layer to image Map and string to top layer Map
      */
     void loadData(){
+        // todo: implement a for loop looking for files in corresponding dirs instead of a huge wall of code like below
+
         /* Top layer */
         this.topLayerImages.put(topLayer.GRASS, new Image("file:src/main/resources/com/simpower/assets/textures/tile/grass.jpg"));
         this.topLayerImages.put(topLayer.RIVER, new Image("file:src/main/resources/com/simpower/assets/textures/tile/water.jpg"));
@@ -316,7 +343,6 @@ public class Grid implements GridInfos {
         /* Building Layer */
         // -- roads
         this.buildingLayerImages.put(buildingLayer.ROAD, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road.png"));
-        this.buildingLayerImages.put(buildingLayer.ROAD_START, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_east_south_west.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_SOUTH, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_south.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_WEST_EAST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_west_east.png"));
         this.buildingLayerImages.put(buildingLayer.ROAD_NORTH_EAST_SOUTH_WEST, new Image("file:src/main/resources/com/simpower/assets/textures/roads/road_north_east_south_west.png"));
@@ -472,7 +498,6 @@ public class Grid implements GridInfos {
     private boolean isBuildingLayerRoad(buildingLayer layer) {
         switch (layer) {
             case ROAD,
-                ROAD_START,
                 ROAD_NORTH_SOUTH,
                 ROAD_WEST_EAST,
                 ROAD_NORTH_EAST_SOUTH_WEST,
@@ -512,7 +537,7 @@ public class Grid implements GridInfos {
          * x-1  c  x+1
          *  .  y+1  .
          */
-        if (isCellExist(x, y - 1) && isBuildingLayerRoad(this.getCell(x, y - 1).getCurrentBuildingLayer())) {
+        if ((isCellExist(x, y - 1) && isBuildingLayerRoad(this.getCell(x, y - 1).getCurrentBuildingLayer())) || (x == roadStartX && y == 0)) {
             neighboor++;
             north = true;
         }
@@ -560,11 +585,14 @@ public class Grid implements GridInfos {
      * Place road on building layer
      */
     CellFunction placeRoad = (cells) -> {
-        if (cells.length == 1 && cells[0].getCurrentBuildingLayer() == buildingLayer.NONE)
+        if (cells.length < 2) return;
+
+        if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
             cells[0].setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(cells[0].getPos_x(), cells[0].getPos_y()));
 
-        else if (cells.length == 2 && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
+        if (this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
             cells[1].setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(cells[1].getPos_x(), cells[1].getPos_y()));
+
     };
 
     /**
@@ -572,7 +600,9 @@ public class Grid implements GridInfos {
      */
     CellFunction placeBuilding = (cells) -> {
         if (cells.length < 2) return;
-        if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE || this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer())){
+
+
+        if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer())) {
             cells[0].setCurrentBuildingLayer(this.getBuildingAction());
             cells[0].setCurrentBuilding(this.buildingLayerToBuildingMap.get(this.getBuildingAction()));
         }
