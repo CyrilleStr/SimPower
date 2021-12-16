@@ -1,24 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="720.0" prefWidth="1080.0" styleClass="background" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simpower.controllers.GameController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="720.0" prefWidth="1080.0" styleClass="background" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simpower.controllers.GameController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
@@ -30,12 +19,13 @@
   </columnConstraints>
   <rowConstraints>
     <RowConstraints maxHeight="67.0" minHeight="10.0" percentHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="627.0" minHeight="10.0" percentHeight="65.0" prefHeight="627.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="627.0" minHeight="10.0" percentHeight="10.0" prefHeight="627.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="627.0" minHeight="10.0" percentHeight="55.0" prefHeight="627.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="627.0" minHeight="10.0" percentHeight="15.0" prefHeight="627.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <ScrollPane GridPane.columnSpan="2147483647" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.vgrow="NEVER">
+      <ScrollPane GridPane.columnSpan="2147483647" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.vgrow="NEVER">
          <content>
             <GridPane fx:id="gridContainer" styleClass="background-lighter">
                <columnConstraints>
@@ -48,7 +38,7 @@
             </GridPane>
          </content>
       </ScrollPane>
-      <HBox alignment="CENTER" prefHeight="72.0" prefWidth="549.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="72.0" prefWidth="549.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
          <children>
             <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteBuildingAction" prefWidth="130.0" styleClass="button-delete" text="Delete">
                <font>
@@ -221,7 +211,7 @@
             </Label>
          </children>
       </HBox>
-      <GridPane GridPane.columnSpan="3" GridPane.rowIndex="3">
+      <GridPane GridPane.columnSpan="3" GridPane.rowIndex="4">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" percentWidth="60.0" prefWidth="100.0" />
@@ -279,7 +269,7 @@
             </Button>
          </children>
       </GridPane>
-      <Label fx:id="infoLabel" prefHeight="50.0" prefWidth="300.0" styleClass="background-lighter" stylesheets="@../css/stylesheet.css" textFill="WHITE" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+      <Label fx:id="infoLabel" prefHeight="50.0" prefWidth="300.0" styleClass="background-lighter" stylesheets="@../css/stylesheet.css" textFill="WHITE" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
          <font>
             <Font name="Leelawadee UI" size="14.0" />
          </font>
@@ -290,7 +280,7 @@
             <Tooltip text="Debug information" />
          </tooltip>
       </Label>
-      <TabPane fx:id="tabPane" prefHeight="108.0" prefWidth="507.0" style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="2">
+      <TabPane fx:id="tabPane" prefHeight="108.0" prefWidth="507.0" style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE" visible="false" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="3">
         <tabs>
           <Tab styleClass="button-delete" text="House">
             <content>
@@ -305,6 +295,9 @@
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                               <ImageView fx:id="workingBuildingBtn" fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -313,6 +306,9 @@
                                  <HBox.margin>
                                     <Insets left="5.0" right="5.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                            </children>
                            <opaqueInsets>
@@ -335,6 +331,9 @@
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                               <ImageView fx:id="OilMineBtn" fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -343,6 +342,9 @@
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                               <ImageView fx:id="GasMineBtn" fitHeight="64.0" fitWidth="64.0" layoutX="89.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -351,6 +353,9 @@
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                               <ImageView fx:id="UraniumMineBtn" fitHeight="64.0" fitWidth="64.0" layoutX="153.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -359,6 +364,9 @@
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                            </children>
                            <opaqueInsets>
@@ -381,6 +389,9 @@
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                               <ImageView fx:id="OilPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -389,6 +400,9 @@
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                               <ImageView fx:id="GasPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="89.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -397,6 +411,9 @@
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                               <ImageView fx:id="UraniumPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="153.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -405,6 +422,9 @@
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                               <ImageView fx:id="WindPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="257.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -413,6 +433,9 @@
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                               <ImageView fx:id="WaterPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="326.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -421,6 +444,9 @@
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                               <ImageView fx:id="SolarPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="415.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -429,6 +455,9 @@
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                            </children>
                            <opaqueInsets>
@@ -451,6 +480,9 @@
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                            </children>
                            <opaqueInsets>
@@ -510,5 +542,10 @@
             </Label>
          </children>
       </GridPane>
+      <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="432.0" styleClass="background-lighter" text="ErrorMessage" textAlignment="CENTER" textFill="WHITE" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <font>
+            <Font name="Leelawadee UI Semilight" size="18.0" />
+         </font>
+      </Label>
    </children>
 </GridPane>

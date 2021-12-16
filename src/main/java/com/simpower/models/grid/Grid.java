@@ -7,6 +7,7 @@ import com.simpower.models.grid.buildings.mines.GasMine;
 import com.simpower.models.grid.buildings.mines.OilMine;
 import com.simpower.models.grid.buildings.mines.UraniumMine;
 import com.simpower.models.grid.buildings.plants.*;
+import javafx.animation.PauseTransition;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -14,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.util.Duration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +23,7 @@ import java.util.Map;
 public class Grid implements GridInfos {
     private Cell[][] cells;
     private Label infoLabel;
+    private Label errorLabel;
     private GridPane gridContainer;
     private String buildingToDrop;
     private buildingLayer buildingAction;
@@ -32,15 +35,29 @@ public class Grid implements GridInfos {
      * Instance a Grid, add the resource layer, add the top layer and show the top layer
      * @param gridContainer
      */
-    public Grid(GridPane gridContainer, Label infoLabel, buildingLayer buildingType) {
+    public Grid(GridPane gridContainer, Label infoLabel, buildingLayer buildingType, Label errorLabel) {
         this.gridContainer = gridContainer;
         this.infoLabel = infoLabel;
+        this.errorLabel = errorLabel;
         this.buildingAction = buildingType;
         this.generateEmptyGrid();
         this.addResourceLayer();
         this.addTopLayer();
         this.loadData();
         this.showLayers(false);
+    }
+
+    /**
+     * Show a label to warn the player with the given string
+     * @param message
+     */
+    private void showErrorMessage(String message) {
+        this.errorLabel.setVisible(true);
+        this.errorLabel.setText(message);
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+        pause.setOnFinished(event -> this.errorLabel.setVisible(false));
+        pause.play();
     }
 
     /**
@@ -225,8 +242,8 @@ public class Grid implements GridInfos {
             case OIL_MINE:
             case GAS_MINE:
             case URANIUM_MINE:
-            if (this.checkMineRessource(cell, this.buildingAction)) this.lookAroundCell(placeBuilding, cell);
-                // todo: else error message : action not possible
+                if (this.checkMineRessource(cell, this.buildingAction)) this.lookAroundCell(placeBuilding, cell);
+                else this.showErrorMessage("There is no resources here!");
                 break;
             case NONE:
                 break;
@@ -589,6 +606,7 @@ public class Grid implements GridInfos {
 
         if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
             cells[0].setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(cells[0].getPos_x(), cells[0].getPos_y()));
+        else this.showErrorMessage("Roads can only be placed next to another road!");
 
         if (this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
             cells[1].setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(cells[1].getPos_x(), cells[1].getPos_y()));
@@ -600,12 +618,10 @@ public class Grid implements GridInfos {
      */
     CellFunction placeBuilding = (cells) -> {
         if (cells.length < 2) return;
-
-
         if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer())) {
             cells[0].setCurrentBuildingLayer(this.getBuildingAction());
             cells[0].setCurrentBuilding(this.buildingLayerToBuildingMap.get(this.getBuildingAction()));
-        }
+        } else this.showErrorMessage("There is no road next to it!");
     };
 
     CellFunction refreshCells = (cells) -> {
@@ -625,7 +641,7 @@ public class Grid implements GridInfos {
     private void lookAroundCell(CellFunction function, Cell cell) {
         // center
         function.run(cell);
-        // grid (center too)
+        // grid (+ center again)
         for (int x : new int[]{-1, 0, 1}) for (int y : new int[]{-1, 0, 1}) if (this.isCellExist(cell.getPos_x() + x, cell.getPos_y() + y)) {
             function.run(cell, this.getCell(cell.getPos_x() + x, cell.getPos_y() + y));
         }
