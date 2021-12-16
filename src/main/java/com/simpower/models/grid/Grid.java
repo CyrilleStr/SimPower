@@ -226,7 +226,7 @@ public class Grid implements GridInfos {
     private void mouseClicked(Cell cell) {
         switch (this.getBuildingLayerAction()) {
             case ROAD:
-                this.lookAroundCell(placeRoad, cell);
+                this.lookAroundCell(placeRoad, cell, "Roads can only be placed next to another road!");
                 break;
             case HOUSE:
             case COAL_PLANT:
@@ -236,20 +236,20 @@ public class Grid implements GridInfos {
             case SOLAR_PLANT:
             case WIND_FARM:
             case WATER_MILL:
-                this.lookAroundCell(placeBuilding, cell);
+                this.lookAroundCell(placeBuilding, cell, "There is no road next to it!");
                 break;
             case COAL_MINE:
             case OIL_MINE:
             case GAS_MINE:
             case URANIUM_MINE:
-                if (this.checkMineRessource(cell, this.getBuildingLayerAction())) this.lookAroundCell(placeBuilding, cell);
+                if (this.checkMineRessource(cell, this.getBuildingLayerAction())) this.lookAroundCell(placeBuilding, cell, "There is no road next to it!");
                 else this.showErrorMessage("There is no resources here!");
                 break;
             case NONE:
                 break;
         }
 
-        this.lookAroundCell(refreshCells, cell);
+        this.lookAroundCell(refreshCells, cell, "");
     }
 
     public void refreshLayers() {
@@ -603,35 +603,42 @@ public class Grid implements GridInfos {
      * Place road on building layer
      */
     CellFunction placeRoad = (cells) -> {
-        if (cells.length < 2) return;
+        if (cells.length < 2) return false;
+        boolean res = false;
 
-        if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
+        if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer())) {
             cells[0].setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(cells[0].getPos_x(), cells[0].getPos_y()));
-        else this.showErrorMessage("Roads can only be placed next to another road!");
+            res = true;
+        }
 
         if (this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer()))
             cells[1].setCurrentBuildingLayer(this.getCorrespondingBuildingLayerRoad(cells[1].getPos_x(), cells[1].getPos_y()));
 
+        return res;
     };
 
     /**
      * Place building on building layer
      */
     CellFunction placeBuilding = (cells) -> {
-        if (cells.length < 2) return;
+        if (cells.length < 2) return false;
+
         if (cells[0].getCurrentBuildingLayer() == buildingLayer.NONE && this.isBuildingLayerRoad(cells[1].getCurrentBuildingLayer())) {
             cells[0].setCurrentBuilding(this.getBuildingObjectAction());
             cells[0].setCurrentBuildingLayer(this.getBuildingLayerAction());
-        } else this.showErrorMessage("There is no road next to it!");
+            return true;
+        }
+        return false;
     };
 
     CellFunction refreshCells = (cells) -> {
-        if (cells.length < 2) return;
+        if (cells.length < 2) return false;
         constructLayers(cells[1].getPos_x(), cells[1].getPos_y(), this.isResourcesShown());
+        return true;
     };
 
     // interface for lambda expressions
-    interface CellFunction { void run(Cell... cell); }
+    interface CellFunction { boolean run(Cell... cell); }
 
     /**
      * Complex function to determine what operation should be done on all cells in the 3x3 area
@@ -639,13 +646,18 @@ public class Grid implements GridInfos {
      * @param function operation to be done
      * @param cell center cell
      */
-    private void lookAroundCell(CellFunction function, Cell cell) {
+    private void lookAroundCell(CellFunction function, Cell cell, String errorMessage) {
+        int goodResponse = 0;
+
         // center
         function.run(cell);
         // grid (+ center again)
         for (int x : new int[]{-1, 0, 1}) for (int y : new int[]{-1, 0, 1}) if (this.isCellExist(cell.getPos_x() + x, cell.getPos_y() + y)) {
-            function.run(cell, this.getCell(cell.getPos_x() + x, cell.getPos_y() + y));
+            goodResponse += (function.run(cell, this.getCell(cell.getPos_x() + x, cell.getPos_y() + y))) ? 1 : 0;
         }
+
+        // show error message if no response were good;
+        if (goodResponse == 0) this.showErrorMessage(errorMessage);
     }
 
     private boolean checkMineRessource (Cell cell, buildingLayer buildingType){
