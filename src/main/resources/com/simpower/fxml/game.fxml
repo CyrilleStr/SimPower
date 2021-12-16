@@ -205,10 +205,10 @@
          <children>
             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/textures/hotbar/water.png" />
+                  <Image url="@../assets/textures/hotbar/electricity.png" />
                </image>
             </ImageView>
-            <Label prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 L" textFill="WHITE">
+            <Label fx:id="electrictyLabel" prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 W" textFill="WHITE">
                <font>
                   <Font name="Leelawadee UI" size="16.0" />
                </font>
@@ -216,7 +216,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
                <tooltip>
-                  <Tooltip text="Amount of water of your city" />
+                  <Tooltip text="Electricty stock" />
                </tooltip>
             </Label>
          </children>

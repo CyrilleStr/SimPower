@@ -4,7 +4,7 @@ import com.simpower.models.grid.buildings.ProducerEnergyBuilding;
 
 public class SolarPlant extends ProducerEnergyBuilding {
     public SolarPlant() {
-        super(100,100,100);
+        super(50,10500,110);
     }
 
 }

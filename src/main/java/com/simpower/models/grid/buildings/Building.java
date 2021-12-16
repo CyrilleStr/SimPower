@@ -1,9 +1,9 @@
 package com.simpower.models.grid.buildings;
 
-public class Building {
+public abstract class Building {
     private int servicingCost;
-    private  int level;
-    private  int buildingCost;
+    private int level;
+    private int buildingCost;
 
     public Building(int servicingCost, int buildingCost){
         setServicingCost(servicingCost);
@@ -44,7 +44,7 @@ public class Building {
     }
 
     public int collectMoneyOutcomes(){
-        return 0;
+        return this.servicingCost;
     }
 
     public int produceElectricity(){

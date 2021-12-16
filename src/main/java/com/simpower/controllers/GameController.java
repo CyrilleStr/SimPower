@@ -48,6 +48,7 @@ public class GameController implements Runnable{
     @FXML private Label uraniumLabel;
     @FXML private Label coalLabel;
     @FXML private Label gazLabel;
+    @FXML private Label electrictyLabel;
 
     /**
      * Instance a new game controller
@@ -92,6 +93,7 @@ public class GameController implements Runnable{
         this.oilLabel.setText(this.game.getOilStock() + " L");
         this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
         this.moneyLabel.setText(this.game.getMoney() + " €");
+        this.electrictyLabel.setText(this.game.getElectrictyStock() + " W");
     }
 
     @FXML
@@ -232,6 +234,7 @@ public class GameController implements Runnable{
                             this.oilLabel.setText(this.game.getOilStock() + " L");
                             this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
                             this.moneyLabel.setText(this.game.getMoney() + " €");
+                            this.electrictyLabel.setText(this.game.getElectrictyStock() + " W");
                         });
                         day++;
                         if(day > 365) day = 0;
