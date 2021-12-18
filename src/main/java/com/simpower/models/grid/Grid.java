@@ -1,5 +1,6 @@
 package com.simpower.models.grid;
 
+import com.simpower.controllers.GameController;
 import com.simpower.models.grid.buildings.Building;
 import com.simpower.models.grid.buildings.House;
 import com.simpower.models.grid.buildings.mines.CoalMine;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Grid implements GridInfos {
+    private GameController gameController;
     private Cell[][] cells;
     private Label infoLabel;
     private Label errorLabel;
@@ -36,11 +38,12 @@ public class Grid implements GridInfos {
      * Instance a Grid, add the resource layer, add the top layer and show the top layer
      * @param gridContainer
      */
-    public Grid(GridPane gridContainer, Label infoLabel, buildingLayer buildingType, Label errorLabel) {
+    public Grid(GridPane gridContainer, Label infoLabel, buildingLayer buildingType, Label errorLabel, GameController gameController) {
         this.gridContainer = gridContainer;
         this.infoLabel = infoLabel;
         this.errorLabel = errorLabel;
         this.buildingLayerAction = buildingType;
+        this.gameController = gameController;
         this.generateEmptyGrid();
         this.addResourceLayer();
         this.addTopLayer();
@@ -223,10 +226,12 @@ public class Grid implements GridInfos {
     /**
      * On mouse clicked event
      */
-    private void mouseClicked(Cell cell) {
+    public String mouseClicked(Cell cell) {
+        String errorMsg = null;
         switch (this.getBuildingLayerAction()) {
             case ROAD:
-                this.lookAroundCell(placeRoad, cell, "Roads can only be placed next to another road!");
+                if(!this.lookAroundCell(placeRoad, cell))
+                    errorMsg = "Roads can only be placed next to another road!";
                 break;
             case HOUSE:
             case COAL_PLANT:
@@ -236,20 +241,25 @@ public class Grid implements GridInfos {
             case SOLAR_PLANT:
             case WIND_FARM:
             case WATER_MILL:
-                this.lookAroundCell(placeBuilding, cell, "There is no road next to it!");
+                if(!this.lookAroundCell(placeBuilding, cell))
+                    errorMsg = "There is no road next to it!";
                 break;
             case COAL_MINE:
             case OIL_MINE:
             case GAS_MINE:
             case URANIUM_MINE:
-                if (this.checkMineRessource(cell, this.getBuildingLayerAction())) this.lookAroundCell(placeBuilding, cell, "There is no road next to it!");
-                else this.showErrorMessage("There is no resources here!");
+                if (this.checkMineRessource(cell, this.getBuildingLayerAction())){
+                    if(this.lookAroundCell(placeBuilding, cell))
+                        errorMsg = "There is no road next to it!";
+                }else{
+                    errorMsg = "There is no resources here!";
+                }
                 break;
             case NONE:
                 break;
         }
-
-        this.lookAroundCell(refreshCells, cell, "");
+        this.lookAroundCell(refreshCells, cell);
+        return errorMsg;
     }
 
     public void refreshLayers() {
@@ -264,7 +274,7 @@ public class Grid implements GridInfos {
         topLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
             this.hoverListener(topLayer, x, y, newVal);
         });
-        topLayer.setOnMouseClicked(event -> this.mouseClicked(this.getCell(x, y)));
+        topLayer.setOnMouseClicked(event -> gameController.mouseClickedAction(this.getCell(x, y)));
 
         ImageView resourceLayer = new ImageView(this.resourceLayerImages.get(cells[x][y].getCurrentResourceLayer()));
         resourceLayer.setFitHeight(CELL_HEIGHT);
@@ -272,7 +282,7 @@ public class Grid implements GridInfos {
         resourceLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
             this.hoverListener(resourceLayer, x, y, newVal);
         });
-        resourceLayer.setOnMouseClicked(event -> this.mouseClicked(this.getCell(x, y)));
+        resourceLayer.setOnMouseClicked(event -> gameController.mouseClickedAction(this.getCell(x, y)));
 
         ImageView buildingLayer = new ImageView(this.buildingLayerImages.get(cells[x][y].getCurrentBuildingLayer()));
         buildingLayer.setFitHeight(CELL_HEIGHT);
@@ -280,7 +290,7 @@ public class Grid implements GridInfos {
         buildingLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
             this.hoverListener(buildingLayer, x, y, newVal);
         });
-        buildingLayer.setOnMouseClicked(event -> this.mouseClicked(this.getCell(x, y)));
+        buildingLayer.setOnMouseClicked(event -> gameController.mouseClickedAction(this.getCell(x, y)));
 
         ImageView pollutionLayer = new ImageView(this.pollutionLayerImages.get(cells[x][y].getCurrentPollutionLayer()));
         pollutionLayer.setFitHeight(CELL_HEIGHT);
@@ -646,7 +656,7 @@ public class Grid implements GridInfos {
      * @param function operation to be done
      * @param cell center cell
      */
-    private void lookAroundCell(CellFunction function, Cell cell, String errorMessage) {
+    private boolean lookAroundCell(CellFunction function, Cell cell) {
         int goodResponse = 0;
 
         // center
@@ -656,8 +666,8 @@ public class Grid implements GridInfos {
             goodResponse += (function.run(cell, this.getCell(cell.getPos_x() + x, cell.getPos_y() + y))) ? 1 : 0;
         }
 
-        // show error message if no response were good;
-        if (goodResponse == 0) this.showErrorMessage(errorMessage);
+        // return error message if no response were good;
+        return (goodResponse == 0) ? false : true;
     }
 
     private boolean checkMineRessource (Cell cell, buildingLayer buildingType){

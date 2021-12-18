@@ -2,16 +2,19 @@ package com.simpower.controllers;
 
 import com.simpower.Main;
 import com.simpower.models.Game;
+import com.simpower.models.grid.Cell;
 import com.simpower.models.grid.Grid;
 import com.simpower.models.grid.GridInfos.buildingLayer;
 import com.simpower.models.grid.buildings.Building;
 import com.simpower.models.grid.buildings.House;
+import com.simpower.models.grid.buildings.Road;
 import com.simpower.models.grid.buildings.mines.CoalMine;
 import com.simpower.models.grid.buildings.mines.GasMine;
 import com.simpower.models.grid.buildings.mines.OilMine;
 import com.simpower.models.grid.buildings.mines.UraniumMine;
 import com.simpower.models.grid.buildings.plants.*;
 import com.simpower.models.time.Clock;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 
 import static java.lang.Thread.sleep;
 
@@ -81,7 +85,7 @@ public class GameController implements Runnable{
     @FXML
     public void initialize(){
         this.loadData();
-        this.grid = new Grid(gridContainer, infoLabel, buildingType, errorLabel);
+        this.grid = new Grid(gridContainer, infoLabel, buildingType, errorLabel, this);
 
         this.clock = new Clock(grid, clockLabel);
         this.clock.start();
@@ -98,6 +102,24 @@ public class GameController implements Runnable{
         this.eventLoop = new Thread(this);
         this.eventLoop.start();
         this.refreshHotBar();
+    }
+
+    public void mouseClickedAction(Cell cell){
+        if(this.grid.getBuildingLayerAction() != buildingLayer.NONE) {
+            String errorMsg = null;
+            if (this.game.getMoney() >= this.grid.getBuildingObjectAction().getBuildingCost()) {
+                errorMsg = this.grid.mouseClicked(cell);
+                if (errorMsg == null) {
+                    this.game.setMoney(this.game.getMoney() - this.grid.getBuildingObjectAction().getBuildingCost());
+                    this.refreshHotBar();
+                }
+            } else {
+                errorMsg = "You don't have enough money !";
+            }
+
+            if (errorMsg != null)
+                this.showErrorMessage(errorMsg);
+        }
     }
 
     @FXML
@@ -179,21 +201,8 @@ public class GameController implements Runnable{
     @FXML
     void setBuildingAction(MouseEvent event) {
         String id = ((ImageView) event.getSource()).getId();
-        if(this.stringToBuildingMap.get(id) == null) { // the building to construct is a road
-            buildingLayer tmpBL = this.stringToBuildingLayerMap.get(((ImageView) event.getSource()).getId());
-            this.grid.setBuildingLayerAction(this.stringToBuildingLayerMap.get(id));
-        }else{
-            if(this.game.getMoney() >= this.stringToBuildingMap.get(id).getBuildingCost()){ // check if the player has enough money to build to building
-                this.game.setMoney(this.game.getMoney() - this.stringToBuildingMap.get(id).getBuildingCost());
-                this.grid.setBuildingLayerAction(this.stringToBuildingLayerMap.get(id));
-                this.grid.setBuildingObjectAction(this.stringToBuildingMap.get(id));
-                this.refreshHotBar();
-            }else{
-                System.out.println("You don't have enough money to build this building");
-                this.grid.setBuildingLayerAction(buildingLayer.NONE);
-                // todo popup when user has not enough money to place a building
-            }
-        }
+        this.grid.setBuildingLayerAction(this.stringToBuildingLayerMap.get(id));
+        this.grid.setBuildingObjectAction(this.stringToBuildingMap.get(id));
     }
 
     /**
@@ -237,6 +246,7 @@ public class GameController implements Runnable{
         this.stringToBuildingLayerMap.put("SolarPlantBtn", buildingLayer.SOLAR_PLANT);
 
         /* Link building layer to building object */
+        stringToBuildingMap.put("roadBtn", new Road());
         stringToBuildingMap.put("houseBtn", new House());
         stringToBuildingMap.put("UraniumPlantBtn", new NuclearPlant());
         stringToBuildingMap.put("GasPlantBtn", new GasPlant());
@@ -258,6 +268,15 @@ public class GameController implements Runnable{
         this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
         this.moneyLabel.setText(this.game.getMoney() + " €");
         this.electrictyLabel.setText(this.game.getElectricityStock() + " W");
+    }
+
+    private void showErrorMessage(String message) {
+        this.errorLabel.setVisible(true);
+        this.errorLabel.setText(message);
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> this.errorLabel.setVisible(false));
+        pause.play();
     }
 
     @Override

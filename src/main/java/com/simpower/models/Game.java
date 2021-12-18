@@ -39,7 +39,7 @@ public class Game implements GridInfos {
     }
 
     /**
-     * Call operation to be done each day
+     * Call every cell operations to be done each day such as collectResource or collectMoney
      */
     public void eachDay() {
         for (Cell[] cellX : this.grid.getCells()) {
