@@ -30,7 +30,7 @@ public class Game implements GridInfos {
         this.grid = grid;
         this.clock = clock;
         this.createdAt = LocalDateTime.now();
-        setMoney(10000);
+        setMoney(100000);
         setElectricityStock(10000);
         setCoalStock(0);
         setGasStock(0);
