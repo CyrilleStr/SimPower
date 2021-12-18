@@ -52,19 +52,6 @@ public class Grid implements GridInfos {
     }
 
     /**
-     * Show a label to warn the player with the given string
-     * @param message
-     */
-    private void showErrorMessage(String message) {
-        this.errorLabel.setVisible(true);
-        this.errorLabel.setText(message);
-
-        PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
-        pause.setOnFinished(event -> this.errorLabel.setVisible(false));
-        pause.play();
-    }
-
-    /**
      * Generate an empty Grid while instancing cells
      */
     private void generateEmptyGrid(){
@@ -242,15 +229,15 @@ public class Grid implements GridInfos {
             case WIND_FARM:
             case WATER_MILL:
                 if(!this.lookAroundCell(placeBuilding, cell))
-                    errorMsg = "There is no road next to it!";
+                    errorMsg = "Building can only be placed next to a road!";
                 break;
             case COAL_MINE:
             case OIL_MINE:
             case GAS_MINE:
             case URANIUM_MINE:
                 if (this.checkMineRessource(cell, this.getBuildingLayerAction())){
-                    if(this.lookAroundCell(placeBuilding, cell))
-                        errorMsg = "There is no road next to it!";
+                    if(!this.lookAroundCell(placeBuilding, cell))
+                        errorMsg = "Building can only be placed next to a road!";
                 }else{
                     errorMsg = "There is no resources here!";
                 }
