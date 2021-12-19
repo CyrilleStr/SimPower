@@ -45,14 +45,6 @@ public class Clock extends Thread {
 
     @FXML private Label clockLabel;
 
-    /*
-     * Test if a given value is inside a given array
-     */
-    private boolean contains(int[] arr, int x) {
-        for (int a : arr) if (x == a) return true;
-        return false;
-    }
-
     public Clock(Grid grid, Label clockLabel_p){
         this.time = 0;
         this.speed = 1;
@@ -139,6 +131,18 @@ public class Clock extends Thread {
                 this.grid.refreshLayers();
                 break;
         }
+    }
+
+    /**
+     * Test if a given value is inside a given array
+     *
+     * @param arr
+     * @param x
+     * @return
+     */
+    private boolean contains(int[] arr, int x) {
+        for (int a : arr) if (x == a) return true;
+        return false;
     }
 
     /**

@@ -11,7 +11,6 @@ public interface GridInfos {
     Map<pollutionLayer, Image> pollutionLayerImages = new HashMap<>();
     Map<topLayer, Image> topLayerImages = new HashMap<>();
 
-
     int CELL_WIDTH = 32;
     int CELL_HEIGHT = CELL_WIDTH; // square :)
 
@@ -119,5 +118,13 @@ public interface GridInfos {
         NONE,
         EVENLY,
         POLLUTED
+    }
+
+    enum resourceStock {
+        GAS,
+        OIL,
+        URANIUM,
+        COAL,
+        NONE
     }
 }
