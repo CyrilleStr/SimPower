@@ -73,12 +73,6 @@ public class Cell implements GridInfos {
         return false;
     }
 
-    /**
-     * Check if the player has enough money to construct the building, if that's the case, instance the given building
-     *
-     * @param currentBuilding the building the construct
-     * @return true if the user has enough money false otherwise
-     */
     public void setCurrentBuilding(Building currentBuilding) {
         this.currentBuilding = currentBuilding;
     }
