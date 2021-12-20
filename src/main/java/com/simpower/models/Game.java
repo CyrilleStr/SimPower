@@ -76,12 +76,11 @@ public class Game implements GridInfos{
                         this.money += building.changeMoneyAmount();
                     } else {
                         building.setActive(false);
-                        // todo add a visual effect for non active building
-                        this.grid.updateIsActiveEffect(cell.getPos_x(), cell.getPos_y());
                     }
                 }
             }
         }
+        this.grid.refreshLayers();
         // todo: add automatic save
     };
 

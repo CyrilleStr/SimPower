@@ -292,6 +292,10 @@ public class Grid implements GridInfos {
         for (int x = 0; x < NB_CELLS_WIDTH; x++) {
             for (int y = 0; y < NB_CELLS_HEIGHT; y++) {
                 this.constructLayers(x, y, notTop);
+
+                if(!this.getCell(x, y).getCurrentBuilding().isActive()){
+                    this.updateIsActiveEffect(x, y);
+                }
             }
         }
 
@@ -685,22 +689,16 @@ public class Grid implements GridInfos {
         return tmp;
     }
 
-    public void changeDarkness(int x, int y, ImageView imgView){
+    public void darkenIfInactive(int x, int y, ImageView imgView){
 
         ColorAdjust colorAdjust = new ColorAdjust();
-
-        if(!this.getCell(x, y).getCurrentBuilding().isActive()){
-            // darker when inactive, elsewhere, 0 (default brightness) (-1 == full dark)
-             colorAdjust.setBrightness(-0.8);
-        }
-        else {
-            colorAdjust.setBrightness(0);
-        }
+        // darker when inactive, elsewhere, 0 (default brightness) (-1 == full dark)
+        colorAdjust.setBrightness(-0.8);
         imgView.setEffect(colorAdjust);
     }
 
     public void updateIsActiveEffect(int x, int y){
         ImageView buildingLayer = new ImageView(this.topLayerImages.get(cells[x][y].getCurrentTopLayer()));
-        changeDarkness(x, y, buildingLayer);
+        darkenIfInactive(x, y, buildingLayer);
     }
 }
