@@ -2,19 +2,17 @@ package com.simpower.models;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 import com.simpower.models.grid.Cell;
 import com.simpower.models.grid.Grid;
 import com.simpower.models.grid.GridInfos;
 import com.simpower.models.grid.buildings.*;
-import com.simpower.models.grid.buildings.mines.CoalMine;
-import com.simpower.models.grid.buildings.mines.GasMine;
-import com.simpower.models.grid.buildings.mines.OilMine;
-import com.simpower.models.grid.buildings.mines.UraniumMine;
-import com.simpower.models.grid.buildings.plants.*;
 import com.simpower.models.time.Clock;
 
-public class Game implements GridInfos {
+public class Game implements GridInfos{
     private Clock clock;
     private LocalDateTime createdAt;
     private Path savePath;
@@ -25,6 +23,7 @@ public class Game implements GridInfos {
     private int gasStock;
     private int oilStock;
     private int uraniumStock;
+    private Map <resourceStock, Function<Integer, Integer>> resourceStockToStockMap = new HashMap<>();
 
     public Game (Grid grid, Clock clock) {
         this.grid = grid;
@@ -36,58 +35,71 @@ public class Game implements GridInfos {
         setGasStock(0);
         setOilStock(0);
         setUraniumStock(0);
+        this.loadData();
     }
 
     /**
      * Call every cell operations to be done each day such as collectResource or collectMoney
      */
     public void eachDay() {
+        boolean active;
         for (Cell[] cellX : this.grid.getCells()) {
             for (Cell cell : cellX) {
+                active = true;
                 Building building = cell.getCurrentBuilding();
-                // todo check if building is not road
-                if(building != null) {
-                    if (building instanceof CoalMine) {
-                        coalStock += building.collectResource();
-                        money -= building.collectMoneyOutcomes();
-                        electricityStock -= building.consumeElectricity();
-                    } else if (building instanceof GasMine) {
-                        gasStock += building.collectResource();
-                        money -= building.collectMoneyOutcomes();
-                        electricityStock -= building.consumeElectricity();
-                    } else if (building instanceof OilMine) {
-                        oilStock += building.collectResource();
-                        money -= building.collectMoneyOutcomes();
-                        electricityStock -= building.consumeElectricity();
-                    } else if (building instanceof UraniumMine) {
-                        uraniumStock += building.collectResource();
-                        money -= building.collectMoneyOutcomes();
-                        electricityStock -= building.consumeElectricity();
-                    }else if(building instanceof CoalPlant){
-                        coalStock -= building.consumeResource();
-                        electricityStock += building.produceElectricity();
-                    }else if(building instanceof GasPlant){
-                        gasStock -= building.consumeResource();
-                        electricityStock += building.produceElectricity();
-                    }else if(building instanceof NuclearPlant){
-                        uraniumStock -= building.consumeResource();
-                        electricityStock += building.produceElectricity();
-                    }else if(building instanceof OilPlant) {
-                        oilStock -= building.consumeResource();
-                        electricityStock += building.produceElectricity();
-                    }else if(building instanceof SolarPlant || building instanceof WaterMill || building instanceof WindFarm) {
-                        electricityStock += building.produceElectricity();
-                    }else if(building instanceof House){
-                        money += building.collectMoneyIncomes();
-                        electricityStock -= building.consumeElectricity();
-                    }else{
-                        System.out.println("Error: invalide building on case " + cell.getPos_x() + ":" + cell.getPos_y());
+                // Check if there's a building and if it isn't a road
+                if (building != null && !building.isRoad()) {
+
+                    // Check if the building can have all what it needs to be still active
+                    if (building.isHouse()) {
+                        if (-building.electricityStockChange() >= electricityStock) // Not enough electricity for the house
+                            active = false;
+                    } else {
+                        if (building.isFossil())
+                            if (building.isEnergyProducer()) // The building is a fossil plant
+                                if (-building.resourceStockChange() >= resourceStockToStockMap.get(building.getResourceStockEnum()).apply(0))
+                                    // The fossil plant has not enough resources to work
+                                    active = false;
+
+                        if (-building.changeMoneyAmount() >= this.money)
+                            // The building has servicing cost greater than the money amount
+                            active = false;
+                    }
+
+                    // Building is active => daily operation can be done
+                    if (active) {
+                        if (building.isFossil()) {
+                            resourceStockToStockMap.get(building.getResourceStockEnum()).apply(building.resourceStockChange());
+                        }
+                        this.electricityStock += building.electricityStockChange();
+                        this.money += building.changeMoneyAmount();
+                    } else {
+                        building.setActive(false);
+                        // todo add a visual effect for non active building
                     }
                 }
             }
         }
         // todo: add automatic save
     };
+
+    /**
+     * Load map converting enum stock to Integer stock
+     */
+    public void loadData(){
+        resourceStockToStockMap.put(resourceStock.GAS, tmp -> {
+            return this.gasStock += tmp;
+        });
+        resourceStockToStockMap.put(resourceStock.OIL, tmp -> {
+            return this.oilStock += tmp;
+        });
+        resourceStockToStockMap.put(resourceStock.COAL, tmp -> {
+            return this.coalStock += tmp;
+        });
+        resourceStockToStockMap.put(resourceStock.URANIUM, tmp -> {
+            return this.uraniumStock += tmp;
+        });
+    }
 
     public void setMoney(int money) {
         this.money = money;

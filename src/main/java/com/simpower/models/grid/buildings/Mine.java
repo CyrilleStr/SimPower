@@ -3,16 +3,24 @@ package com.simpower.models.grid.buildings;
 public abstract class Mine extends ConsumerEnergyBuilding {
     private int resourceProduction;
 
-    public Mine(int servicingCost, int buildingCost,int consumeEnergy) {
-        super(servicingCost, buildingCost, consumeEnergy);
+    public Mine(int servicingCost, int buildingCost,int consumeEnergy, resourceStock resourceStock) {
+        super(servicingCost, buildingCost, consumeEnergy, true, resourceStock, false);
     }
+
+    /**
+     * Return the resources to be added to the resource stock
+     *
+     * @return the resources as a positive number
+     */
+    @Override
+    public int resourceStockChange(){
+        return resourceProduction;
+    }
+
+    /* Getters and setters */
 
     public void setResourceProduction(int resourceProduction) {
         this.resourceProduction = resourceProduction;
     }
 
-    @Override
-    public int collectResource(){
-        return resourceProduction;
-    }
 }

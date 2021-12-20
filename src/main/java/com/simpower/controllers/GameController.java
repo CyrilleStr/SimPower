@@ -285,13 +285,14 @@ public class GameController implements Runnable{
         while(true){
             try {
                 if(this.clock.isTicking()){
+                    if(this.clock.getDayCount() <= 1)
+                        day = 1;
                     if(day < this.clock.getDayCount()){
                         this.game.eachDay();
                         Platform.runLater(() -> {
                             this.refreshHotBar();
                         });
                         day++;
-                        if(day > 365) day = 0;
                     }
                 }
                 sleep(10);
