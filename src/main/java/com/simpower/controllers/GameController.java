@@ -29,6 +29,10 @@ import javafx.scene.control.Button;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.sound.sampled.*;
+import java.io.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
@@ -281,6 +285,9 @@ public class GameController implements Runnable{
 
     @Override
     public void run() {
+
+        music();
+
         int day = this.clock.getDayCount();
         while(true){
             try {
@@ -300,5 +307,13 @@ public class GameController implements Runnable{
                 e.printStackTrace();
             }
         }
+    }
+
+    public void music() {
+        String path = "file:src/main/resources/com/simpower/assets/music/music.wav";
+
+        Media sound = new Media(new File(path).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
     }
 }

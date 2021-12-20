@@ -293,9 +293,11 @@ public class Grid implements GridInfos {
             for (int y = 0; y < NB_CELLS_HEIGHT; y++) {
                 this.constructLayers(x, y, notTop);
 
+                /*
                 if(!this.getCell(x, y).getCurrentBuilding().isActive()){
                     this.updateIsActiveEffect(x, y);
                 }
+                */
             }
         }
 
