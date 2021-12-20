@@ -2,13 +2,6 @@ package com.simpower.models.grid;
 
 import com.simpower.controllers.GameController;
 import com.simpower.models.grid.buildings.Building;
-import com.simpower.models.grid.buildings.House;
-import com.simpower.models.grid.buildings.mines.CoalMine;
-import com.simpower.models.grid.buildings.mines.GasMine;
-import com.simpower.models.grid.buildings.mines.OilMine;
-import com.simpower.models.grid.buildings.mines.UraniumMine;
-import com.simpower.models.grid.buildings.plants.*;
-import javafx.animation.PauseTransition;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -16,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.util.Duration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -691,5 +683,24 @@ public class Grid implements GridInfos {
             tmp = new Cell();
         }
         return tmp;
+    }
+
+    public void changeDarkness(int x, int y, ImageView imgView){
+
+        ColorAdjust colorAdjust = new ColorAdjust();
+
+        if(!this.getCell(x, y).getCurrentBuilding().isActive()){
+            // darker when inactive, elsewhere, 0 (default brightness) (-1 == full dark)
+             colorAdjust.setBrightness(-0.8);
+        }
+        else {
+            colorAdjust.setBrightness(0);
+        }
+        imgView.setEffect(colorAdjust);
+    }
+
+    public void updateIsActiveEffect(int x, int y){
+        ImageView buildingLayer = new ImageView(this.topLayerImages.get(cells[x][y].getCurrentTopLayer()));
+        changeDarkness(x, y, buildingLayer);
     }
 }

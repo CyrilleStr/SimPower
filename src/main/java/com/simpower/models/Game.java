@@ -11,6 +11,7 @@ import com.simpower.models.grid.Grid;
 import com.simpower.models.grid.GridInfos;
 import com.simpower.models.grid.buildings.*;
 import com.simpower.models.time.Clock;
+import javafx.scene.image.ImageView;
 
 public class Game implements GridInfos{
     private Clock clock;
@@ -76,6 +77,7 @@ public class Game implements GridInfos{
                     } else {
                         building.setActive(false);
                         // todo add a visual effect for non active building
+                        this.grid.updateIsActiveEffect(cell.getPos_x(), cell.getPos_y());
                     }
                 }
             }
