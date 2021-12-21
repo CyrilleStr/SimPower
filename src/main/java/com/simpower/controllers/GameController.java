@@ -27,6 +27,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import javax.sound.sampled.*;
@@ -65,7 +66,7 @@ public class GameController implements Runnable{
     @FXML private Label coalLabel;
     @FXML private Label gazLabel;
     @FXML private Label errorLabel;
-    @FXML private Label electrictyLabel;
+    @FXML private Label electricityLabel;
 
     /**
      * Instance a new game controller
@@ -271,7 +272,7 @@ public class GameController implements Runnable{
         this.oilLabel.setText(this.game.getOilStock() + " L");
         this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
         this.moneyLabel.setText(this.game.getMoney() + " €");
-        this.electrictyLabel.setText(this.game.getElectricityStock() + " W");
+        this.electricityLabel.setText(this.game.getElectricityStock() + " W");
     }
 
     private void showErrorMessage(String message) {
@@ -286,7 +287,11 @@ public class GameController implements Runnable{
     @Override
     public void run() {
 
-        music();
+        try {
+            music();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         int day = this.clock.getDayCount();
         while(true){
@@ -309,11 +314,13 @@ public class GameController implements Runnable{
         }
     }
 
-    public void music() {
-        String path = "file:src/main/resources/com/simpower/assets/music/music.wav";
+    public void music() throws Exception{
 
-        Media sound = new Media(new File(path).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+        Clip clip = AudioSystem.getClip();
+        AudioInputStream ais = AudioSystem.getAudioInputStream(new File("music.wav"));
+        clip.open(ais);
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(-30.0f); //reduce volume by 30 dB
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }
