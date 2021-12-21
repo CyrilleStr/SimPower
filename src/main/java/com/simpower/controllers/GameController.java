@@ -212,7 +212,7 @@ public class GameController implements Runnable{
      */
     @FXML
     void deleteBuildingAction(ActionEvent event) {
-        this.grid.setBuildingLayerAction(buildingLayer.NONE);
+        this.grid.setBuildingLayerAction(buildingLayer.DELETE);
     }
 
     private void swapTabPane() {

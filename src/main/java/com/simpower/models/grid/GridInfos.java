@@ -35,6 +35,7 @@ public interface GridInfos {
 
     enum buildingLayer {
         NONE,
+        DELETE,
         /*Building*/
         HOUSE,
         /*Generators*/
