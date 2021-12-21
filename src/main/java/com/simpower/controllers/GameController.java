@@ -27,13 +27,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import javax.sound.sampled.*;
 import java.io.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
@@ -153,7 +150,7 @@ public class GameController implements Runnable{
     }
 
     @FXML
-    void hidePauseMenu(ActionEvent event) throws IOException {
+    void hidePauseMenu() throws IOException {
         this.pauseGame();
     }
 
@@ -180,20 +177,19 @@ public class GameController implements Runnable{
 
     /**
      * Play/pause the timer on user action while changing the pause btn image
-     * @param event
-     * @throws InterruptedException
+     * @param event button pause time click
+     * @throws InterruptedException exceptions
      */
     @FXML
-    void pauseGameAction(ActionEvent event) throws InterruptedException {
+    void pauseGameAction() throws InterruptedException {
         this.pauseTime(false);
     }
 
     /**
      * Change the clock speed on user action
-     * @param event
      */
     @FXML
-    void changeClockSpeedAction(ActionEvent event) {
+    void changeClockSpeedAction() {
         this.clock.nextSpeed();
         this.changeClockSpeedBtn.setText("✕" + this.clock.getSpeed());
     }
@@ -201,7 +197,7 @@ public class GameController implements Runnable{
     /**
      * Call the grid method to set a given building (the building layer type is stored in the id)
      *
-     * @param event
+     * @param event click of the mouse
      */
     @FXML
     void setBuildingAction(MouseEvent event) {
@@ -213,10 +209,9 @@ public class GameController implements Runnable{
     /**
      * Call the grid to delete a given building
      *
-     * @param event
      */
     @FXML
-    void deleteBuildingAction(ActionEvent event) {
+    void deleteBuildingAction() {
         this.grid.setBuildingLayerAction(buildingLayer.NONE);
     }
 
@@ -226,12 +221,12 @@ public class GameController implements Runnable{
     }
 
     @FXML
-    void openTabPane(ActionEvent event) {
+    void openTabPane() {
         this.swapTabPane();
     }
 
     @FXML
-    void showGridResources(ActionEvent event) {
+    void showGridResources() {
         this.grid.showResources();
     }
 
@@ -314,6 +309,10 @@ public class GameController implements Runnable{
         }
     }
 
+    /**
+     * Plays the background music
+     * @throws Exception Get clip not going well
+     */
     public void music() throws Exception{
 
         Clip clip = AudioSystem.getClip();
