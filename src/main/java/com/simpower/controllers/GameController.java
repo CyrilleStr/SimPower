@@ -177,7 +177,6 @@ public class GameController implements Runnable{
 
     /**
      * Play/pause the timer on user action while changing the pause btn image
-     * @param event button pause time click
      * @throws InterruptedException exceptions
      */
     @FXML
@@ -298,6 +297,7 @@ public class GameController implements Runnable{
                         this.game.eachDay();
                         Platform.runLater(() -> {
                             this.refreshHotBar();
+                            this.grid.refreshLayers();
                         });
                         day++;
                     }
