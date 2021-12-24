@@ -11,6 +11,7 @@ import com.simpower.models.grid.Grid;
 import com.simpower.models.grid.GridInfos;
 import com.simpower.models.grid.buildings.*;
 import com.simpower.models.time.Clock;
+import javafx.scene.image.ImageView;
 
 public class Game implements GridInfos{
     private Clock clock;
@@ -51,7 +52,7 @@ public class Game implements GridInfos{
                 if (building != null && !building.isRoad()) {
 
                     // Check if the building can have all what it needs to be still active
-                    if (building.isHouse()) {
+                    if (building.isHouse()) { // The building is a house
                         if (-building.electricityStockChange() >= electricityStock) // Not enough electricity for the house
                             active = false;
                     } else {
@@ -68,6 +69,7 @@ public class Game implements GridInfos{
 
                     // Building is active => daily operation can be done
                     if (active) {
+                        building.setActive(true);
                         if (building.isFossil()) {
                             resourceStockToStockMap.get(building.getResourceStockEnum()).apply(building.resourceStockChange());
                         }
@@ -75,7 +77,6 @@ public class Game implements GridInfos{
                         this.money += building.changeMoneyAmount();
                     } else {
                         building.setActive(false);
-                        // todo add a visual effect for non active building
                     }
                 }
             }

@@ -10,6 +10,8 @@ module com.simpower.simpower {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires json.simple;
+    requires java.desktop;
+    requires javafx.media;
 
     opens com.simpower.controllers to javafx.fxml;
     exports com.simpower.controllers;

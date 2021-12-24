@@ -198,7 +198,7 @@
                   <Image url="@../assets/textures/hotbar/electricity.png" />
                </image>
             </ImageView>
-            <Label fx:id="electrictyLabel" prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 W" textFill="WHITE">
+            <Label fx:id="electricityLabel" prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text="0 W" textFill="WHITE">
                <font>
                   <Font name="Leelawadee UI" size="16.0" />
                </font>

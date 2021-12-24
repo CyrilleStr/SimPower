@@ -17,6 +17,7 @@ public class Cell implements GridInfos {
         currentResourceLayer = resourceLayer.NONE;
         currentTopLayer = topLayer.NONE;
         currentPollutionLayer = pollutionLayer.NONE;
+        currentBuilding = null;
     }
 
     public Cell(int x, int y){
@@ -39,38 +40,43 @@ public class Cell implements GridInfos {
     }
 
     public resourceLayer getCurrentResourceLayer(){ return this.currentResourceLayer; }
+
     public topLayer getCurrentTopLayer(){ return this.currentTopLayer; }
+
     public pollutionLayer getCurrentPollutionLayer(){ return this.currentPollutionLayer; }
+
     public buildingLayer getCurrentBuildingLayer() { return currentBuildingLayer; }
 
     public void setCurrentResourceLayer(resourceLayer currentResourceLayer) {
         this.currentResourceLayer = currentResourceLayer;
     }
+
     public void setCurrentTopLayer(topLayer currentTopLayer) {
         this.currentTopLayer = currentTopLayer;
     }
+
     public void setCurrentPollutionLayer(pollutionLayer currentPollutionLayer) {
         this.currentPollutionLayer = currentPollutionLayer;
     }
+
     public void setCurrentBuildingLayer(buildingLayer currentBuildingLayer) {
         this.currentBuildingLayer = currentBuildingLayer;
     }
 
     public boolean isResourceLayerEmpty() {
-        if (this.currentResourceLayer == resourceLayer.NONE) return true;
-        return false;
+        return this.currentResourceLayer == resourceLayer.NONE;
     }
+
     public boolean isTopLayerEmpty() {
-        if (this.currentTopLayer == topLayer.NONE) return true;
-        return false;
+        return this.currentTopLayer == topLayer.NONE;
     }
+
     public boolean isPollutionLayerEmpty() {
-        if (this.currentPollutionLayer == pollutionLayer.NONE) return true;
-        return false;
+        return this.currentPollutionLayer == pollutionLayer.NONE;
     }
+
     public boolean isBuildingEmpty() {
-        if (this.currentBuildingLayer == buildingLayer.NONE) return true;
-        return false;
+        return this.currentBuilding == null;
     }
 
     public void setCurrentBuilding(Building currentBuilding) {
