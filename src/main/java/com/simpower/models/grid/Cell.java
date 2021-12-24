@@ -32,11 +32,11 @@ public class Cell implements GridInfos {
     public int getPos_x() { return this.pos_x; }
     public int getPos_y() { return this.pos_y; }
 
-    public void setPos_x(int pos_x) {
-        this.pos_x = pos_x;
+    public void setPos_x(int pos_x_p) {
+        this.pos_x = pos_x_p;
     }
-    public void setPos_y(int pos_y) {
-        this.pos_y = pos_y;
+    public void setPos_y(int pos_y_p) {
+        this.pos_y = pos_y_p;
     }
 
     public resourceLayer getCurrentResourceLayer(){ return this.currentResourceLayer; }
@@ -47,20 +47,20 @@ public class Cell implements GridInfos {
 
     public buildingLayer getCurrentBuildingLayer() { return currentBuildingLayer; }
 
-    public void setCurrentResourceLayer(resourceLayer currentResourceLayer) {
-        this.currentResourceLayer = currentResourceLayer;
+    public void setCurrentResourceLayer(resourceLayer currentResourceLayer_p) {
+        this.currentResourceLayer = currentResourceLayer_p;
     }
 
-    public void setCurrentTopLayer(topLayer currentTopLayer) {
-        this.currentTopLayer = currentTopLayer;
+    public void setCurrentTopLayer(topLayer currentTopLayer_p) {
+        this.currentTopLayer = currentTopLayer_p;
     }
 
-    public void setCurrentPollutionLayer(pollutionLayer currentPollutionLayer) {
-        this.currentPollutionLayer = currentPollutionLayer;
+    public void setCurrentPollutionLayer(pollutionLayer currentPollutionLayer_p) {
+        this.currentPollutionLayer = currentPollutionLayer_p;
     }
 
-    public void setCurrentBuildingLayer(buildingLayer currentBuildingLayer) {
-        this.currentBuildingLayer = currentBuildingLayer;
+    public void setCurrentBuildingLayer(buildingLayer currentBuildingLayer_p) {
+        this.currentBuildingLayer = currentBuildingLayer_p;
     }
 
     public boolean isResourceLayerEmpty() {
@@ -79,8 +79,8 @@ public class Cell implements GridInfos {
         return this.currentBuilding == null;
     }
 
-    public void setCurrentBuilding(Building currentBuilding) {
-        this.currentBuilding = currentBuilding;
+    public void setCurrentBuilding(Building currentBuilding_p) {
+        this.currentBuilding = currentBuilding_p;
     }
 
     public Building getCurrentBuilding() {

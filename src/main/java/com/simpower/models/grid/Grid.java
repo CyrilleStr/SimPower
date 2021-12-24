@@ -313,9 +313,6 @@ public class Grid implements GridInfos {
         for (int x = 0; x < NB_CELLS_WIDTH; x++) {
             for (int y = 0; y < NB_CELLS_HEIGHT; y++) {
                 this.constructLayers(x, y, notTop);
-
-                //TODO régler le problème de null pointer exception : building est abstrait donc on peut pas l'instancier par défaut mais si on l'instancie pas, on regarde dans de la mémoire non allouée
-                // If there's a non-road building, we check if this building is active and if not, we set a dark effect
             }
         }
 

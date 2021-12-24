@@ -15,10 +15,15 @@ public abstract class ConsumerEnergyBuilding extends Building {
      */
     @Override
     public int electricityStockChange(){
-        return -electricityNeeded;
+        return -this.electricityNeeded;
     }
 
-    public void setElectricityNeeded(int electricityNeeded) {
-        this.electricityNeeded = electricityNeeded;
+    /**
+     * Set the energy needed by the building
+     *
+     * @param electricityNeeded_p energy needed to set
+     */
+    public void setElectricityNeeded(int electricityNeeded_p) {
+        this.electricityNeeded = electricityNeeded_p;
     }
 }

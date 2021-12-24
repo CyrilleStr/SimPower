@@ -18,21 +18,37 @@ public abstract class FossilPlant extends ProducerEnergyBuilding {
      */
     @Override
     public int resourceStockChange(){
-        return -resourceConsumption;
+        return -this.resourceConsumption;
     }
 
-    /* Getters and settesr */
+    /* Getters and setters */
 
+    /**
+     * Used to generate pollution based on the pollution radius of the plant
+     *
+     * @return
+     */
     @Override
     public int generatePollution(){
+        //TODO la pollution à générer mais comme dans Building.java
         return this.pollutionRadius;
     }
 
-    public void setResourceConsumption(int consumptionC){
-        this.resourceConsumption = consumptionC;
+    /**
+     * Set the ressource consumption of the plant
+     *
+     * @param resourceConsumption_p int to set
+     */
+    public void setResourceConsumption(int resourceConsumption_p){
+        this.resourceConsumption = resourceConsumption_p;
     }
 
-    public void setPollutionRadius(int polluR){
-        this.pollutionRadius = polluR;
+    /**
+     * Set the pollution radius of the plant
+     *
+     * @param pollutionRadius_p int to set
+     */
+    public void setPollutionRadius(int pollutionRadius_p){
+        this.pollutionRadius = pollutionRadius_p;
     }
 }
