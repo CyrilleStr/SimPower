@@ -2,13 +2,6 @@ package com.simpower.models.grid;
 
 import com.simpower.controllers.GameController;
 import com.simpower.models.grid.buildings.Building;
-import com.simpower.models.grid.buildings.House;
-import com.simpower.models.grid.buildings.mines.CoalMine;
-import com.simpower.models.grid.buildings.mines.GasMine;
-import com.simpower.models.grid.buildings.mines.OilMine;
-import com.simpower.models.grid.buildings.mines.UraniumMine;
-import com.simpower.models.grid.buildings.plants.*;
-import javafx.animation.PauseTransition;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -16,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.util.Duration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -254,22 +246,41 @@ public class Grid implements GridInfos {
         this.showLayers(this.isResourcesShown());
     }
 
-    private void constructLayers(int x, int y, boolean notTop) {
-        ImageView topLayer = new ImageView(this.topLayerImages.get(cells[x][y].getCurrentTopLayer()));
-        topLayer.setFitWidth(CELL_WIDTH);
-        topLayer.setFitHeight(CELL_HEIGHT);
-        topLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
-            this.hoverListener(topLayer, x, y, newVal);
-        });
-        topLayer.setOnMouseClicked(event -> gameController.mouseClickedAction(this.getCell(x, y)));
+    private void constructLayers(int x, int y, boolean displayResourceLayer) {
 
-        ImageView resourceLayer = new ImageView(this.resourceLayerImages.get(cells[x][y].getCurrentResourceLayer()));
-        resourceLayer.setFitHeight(CELL_HEIGHT);
-        resourceLayer.setFitWidth(CELL_WIDTH);
-        resourceLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
-            this.hoverListener(resourceLayer, x, y, newVal);
-        });
-        resourceLayer.setOnMouseClicked(event -> gameController.mouseClickedAction(this.getCell(x, y)));
+        // Set an inactive effect (20% of brightness) on non-active buildings
+        boolean isBuildingInactive = false;
+        if(!this.getCell(x,y).isBuildingEmpty())
+            if(!this.getCell(x,y).getCurrentBuilding().isRoad())
+                if(!this.getCell(x, y).getCurrentBuilding().isActive())
+                    isBuildingInactive = true;
+
+        ColorAdjust inactiveEffect = new ColorAdjust();
+        inactiveEffect.setBrightness(-0.8);
+
+        if(displayResourceLayer) {
+            ImageView resourceLayer = new ImageView(this.resourceLayerImages.get(cells[x][y].getCurrentResourceLayer()));
+            resourceLayer.setFitHeight(CELL_HEIGHT);
+            resourceLayer.setFitWidth(CELL_WIDTH);
+            resourceLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
+                this.hoverListener(resourceLayer, x, y, newVal);
+            });
+            resourceLayer.setOnMouseClicked(event -> gameController.mouseClickedAction(this.getCell(x, y)));
+            if(isBuildingInactive)
+                resourceLayer.setEffect(inactiveEffect);
+            this.gridContainer.add(resourceLayer,x,y);
+        } else {
+            ImageView topLayer = new ImageView(this.topLayerImages.get(cells[x][y].getCurrentTopLayer()));
+            topLayer.setFitWidth(CELL_WIDTH);
+            topLayer.setFitHeight(CELL_HEIGHT);
+            topLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
+                this.hoverListener(topLayer, x, y, newVal);
+            });
+            topLayer.setOnMouseClicked(event -> gameController.mouseClickedAction(this.getCell(x, y)));
+            if(isBuildingInactive)
+                topLayer.setEffect(inactiveEffect);
+            this.gridContainer.add(topLayer,x,y);
+        }
 
         ImageView buildingLayer = new ImageView(this.buildingLayerImages.get(cells[x][y].getCurrentBuildingLayer()));
         buildingLayer.setFitHeight(CELL_HEIGHT);
@@ -278,6 +289,9 @@ public class Grid implements GridInfos {
             this.hoverListener(buildingLayer, x, y, newVal);
         });
         buildingLayer.setOnMouseClicked(event -> gameController.mouseClickedAction(this.getCell(x, y)));
+        if(isBuildingInactive)
+            buildingLayer.setEffect(inactiveEffect);
+        this.gridContainer.add(buildingLayer, x, y);
 
         ImageView pollutionLayer = new ImageView(this.pollutionLayerImages.get(cells[x][y].getCurrentPollutionLayer()));
         pollutionLayer.setFitHeight(CELL_HEIGHT);
@@ -285,12 +299,11 @@ public class Grid implements GridInfos {
         pollutionLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
             this.hoverListener(pollutionLayer, x, y, newVal);
         });
-
-        if (notTop) this.gridContainer.add(resourceLayer, x, y);
-        else this.gridContainer.add(topLayer, x, y);
-
+        if(isBuildingInactive)
+            pollutionLayer.setEffect(inactiveEffect);
         this.gridContainer.add(pollutionLayer, x, y);
-        this.gridContainer.add(buildingLayer, x, y);
+
+
     }
 
     /**
@@ -300,6 +313,9 @@ public class Grid implements GridInfos {
         for (int x = 0; x < NB_CELLS_WIDTH; x++) {
             for (int y = 0; y < NB_CELLS_HEIGHT; y++) {
                 this.constructLayers(x, y, notTop);
+
+                //TODO régler le problème de null pointer exception : building est abstrait donc on peut pas l'instancier par défaut mais si on l'instancie pas, on regarde dans de la mémoire non allouée
+                // If there's a non-road building, we check if this building is active and if not, we set a dark effect
             }
         }
 

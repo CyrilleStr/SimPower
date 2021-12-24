@@ -29,6 +29,8 @@ import javafx.scene.control.Button;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.sound.sampled.*;
+import java.io.*;
 
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
@@ -61,7 +63,7 @@ public class GameController implements Runnable{
     @FXML private Label coalLabel;
     @FXML private Label gazLabel;
     @FXML private Label errorLabel;
-    @FXML private Label electrictyLabel;
+    @FXML private Label electricityLabel;
 
     /**
      * Instance a new game controller
@@ -148,7 +150,7 @@ public class GameController implements Runnable{
     }
 
     @FXML
-    void hidePauseMenu(ActionEvent event) throws IOException {
+    void hidePauseMenu() throws IOException {
         this.pauseGame();
     }
 
@@ -175,20 +177,18 @@ public class GameController implements Runnable{
 
     /**
      * Play/pause the timer on user action while changing the pause btn image
-     * @param event
-     * @throws InterruptedException
+     * @throws InterruptedException exceptions
      */
     @FXML
-    void pauseGameAction(ActionEvent event) throws InterruptedException {
+    void pauseGameAction() throws InterruptedException {
         this.pauseTime(false);
     }
 
     /**
      * Change the clock speed on user action
-     * @param event
      */
     @FXML
-    void changeClockSpeedAction(ActionEvent event) {
+    void changeClockSpeedAction() {
         this.clock.nextSpeed();
         this.changeClockSpeedBtn.setText("✕" + this.clock.getSpeed());
     }
@@ -196,7 +196,7 @@ public class GameController implements Runnable{
     /**
      * Call the grid method to set a given building (the building layer type is stored in the id)
      *
-     * @param event
+     * @param event click of the mouse
      */
     @FXML
     void setBuildingAction(MouseEvent event) {
@@ -208,10 +208,9 @@ public class GameController implements Runnable{
     /**
      * Call the grid to delete a given building
      *
-     * @param event
      */
     @FXML
-    void deleteBuildingAction(ActionEvent event) {
+    void deleteBuildingAction() {
         this.grid.setBuildingLayerAction(buildingLayer.NONE);
     }
 
@@ -221,12 +220,12 @@ public class GameController implements Runnable{
     }
 
     @FXML
-    void openTabPane(ActionEvent event) {
+    void openTabPane() {
         this.swapTabPane();
     }
 
     @FXML
-    void showGridResources(ActionEvent event) {
+    void showGridResources() {
         this.grid.showResources();
     }
 
@@ -267,7 +266,7 @@ public class GameController implements Runnable{
         this.oilLabel.setText(this.game.getOilStock() + " L");
         this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
         this.moneyLabel.setText(this.game.getMoney() + " €");
-        this.electrictyLabel.setText(this.game.getElectricityStock() + " W");
+        this.electricityLabel.setText(this.game.getElectricityStock() + " W");
     }
 
     private void showErrorMessage(String message) {
@@ -281,6 +280,13 @@ public class GameController implements Runnable{
 
     @Override
     public void run() {
+
+        try {
+            music();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         int day = this.clock.getDayCount();
         while(true){
             try {
@@ -291,6 +297,7 @@ public class GameController implements Runnable{
                         this.game.eachDay();
                         Platform.runLater(() -> {
                             this.refreshHotBar();
+                            this.grid.refreshLayers();
                         });
                         day++;
                     }
@@ -300,5 +307,19 @@ public class GameController implements Runnable{
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Plays the background music
+     * @throws Exception Get clip not going well
+     */
+    public void music() throws Exception{
+
+        Clip clip = AudioSystem.getClip();
+        AudioInputStream ais = AudioSystem.getAudioInputStream(new File("music.wav"));
+        clip.open(ais);
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(-30.0f); //reduce volume by 30 dB
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }
