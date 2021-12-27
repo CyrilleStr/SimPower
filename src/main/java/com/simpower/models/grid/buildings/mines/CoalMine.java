@@ -1,7 +1,6 @@
 package com.simpower.models.grid.buildings.mines;
 
 import com.simpower.models.grid.GridInfos;
-import com.simpower.models.grid.buildings.Mine;
 
 public class CoalMine extends Mine {
     public CoalMine() {

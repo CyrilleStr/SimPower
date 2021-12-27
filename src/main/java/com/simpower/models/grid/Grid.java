@@ -234,6 +234,10 @@ public class Grid implements GridInfos {
                     errorMsg = "There is no resources here!";
                 }
                 break;
+            case DELETE:
+                cell.setCurrentBuilding(null);
+                cell.setCurrentBuildingLayer(buildingLayer.NONE);
+                break;
             case NONE:
                 break;
         }

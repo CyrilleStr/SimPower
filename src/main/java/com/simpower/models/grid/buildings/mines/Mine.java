@@ -1,4 +1,6 @@
-package com.simpower.models.grid.buildings;
+package com.simpower.models.grid.buildings.mines;
+
+import com.simpower.models.grid.buildings.ConsumerEnergyBuilding;
 
 public abstract class Mine extends ConsumerEnergyBuilding {
     private int resourceProduction;
