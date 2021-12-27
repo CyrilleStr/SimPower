@@ -12,10 +12,21 @@ public class JsonReader {
     private JSONParser jsonParser = new JSONParser();
     private JSONObject json;
 
+    /**
+     * Get a JSON object
+     *
+     * @return json file
+     */
     public JSONObject getJSON() {
         return this.json;
     }
 
+    /**
+     * Read a JSON file
+     *
+     * @param path path of the json file
+     * @return json file to read
+     */
     public JSONObject read(String path) {
         try (FileReader reader = new FileReader(path)) {
 

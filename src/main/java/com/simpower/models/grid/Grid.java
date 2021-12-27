@@ -27,8 +27,13 @@ public class Grid implements GridInfos {
 
 
     /**
-     * Instance a Grid, add the resource layer, add the top layer and show the top layer
-     * @param gridContainer
+     * Instantiate a Grid, add the resource layer, add the top layer and show the top layer
+     *
+     * @param gridContainer GridPane
+     * @param infoLabel Label
+     * @param buildingType buildingLayer
+     * @param errorLabel Label
+     * @param gameController GameController
      */
     public Grid(GridPane gridContainer, Label infoLabel, buildingLayer buildingType, Label errorLabel, GameController gameController) {
         this.gridContainer = gridContainer;
@@ -90,6 +95,10 @@ public class Grid implements GridInfos {
     /**
      * Draw circle of river
      * Rosetta Code implementation
+     *
+     * @param cx int
+     * @param cy int
+     * @param r int
      */
     private void drawRiver(int cx, int cy, int r) {
         int d = (5 - r * 4) / 4;
@@ -178,6 +187,7 @@ public class Grid implements GridInfos {
 
     /**
      * Small function used in hover listener when hovering a cell
+     *
      * @param imgView current img view hovered
      * @param x coordinate of the cell
      * @param y coordinate of the cell
@@ -204,6 +214,9 @@ public class Grid implements GridInfos {
 
     /**
      * On mouse clicked event
+     *
+     * @param cell Cell to interact with
+     * @return String containing an error message
      */
     public String mouseClicked(Cell cell) {
         String errorMsg = null;
@@ -245,11 +258,21 @@ public class Grid implements GridInfos {
         return errorMsg;
     }
 
+    /**
+     * Refresh the different layers of the grid
+     */
     public void refreshLayers() {
         this.gridContainer.getChildren().clear();
         this.showLayers(this.isResourcesShown());
     }
 
+    /**
+     * Build graphically the different layers of the map
+     *
+     * @param x x coordinates of a cell
+     * @param y y coordinates of a cell
+     * @param displayResourceLayer boolean to know if the resource layer is shown
+     */
     private void constructLayers(int x, int y, boolean displayResourceLayer) {
 
         // Set an inactive effect (20% of brightness) on non-active buildings
@@ -312,6 +335,8 @@ public class Grid implements GridInfos {
 
     /**
      * Call the vue to show all layers
+     *
+     * @param notTop boolean
      */
     private void showLayers(boolean notTop) {
         for (int x = 0; x < NB_CELLS_WIDTH; x++) {
@@ -470,33 +495,62 @@ public class Grid implements GridInfos {
         }
     }
 
+    /**
+     * Change the boolean resourceShown value to display the resource layer
+     */
     public void showResources() {
         this.resourcesShown = !this.resourcesShown;
         this.refreshLayers();
     }
 
+    /**
+     * Test if resourceShown is true of false
+     *
+     * @return boolean
+     */
     public boolean isResourcesShown() {
         return this.resourcesShown;
     }
 
+    /**
+     * Set the building layer on player action
+     *
+     * @param b buildingLayer to set
+     */
     public void setBuildingLayerAction(buildingLayer b){
         this.buildingLayerAction = b;
     }
 
+    /**
+     * Get the building layer on player action
+     *
+     * @return buildingLayer
+     */
     public buildingLayer getBuildingLayerAction() {
         return this.buildingLayerAction;
     }
 
+    /**
+     * Set the building on player action
+     *
+     * @param buildingObjectAction Building to set
+     */
     public void setBuildingObjectAction(Building buildingObjectAction) {
         this.buildingObjectAction = buildingObjectAction;
     }
 
+    /**
+     * Get the building on player action
+     *
+     * @return Building
+     */
     public Building getBuildingObjectAction() {
         return buildingObjectAction;
     }
 
     /**
      * Generate a random number between min and max
+     *
      * @param min the minimum value (included)
      * @param max the maximum value (included)
      * @return the random number
@@ -508,6 +562,7 @@ public class Grid implements GridInfos {
 
     /**
      * Tell if a cell exist
+     *
      * @param x coordinate
      * @param y coordinate
      * @return true if cell exist
@@ -524,6 +579,7 @@ public class Grid implements GridInfos {
 
     /**
      * Tell if a building layer is a road
+     *
      * @param layer building layer
      * @return true if it's a road
      */
@@ -552,7 +608,8 @@ public class Grid implements GridInfos {
     }
 
     /**
-     * get the corresponding building layer following neighbor cells
+     * Get the corresponding building layer following neighbor cells
+     *
      * @param x coordinate
      * @param y coordinate
      * @return corresponding building layer
@@ -657,8 +714,10 @@ public class Grid implements GridInfos {
     /**
      * Complex function to determine what operation should be done on all cells in the 3x3 area
      * around the center (cx, cy)
+     *
      * @param function operation to be done
      * @param cell center cell
+     * @return boolean
      */
     private boolean lookAroundCell(CellFunction function, Cell cell) {
         int goodResponse = 0;
@@ -674,12 +733,20 @@ public class Grid implements GridInfos {
         return (goodResponse == 0) ? false : true;
     }
 
+    /**
+     * Check if a mine can be placed on a cell depending on resource presence
+     *
+     * @param cell Cell to test
+     * @param buildingType Mine you want to place
+     * @return boolean, true if can and false otherwise
+     */
     private boolean checkMineRessource (Cell cell, buildingLayer buildingType){
         return (cell.getCurrentResourceLayer() == this.buildingLayerToResourceLayerMap.get(buildingType));
     }
 
     /**
-     * get all the cells of the grid
+     * Get all the cells of the grid
+     *
      * @return cells
      */
     public Cell[][] getCells() {
@@ -687,7 +754,8 @@ public class Grid implements GridInfos {
     }
 
     /**
-     * get the grid container (container of cells)
+     * Get the grid container (container of cells)
+     *
      * @return gridContainer
      */
     public GridPane getGridcontainer() {
@@ -696,6 +764,7 @@ public class Grid implements GridInfos {
 
     /**
      * Get the corresponding cell for the given coordinates
+     *
      * @param x coordinate
      * @param y coordinate
      * @return Cell
