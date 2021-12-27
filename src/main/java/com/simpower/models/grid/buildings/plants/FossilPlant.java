@@ -1,4 +1,6 @@
-package com.simpower.models.grid.buildings;
+package com.simpower.models.grid.buildings.plants;
+
+import com.simpower.models.grid.buildings.ProducerEnergyBuilding;
 
 public abstract class FossilPlant extends ProducerEnergyBuilding {
 

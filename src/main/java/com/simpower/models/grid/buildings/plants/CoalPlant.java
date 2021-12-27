@@ -1,7 +1,6 @@
 package com.simpower.models.grid.buildings.plants;
 
 import com.simpower.models.grid.GridInfos;
-import com.simpower.models.grid.buildings.FossilPlant;
 
 public class CoalPlant extends FossilPlant {
     public CoalPlant() {
