@@ -102,50 +102,110 @@ public class Game implements GridInfos{
         });
     }
 
+    /**
+     * Set the money
+     *
+     * @param money int to set
+     */
     public void setMoney(int money) {
         this.money = money;
     }
 
+    /**
+     * Get the money
+     *
+     * @return int
+     */
     public int getMoney() {
         return money;
     }
 
+    /**
+     * Set the electricity stocked
+     *
+     * @param electricityStock int to set
+     */
     public void setElectricityStock(int electricityStock) {
         this.electricityStock = electricityStock;
     }
 
+    /**
+     * Get the electricity stocked
+     *
+     * @return int
+     */
     public int getElectricityStock() {
         return electricityStock;
     }
 
+    /**
+     * Set the coal stocked
+     *
+     * @param coalStock int to set
+     */
     public void setCoalStock(int coalStock) {
         this.coalStock = coalStock;
     }
 
+    /**
+     * Get the coal stocked
+     *
+     * @return int
+     */
     public int getCoalStock() {
         return coalStock;
     }
 
+    /**
+     * Set the gas stocked
+     *
+     * @param gasStock int to set
+     */
     public void setGasStock(int gasStock) {
         this.gasStock = gasStock;
     }
 
+    /**
+     * Get the gas stocked
+     *
+     * @return int
+     */
     public int getGasStock() {
         return gasStock;
     }
 
+    /**
+     * Set the oil stocked
+     *
+     * @param oilStock int to set
+     */
     public void setOilStock(int oilStock) {
         this.oilStock = oilStock;
     }
 
+    /**
+     * Get the oil stocked
+     *
+     * @return int
+     */
     public int getOilStock() {
         return oilStock;
     }
 
+    /**
+     * Set the uranium stocked
+     *
+     * @param uraniumStock int to set
+     */
     public void setUraniumStock(int uraniumStock) {
         this.uraniumStock = uraniumStock;
     }
 
+    /**
+     * Get the uranium stocked
+     *
+     * @return int
+     */
     public int getUraniumStock() {
         return uraniumStock;
     }
