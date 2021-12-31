@@ -25,6 +25,10 @@ public abstract class Building implements GridInfos {
         setActive(true);
     }
 
+    /**
+     * Allows you to destroy a building in-game
+     *
+     */
     public void destroyBuilding() {
         // TODO destroy building
     }
@@ -41,7 +45,7 @@ public abstract class Building implements GridInfos {
     /**
      * The resource stock changes operated by the building (add or remove)
      * 
-     * @return the resources quantity to be added or removed
+     * @return the resource quantity to be added or removed
      */
     public int resourceStockChange(){
         return 0;
@@ -58,75 +62,166 @@ public abstract class Building implements GridInfos {
     
     /* Getters and setters */
 
+    /**
+     * Getter of the resource stock
+     *
+     * @return enum
+     */
     public GridInfos.resourceStock getResourceStockEnum() {
-        return resourceStockEnum;
+        return this.resourceStockEnum;
     }
 
-    public void setResourceStockEnum(GridInfos.resourceStock resourceStockEnum) {
-        this.resourceStockEnum = resourceStockEnum;
+    /**
+     * Setter of the resource stock
+     *
+     * @param resourceStockEnum_p enum to set
+     */
+    public void setResourceStockEnum(GridInfos.resourceStock resourceStockEnum_p) {
+        this.resourceStockEnum = resourceStockEnum_p;
     }
 
+    /**
+     * Setter of the servicing cost
+     *
+     * @param servicingCost_p int to set
+     */
     public void setServicingCost(int servicingCost_p){
         this.servicingCost = servicingCost_p;
     }
 
+    /**
+     * Getter of the level of the building
+     *
+     * @return int
+     */
     public int getLevel(){
         return this.level;
     }
 
+    /**
+     * Setter of the level of the building
+     *
+     * @param level_p int to set
+     */
     public void setLevel(int level_p){
         this.level = level_p;
     }
 
+    /**
+     * Getter of the building cost
+     *
+     * @return int
+     */
     public int getBuildingCost(){
         return this.buildingCost;
     }
 
+    /**
+     * Setter of the building cost
+     *
+     * @param buildingCost_p int to set
+     */
     public void setBuildingCost(int buildingCost_p){
         this.buildingCost = buildingCost_p;
     }
 
+    /**
+     * Used to simulate the pollution generation in its environment
+     *
+     * @return int
+     */
     public int generatePollution(){
+        //TODO la pollution à générer
         return 0;
     }
 
+    /**
+     * Return if the building is active or not
+     *
+     * @return boolean
+     */
     public boolean isActive() {
-        return active;
+        return this.active;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    /**
+     * Set the active parameter of a building
+     *
+     * @param active_p boolean to set
+     */
+    public void setActive(boolean active_p) {
+        this.active = active_p;
     }
 
-    public void setFossil(boolean fossil) {
-        isFossil = fossil;
+    /**
+     * Set if the building uses fossile ressources or not
+     *
+     * @param fossil_p boolean to set
+     */
+    public void setFossil(boolean fossil_p) {
+        this.isFossil = fossil_p;
     }
-    
+
+    /**
+     * Return if the building is using fossile resources or not
+     *
+     * @return boolean
+     */
     public boolean isFossil() {
-        return isFossil;
+        return this.isFossil;
     }
 
-    public void setRoad(boolean road) {
-        isRoad = road;
+    /**
+     * Set if the building is a road or not
+     *
+     * @param road_p boolean to set
+     */
+    public void setRoad(boolean road_p) {
+        this.isRoad = road_p;
     }
 
+    /**
+     * Return if the building is a road
+     *
+     * @return boolean
+     */
     public boolean isRoad() {
-        return isRoad;
+        return this.isRoad;
     }
 
-    public void setHouse(boolean house) {
-        isHouse = house;
+    /**
+     * Set if the building is a house or not
+     *
+     * @param house_p boolean to set
+     */
+    public void setHouse(boolean house_p) {
+        this.isHouse = house_p;
     }
 
+    /**
+     * Return if the building is a house
+     *
+     * @return boolean
+     */
     public boolean isHouse() {
-        return isHouse;
+        return this.isHouse;
     }
 
+    /**
+     * Return if the building is producing energy or not
+     *
+     * @return boolean
+     */
     public boolean isEnergyProducer() {
-        return isEnergyProducer;
+        return this.isEnergyProducer;
     }
 
-    public void setEnergyProducer(boolean energyProducer) {
-        isEnergyProducer = energyProducer;
+    /**
+     * Set if the building is producing energy or not
+     *
+     * @param energyProducer_p boolean to set
+     */
+    public void setEnergyProducer(boolean energyProducer_p) {
+        this.isEnergyProducer = energyProducer_p;
     }
 }

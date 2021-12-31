@@ -23,10 +23,20 @@ public abstract class ProducerEnergyBuilding extends Building {
 
     /* Getters and setters */
 
+    /**
+     * Set the energy production of the building
+     *
+     * @param production_p int
+     */
     void setProduction(int production_p){
         this.production = production_p;
     }
 
+    /**
+     * Get the energy production of the building
+     *
+     * @return int
+     */
     int getProduction(){
         return this.production;
     }

@@ -106,6 +106,12 @@ public class GameController implements Runnable{
         this.refreshHotBar();
     }
 
+    /**
+     * Get the action done on click depending on where we clicked
+     * (If the player can do it depending on game rules)
+     *
+     * @param cell cell where you do the action
+     */
     public void mouseClickedAction(Cell cell){
         if(this.grid.getBuildingLayerAction() != buildingLayer.NONE) {
             String errorMsg = null;
@@ -124,6 +130,11 @@ public class GameController implements Runnable{
         }
     }
 
+    /**
+     * Pause the fame thanks to the keyboard
+     *
+     * @param ke KeyEvent for the key pressed
+     */
     @FXML
     void onKeyPressed(KeyEvent ke) {
         switch (ke.getCode()) {
@@ -138,6 +149,12 @@ public class GameController implements Runnable{
         }
     }
 
+    /**
+     * Quit the game thanks to the leave game button
+     *
+     * @param event mouse click on the button
+     * @throws IOException exceptions
+     */
     @FXML
     void quitGame(ActionEvent event) throws IOException {
         // TODO implement a quitGame button
@@ -149,17 +166,30 @@ public class GameController implements Runnable{
         changeClockSpeedBtn.getScene().setRoot(fxmlLoader.load()); // getting root scene using element of that scene :)
     }
 
+    /**
+     * Hide the pause menu when you want to start playing again
+     *
+     * @throws IOException exceptions
+     */
     @FXML
     void hidePauseMenu() throws IOException {
         this.pauseGame();
     }
 
+    /**
+     * Set everything good to pause the game
+     */
     private void pauseGame() {
         this.isPauseMenuOpen = !this.isPauseMenuOpen;
         this.pauseMenu.setVisible(this.isPauseMenuOpen);
         this.pauseTime(true);
     }
 
+    /**
+     * Pauses the time in-game
+     *
+     * @param forcePause boolean to determine if we pause or not
+     */
     private void pauseTime(boolean forcePause) {
         if (this.clock.isTicking() || forcePause) {
             this.pauseGameBtn.setGraphic(this.playImgView);
@@ -214,21 +244,33 @@ public class GameController implements Runnable{
         this.grid.setBuildingLayerAction(buildingLayer.DELETE);
     }
 
+    /**
+     * Open or close the tab pane
+     */
     private void swapTabPane() {
         this.isTabPaneOpen = !this.isTabPaneOpen;
         this.tabPane.setVisible(this.isTabPaneOpen);
     }
 
+    /**
+     * Open the tab pane
+     */
     @FXML
     void openTabPane() {
         this.swapTabPane();
     }
 
+    /**
+     * Show the resource grid
+     */
     @FXML
     void showGridResources() {
         this.grid.showResources();
     }
 
+    /**
+     * Load the data for graphical interface
+     */
     void loadData(){
         this.stringToBuildingLayerMap.put("roadBtn",buildingLayer.ROAD);
         this.stringToBuildingLayerMap.put("houseBtn",buildingLayer.HOUSE);
@@ -260,6 +302,9 @@ public class GameController implements Runnable{
         stringToBuildingMap.put("UraniumMineBtn", new UraniumMine());
     }
 
+    /**
+     * Refresh hotbar data
+     */
     public void refreshHotBar(){
         this.coalLabel.setText(this.game.getCoalStock() + " T");
         this.gazLabel.setText(this.game.getGasStock() + " L");
@@ -269,6 +314,11 @@ public class GameController implements Runnable{
         this.electricityLabel.setText(this.game.getElectricityStock() + " W");
     }
 
+    /**
+     * Display error messages
+     *
+     * @param message error the player has to deal with
+     */
     private void showErrorMessage(String message) {
         this.errorLabel.setVisible(true);
         this.errorLabel.setText(message);
@@ -278,6 +328,9 @@ public class GameController implements Runnable{
         pause.play();
     }
 
+    /**
+     * Run the game controller
+     */
     @Override
     public void run() {
 

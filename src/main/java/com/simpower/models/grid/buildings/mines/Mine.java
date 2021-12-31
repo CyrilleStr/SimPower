@@ -16,11 +16,16 @@ public abstract class Mine extends ConsumerEnergyBuilding {
      */
     @Override
     public int resourceStockChange(){
-        return resourceProduction;
+        return this.resourceProduction;
     }
 
     /* Getters and setters */
 
+    /**
+     * Set the resource production of the mine
+     *
+     * @param resourceProduction int
+     */
     public void setResourceProduction(int resourceProduction) {
         this.resourceProduction = resourceProduction;
     }
