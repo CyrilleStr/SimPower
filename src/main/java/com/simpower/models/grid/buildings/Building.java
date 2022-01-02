@@ -1,6 +1,12 @@
 package com.simpower.models.grid.buildings;
 
+import com.simpower.models.grid.Grid;
 import com.simpower.models.grid.GridInfos;
+import com.simpower.models.grid.Cell;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 
 public abstract class Building implements GridInfos {
     private int servicingCost;
@@ -27,6 +33,7 @@ public abstract class Building implements GridInfos {
 
     public void destroyBuilding() {
         // TODO destroy building
+
     }
 
     /**
@@ -94,9 +101,7 @@ public abstract class Building implements GridInfos {
         return active;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+    public void setActive(boolean active) {this.active = active;}
 
     public void setFossil(boolean fossil) {
         isFossil = fossil;
@@ -128,5 +133,9 @@ public abstract class Building implements GridInfos {
 
     public void setEnergyProducer(boolean energyProducer) {
         isEnergyProducer = energyProducer;
+    }
+
+    public void updateHappiness(){
+        System.out.println("not a house \n");
     }
 }

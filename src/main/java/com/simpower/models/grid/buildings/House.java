@@ -10,7 +10,7 @@ public class House extends ConsumerEnergyBuilding {
 
     public House(){
         super(0, 2000, 400, false, GridInfos.resourceStock.NONE, true);
-        setHappiness(100);
+        setHappiness(20);
         setInhabitant(1);
         setInhabitantCapacity(5);
         setMoneyIncome(200);
@@ -28,13 +28,10 @@ public class House extends ConsumerEnergyBuilding {
         return this.moneyIncome;
     }
 
-    public void setHappiness(int happiness) {
-        this.happiness = happiness;
-    }
+    public void setHappiness(int happiness) {this.happiness = happiness;}
 
-    public int getHappiness() {
-        return happiness;
-    }
+
+    public int getHappiness() {return happiness;}
 
     public void setInhabitant(int inhabitant) {
         this.inhabitant = inhabitant;
@@ -56,4 +53,16 @@ public class House extends ConsumerEnergyBuilding {
         this.moneyIncome = moneyIncome;
     }
 
+    @Override
+    public void updateHappiness(){
+
+        if(isActive()){
+            if(happiness <= 90)
+                happiness +=10;
+        }else{
+            if(happiness>=10)
+                happiness -=10;
+        }
+        System.out.println("Happiness level : " +happiness+"\n");
+    }
 }

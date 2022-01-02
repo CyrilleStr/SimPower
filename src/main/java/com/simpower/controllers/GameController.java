@@ -19,13 +19,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -132,6 +131,7 @@ public class GameController implements Runnable{
                 break;
             case SPACE: // todo: find why it doesn't work
                 this.pauseTime(false);
+                //System.out.println("ouaisouaisouais");
                 break;
             default:
                 break;

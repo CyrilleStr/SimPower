@@ -11,7 +11,9 @@ import com.simpower.models.grid.Grid;
 import com.simpower.models.grid.GridInfos;
 import com.simpower.models.grid.buildings.*;
 import com.simpower.models.time.Clock;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 
 public class Game implements GridInfos{
     private Clock clock;
@@ -19,6 +21,7 @@ public class Game implements GridInfos{
     private Path savePath;
     private Grid grid;
     private int money;
+    private int globalHappiness;
     private int electricityStock;
     private int coalStock;
     private int gasStock;
@@ -31,7 +34,8 @@ public class Game implements GridInfos{
         this.clock = clock;
         this.createdAt = LocalDateTime.now();
         setMoney(100000);
-        setElectricityStock(10000);
+        setGlobalHappiness(100);
+        setElectricityStock(1000000);
         setCoalStock(0);
         setGasStock(0);
         setOilStock(0);
@@ -52,9 +56,11 @@ public class Game implements GridInfos{
                 if (building != null && !building.isRoad()) {
 
                     // Check if the building can have all what it needs to be still active
-                    if (building.isHouse()) { // The building is a house
-                        if (-building.electricityStockChange() >= electricityStock) // Not enough electricity for the house
+                    if (building.isHouse()) { // The building is a house;
+                        if (-building.electricityStockChange() >= electricityStock) { // Not enough electricity for the house
                             active = false;
+                        }
+                        building.updateHappiness();
                     } else {
                         if (building.isFossil())
                             if (building.isEnergyProducer()) // The building is a fossil plant
@@ -75,6 +81,7 @@ public class Game implements GridInfos{
                         }
                         this.electricityStock += building.electricityStockChange();
                         this.money += building.changeMoneyAmount();
+
                     } else {
                         building.setActive(false);
                     }
@@ -149,4 +156,8 @@ public class Game implements GridInfos{
     public int getUraniumStock() {
         return uraniumStock;
     }
+
+    public void setGlobalHappiness(int globalHappiness){this.globalHappiness = globalHappiness;}
+
+    public int getGlobalhappiness(){return globalHappiness;}
 }
