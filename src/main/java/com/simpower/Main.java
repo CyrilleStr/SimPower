@@ -13,12 +13,24 @@ import java.io.IOException;
 public class Main extends Application {
     private Stage stage;
 
+    /**
+     * Change the scene in-game
+     *
+     * @param fxml string containing data to load the scene needed
+     * @throws IOException exceptions
+     */
     public void changeScene(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml));
         Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
         this.stage.setScene(scene);
     }
 
+    /**
+     * Set everything concerning the window
+     *
+     * @param stage stage to set up
+     * @throws IOException exceptions
+     */
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = stage;

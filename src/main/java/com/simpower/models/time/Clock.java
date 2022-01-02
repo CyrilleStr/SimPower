@@ -67,6 +67,9 @@ public class Clock extends Thread {
         ) this.switchLight();
     }
 
+    /**
+     * Run the clock
+     */
     public void run() {
         try {
             this.setTicking(true);
@@ -146,19 +149,22 @@ public class Clock extends Thread {
     }
 
     /**
-     * get the actual season
+     * Get the actual season
+     *
      * @return Season
      */
     public Season getSeason() { return this.season; }
 
     /**
-     * set actual season to the given value
+     * Set actual season to the given value
+     *
      * @param s Season
      */
     public void setSeason(Season s) { this.season = s; }
 
     /**
      * Small function to tell if it's day or night
+     *
      * @return boolean true if it's day time
      */
     public boolean isDay() {
@@ -166,16 +172,18 @@ public class Clock extends Thread {
     }
 
     /**
-     * get the actual date time
-     * @return
+     * Get the actual date time
+     *
+     * @return LocalDateTime
      */
     public LocalDateTime getDateTime() {
         return this.dateTime;
     }
 
     /**
-     * set the date time to the given value
-     * @param t
+     * Set the date time to the given value
+     *
+     * @param t Actual date time to set
      */
     public void setDateTime(LocalDateTime t) {
         this.dateTime = t;
@@ -206,7 +214,8 @@ public class Clock extends Thread {
     }
 
     /**
-     * set clock speed
+     * Set clock speed
+     *
      * @param speed_p speed for the clock
      */
     public void setSpeed(int speed_p) {
@@ -214,7 +223,8 @@ public class Clock extends Thread {
     }
 
     /**
-     * get the actual speed of the clock
+     * Get the actual speed of the clock
+     *
      * @return current speed;
      */
     public int getSpeed() {
@@ -222,7 +232,8 @@ public class Clock extends Thread {
     }
 
     /**
-     * get the clock ticking state
+     * Get the clock ticking state
+     *
      * @return true if the clock is running
      */
     public boolean isTicking() {
@@ -230,13 +241,19 @@ public class Clock extends Thread {
     }
 
     /**
-     * set clock ticking state
+     * Set clock ticking state
+     *
      * @param ticking true if the clock is running
      */
     public void setTicking(boolean ticking) {
         this.ticking = ticking;
     }
 
+    /**
+     * Get the number of day that passed
+     *
+     * @return int
+     */
     public int getDayCount() {
         return this.dateTime.getDayOfYear();
     }
