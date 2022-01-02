@@ -135,7 +135,8 @@ public abstract class Building implements GridInfos {
         isEnergyProducer = energyProducer;
     }
 
-    public void updateHappiness(){
+    public int updateHappiness(){
         System.out.println("not a house \n");
+        return 0;
     }
 }

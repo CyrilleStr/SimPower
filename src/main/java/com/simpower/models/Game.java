@@ -35,7 +35,7 @@ public class Game implements GridInfos{
         this.createdAt = LocalDateTime.now();
         setMoney(100000);
         setGlobalHappiness(100);
-        setElectricityStock(1000000);
+        setElectricityStock(10);
         setCoalStock(0);
         setGasStock(0);
         setOilStock(0);
@@ -48,6 +48,8 @@ public class Game implements GridInfos{
      */
     public void eachDay() {
         boolean active;
+        int tmpHappiness = 0;
+        int houseCount = 0;
         for (Cell[] cellX : this.grid.getCells()) {
             for (Cell cell : cellX) {
                 active = true;
@@ -60,7 +62,8 @@ public class Game implements GridInfos{
                         if (-building.electricityStockChange() >= electricityStock) { // Not enough electricity for the house
                             active = false;
                         }
-                        building.updateHappiness();
+                        tmpHappiness += building.updateHappiness();
+                        houseCount += 1;
                     } else {
                         if (building.isFossil())
                             if (building.isEnergyProducer()) // The building is a fossil plant
@@ -88,6 +91,12 @@ public class Game implements GridInfos{
                 }
             }
         }
+        System.out.println("housecount :" + houseCount +"\n");
+        System.out.println("tmphappiness :" + tmpHappiness +"\n");
+
+        if(houseCount >0)
+            globalHappiness = tmpHappiness / houseCount;
+        System.out.println("global happiness : "+globalHappiness+"\n");
         // todo: add automatic save
     };
 

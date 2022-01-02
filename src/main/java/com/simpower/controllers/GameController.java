@@ -131,7 +131,6 @@ public class GameController implements Runnable{
                 break;
             case SPACE: // todo: find why it doesn't work
                 this.pauseTime(false);
-                //System.out.println("ouaisouaisouais");
                 break;
             default:
                 break;
