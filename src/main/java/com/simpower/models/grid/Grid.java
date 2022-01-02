@@ -2,6 +2,7 @@ package com.simpower.models.grid;
 
 import com.simpower.controllers.GameController;
 import com.simpower.models.grid.buildings.Building;
+import com.simpower.models.grid.buildings.House;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -226,6 +227,11 @@ public class Grid implements GridInfos {
                     errorMsg = "Roads can only be placed next to another road!";
                 break;
             case HOUSE:
+                if(!this.lookAroundCell(placeBuilding, cell)) {
+                    errorMsg = "Building can only be placed next to a road!";
+                }else {
+                    cell.setCurrentBuilding(new House());
+                }
             case COAL_PLANT:
             case GAS_PLANT:
             case OIL_PLANT:
