@@ -238,8 +238,13 @@ public class Grid implements GridInfos {
             case URANIUM_PLANT:
             case SOLAR_PLANT:
             case WIND_FARM:
-            case WATER_MILL:
                 if(!this.lookAroundCell(placeBuilding, cell))
+                    errorMsg = "Building can only be placed next to a road!";
+                break;
+            case WATER_MILL:
+                if(!this.checkMineRessource(cell, buildingLayer.WATER_MILL))
+                    errorMsg = "Watermill can only placed on a river!";
+                else if(!this.lookAroundCell(placeBuilding, cell))
                     errorMsg = "Building can only be placed next to a road!";
                 break;
             case COAL_MINE:
@@ -452,8 +457,7 @@ public class Grid implements GridInfos {
         buildingLayerToResourceLayerMap.put(buildingLayer.GAS_MINE,resourceLayer.GAS);
         buildingLayerToResourceLayerMap.put(buildingLayer.URANIUM_MINE,resourceLayer.URANIUM);
         buildingLayerToResourceLayerMap.put(buildingLayer.OIL_MINE,resourceLayer.OIL);
-
-
+        buildingLayerToResourceLayerMap.put(buildingLayer.WATER_MILL,resourceLayer.RIVER);
     }
 
     /**
