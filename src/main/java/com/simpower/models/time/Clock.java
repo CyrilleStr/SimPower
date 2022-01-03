@@ -57,14 +57,39 @@ public class Clock extends Thread {
         if (this.dateTime.getDayOfYear() >= this.solstice[3]) this.setSeason(Season.WINTER);
         else if (this.dateTime.getDayOfYear() >= this.solstice[2]) this.setSeason(Season.AUTUMN);
         else if (this.dateTime.getDayOfYear() >= this.solstice[1]) this.setSeason(Season.SUMMER);
-        else if (this.dateTime.getDayOfYear() >= this.solstice[0])  this.setSeason(Season.SPRING);
+        else if (this.dateTime.getDayOfYear() >= this.solstice[0]) this.setSeason(Season.SPRING);
         else this.setSeason(Season.WINTER);
+
+        if (this.getSeason() == Season.WINTER) switchLayerTexture();
 
         // if user start a game after moonrise, start at night
         if (
             this.getDateTime().getHour() <= this.sunrise[this.getSeason().ordinal()] ||
             this.getDateTime().getHour() >= this.moonrise[this.getSeason().ordinal()]
         ) this.switchLight();
+    }
+
+    /**
+     * Switch top layer according to the actual season
+     */
+    private void switchLayerTexture() {
+        for (Cell[] tmp : this.grid.getCells()) for (Cell cell : tmp) {
+            switch(cell.getCurrentTopLayer()) {
+                case GRASS:
+                    cell.setCurrentTopLayer(GridInfos.topLayer.SNOW);
+                    break;
+                case RIVER:
+                    cell.setCurrentTopLayer(GridInfos.topLayer.ICE);
+                    break;
+                case SNOW:
+                    cell.setCurrentTopLayer(GridInfos.topLayer.GRASS);
+                    break;
+                case ICE:
+                    cell.setCurrentTopLayer(GridInfos.topLayer.RIVER);
+                    break;
+            }
+        }
+        this.grid.refreshLayers();
     }
 
     /**
@@ -111,29 +136,7 @@ public class Clock extends Thread {
      */
     private void nextSeason() {
         this.setSeason(Season.values()[(this.getSeason().ordinal() + 1) % Season.values().length]);
-
-        switch (this.getSeason()) {
-            case WINTER:
-            case SPRING:
-                for (Cell[] tmp : this.grid.getCells()) for (Cell cell : tmp) {
-                    switch(cell.getCurrentTopLayer()) {
-                        case GRASS:
-                            cell.setCurrentTopLayer(GridInfos.topLayer.SNOW);
-                            break;
-                        case RIVER:
-                            cell.setCurrentTopLayer(GridInfos.topLayer.ICE);
-                            break;
-                        case SNOW:
-                            cell.setCurrentTopLayer(GridInfos.topLayer.GRASS);
-                            break;
-                        case ICE:
-                            cell.setCurrentTopLayer(GridInfos.topLayer.RIVER);
-                            break;
-                    }
-                }
-                this.grid.refreshLayers();
-                break;
-        }
+        if (this.getSeason() == Season.WINTER || this.getSeason() == Season.SPRING) this.switchLayerTexture();
     }
 
     /**
