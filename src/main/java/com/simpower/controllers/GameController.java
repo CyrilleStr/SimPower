@@ -367,12 +367,12 @@ public class GameController implements Runnable{
      * @throws Exception Get clip not going well
      */
     public void music() throws Exception{
-
         Clip clip = AudioSystem.getClip();
-        AudioInputStream ais = AudioSystem.getAudioInputStream(new File("music.wav"));
+
+        AudioInputStream ais = AudioSystem.getAudioInputStream(new File(Main.class.getResource("assets/music/main.wav").toURI()));
         clip.open(ais);
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(-30.0f); //reduce volume by 30 dB
+        gainControl.setValue(-10.0f); //reduce volume by 30 dB
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }
