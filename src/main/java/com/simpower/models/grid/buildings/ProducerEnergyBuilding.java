@@ -1,7 +1,5 @@
 package com.simpower.models.grid.buildings;
 
-import com.simpower.models.grid.GridInfos;
-
 public abstract class ProducerEnergyBuilding extends Building {
 
     private int production;

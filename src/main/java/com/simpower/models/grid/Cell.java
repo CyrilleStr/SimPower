@@ -1,11 +1,12 @@
 package com.simpower.models.grid;
 
 import com.simpower.models.grid.buildings.Building;
-import com.simpower.models.grid.buildings.plants.CoalPlant;
 
 public class Cell implements GridInfos {
     private int pos_x = -1;
     private int pos_y = -1;
+    private boolean polluted = false;
+    private int pollutionAge = 0;
     private buildingLayer currentBuildingLayer;
     private resourceLayer currentResourceLayer;
     private topLayer currentTopLayer;
@@ -182,5 +183,21 @@ public class Cell implements GridInfos {
      */
     public Building getCurrentBuilding() {
         return currentBuilding;
+    }
+
+    public boolean isPolluted() {
+        return polluted;
+    }
+
+    public void setPolluted(boolean polluted) {
+        this.polluted = polluted;
+    }
+
+    public void setPollutionAge(int pollutionAge) {
+        this.pollutionAge = pollutionAge;
+    }
+
+    public int getPollutionAge() {
+        return pollutionAge;
     }
 }
