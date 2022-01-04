@@ -285,7 +285,7 @@ public class GameController implements Runnable{
         this.stringToBuildingLayerMap.put("WaterPlantBtn", buildingLayer.WATER_MILL);
         this.stringToBuildingLayerMap.put("SolarPlantBtn", buildingLayer.SOLAR_PLANT);
 
-        /* Link building layer to building object */
+        /* Link building layer to building object*/
         stringToBuildingMap.put("roadBtn", new Road());
         stringToBuildingMap.put("houseBtn", new House());
         stringToBuildingMap.put("UraniumPlantBtn", new NuclearPlant());
@@ -342,7 +342,7 @@ public class GameController implements Runnable{
         int day = this.clock.getDayCount();
         while(true){
             try {
-                if(this.clock.isTicking()){
+                if (this.clock.isTicking()) {
                     if(this.clock.getDayCount() <= 1)
                         day = 1;
                     if(day < this.clock.getDayCount()){

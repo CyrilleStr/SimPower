@@ -11,9 +11,9 @@ import com.simpower.models.grid.Grid;
 import com.simpower.models.grid.GridInfos;
 import com.simpower.models.grid.buildings.*;
 import com.simpower.models.time.Clock;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
+
+import static java.lang.Math.abs;
 
 public class Game implements GridInfos{
     private Clock clock;
@@ -35,7 +35,7 @@ public class Game implements GridInfos{
         this.createdAt = LocalDateTime.now();
         setMoney(100000);
         setGlobalHappiness(100);
-        setElectricityStock(10);
+        setElectricityStock(10000);
         setCoalStock(0);
         setGasStock(0);
         setOilStock(0);
@@ -52,42 +52,30 @@ public class Game implements GridInfos{
         int houseCount = 0;
         for (Cell[] cellX : this.grid.getCells()) {
             for (Cell cell : cellX) {
-                active = true;
                 Building building = cell.getCurrentBuilding();
-                // Check if there's a building and if it isn't a road
-                if (building != null && !building.isRoad()) {
 
-                    // Check if the building can have all what it needs to be still active
-                    if (building.isHouse()) { // The building is a house;
-                        if (-building.electricityStockChange() >= electricityStock) { // Not enough electricity for the house
-                            active = false;
-                        }
-                        tmpHappiness += building.updateHappiness();
-                        houseCount += 1;
-                    } else {
-                        if (building.isFossil())
-                            if (building.isEnergyProducer()) // The building is a fossil plant
-                                if (-building.resourceStockChange() >= resourceStockToStockMap.get(building.getResourceStockEnum()).apply(0))
-                                    // The fossil plant has not enough resources to work
-                                    active = false;
+                if (building == null || building.isRoad()) continue; // continue loop if the building is a road or null
 
-                        if (-building.changeMoneyAmount() >= this.money)
-                            // The building has servicing cost greater than the money amount
-                            active = false;
+                if (building.isHouse()) {
+                    // check if house can have enough electricity
+                    if (abs(building.electricityStockChange()) >= electricityStock) building.setActive(false);
+                }
+
+                if (building.isFossil()) {
+                    if (building.isEnergyProducer()) {
+                        // test if the resource plant have enough resources to work
+                        if (abs(building.resourceStockChange()) >= resourceStockToStockMap.get(building.getResourceStockEnum()).apply(0))
+                            building.setActive(false);
                     }
 
-                    // Building is active => daily operation can be done
-                    if (active) {
-                        building.setActive(true);
-                        if (building.isFossil()) {
-                            resourceStockToStockMap.get(building.getResourceStockEnum()).apply(building.resourceStockChange());
-                        }
-                        this.electricityStock += building.electricityStockChange();
-                        this.money += building.changeMoneyAmount();
+                }
 
-                    } else {
-                        building.setActive(false);
-                    }
+                if (abs(building.changeMoneyAmount()) >= this.money && !building.isHouse()) building.setActive(false);
+
+                if (building.isActive()) {
+                    if (building.isFossil()) resourceStockToStockMap.get(building.getResourceStockEnum()).apply(building.resourceStockChange());
+                    this.electricityStock += building.electricityStockChange();
+                    this.money += building.changeMoneyAmount();
                 }
             }
         }
