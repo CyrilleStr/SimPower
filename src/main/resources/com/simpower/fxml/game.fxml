@@ -559,5 +559,24 @@
             <Font name="Leelawadee UI Semilight" size="18.0" />
          </font>
       </Label>
+      <HBox alignment="CENTER" layoutX="226.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1">
+         <children>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/textures/hotbar/happiness.png" />
+               </image></ImageView>
+            <Label fx:id="happinessLabel" prefHeight="35.0" prefWidth="100.0" styleClass="background-lighter" text=" 0 %" textFill="WHITE">
+               <font>
+                  <Font name="Leelawadee UI" size="16.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <tooltip>
+                  <Tooltip text="Current happiness of your citizens !" />
+               </tooltip>
+            </Label>
+         </children>
+      </HBox>
    </children>
 </GridPane>

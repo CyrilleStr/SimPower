@@ -63,6 +63,7 @@ public class GameController implements Runnable{
     @FXML private Label gazLabel;
     @FXML private Label errorLabel;
     @FXML private Label electricityLabel;
+    @FXML private Label happinessLabel;
 
     /**
      * Instance a new game controller
@@ -311,6 +312,7 @@ public class GameController implements Runnable{
         this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
         this.moneyLabel.setText(this.game.getMoney() + " €");
         this.electricityLabel.setText(this.game.getElectricityStock() + " W");
+        this.happinessLabel.setText(this.game.getGlobalhappiness()+ "%");
     }
 
     /**

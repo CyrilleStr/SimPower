@@ -35,7 +35,7 @@ public class Game implements GridInfos{
         this.createdAt = LocalDateTime.now();
         setMoney(100000);
         setGlobalHappiness(100);
-        setElectricityStock(10000);
+        setElectricityStock(10);
         setCoalStock(0);
         setGasStock(0);
         setOilStock(0);
@@ -59,6 +59,8 @@ public class Game implements GridInfos{
                 if (building.isHouse()) {
                     // check if house can have enough electricity
                     if (abs(building.electricityStockChange()) >= electricityStock) building.setActive(false);
+                    tmpHappiness += building.updateHappiness();
+                    houseCount += 1;
                 }
 
                 if (building.isFossil()) {
