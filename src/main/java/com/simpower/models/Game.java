@@ -51,19 +51,22 @@ public class Game implements GridInfos{
         boolean active;
         int tmpHappiness = 0;
         int houseCount = 0;
+        globalPollution = 0;
         for (Cell[] cellX : this.grid.getCells()) {
             for (Cell cell : cellX) {
 
                 // Update pollution
                 if(cell.isPolluted()) {
-                    if(cell.getPollutionAge() > POLLUTION_PERSISTANCE_DAY)
+                    if(cell.getPollutionAge() > POLLUTION_PERSISTANCE_DAY) {
                         // Pollution disappear after a certain number of day without being re-polluted
                         cell.setPolluted(false);
-                    else
+                        globalPollution++;
+                    } else
                         // Increment pollution age
                         cell.setPollutionAge(cell.getPollutionAge() + 1);
                 }
 
+                // Handle building
                 Building building = cell.getCurrentBuilding();
                 if (building == null || building.isRoad())
                     continue; // continue loop if the building is a road or null
@@ -85,7 +88,7 @@ public class Game implements GridInfos{
                 if (building.isActive()) {
                     if (building.isFossil()) {
                         resourceStockToStockMap.get(building.getResourceStockEnum()).apply(building.resourceStockChange());
-                        if(building.isEnergyProducer()) // If the building pollute
+                        if(building.isEnergyProducer()) // Generate pollution around plants
                             this.grid.generatePollutionAroundCell(cell);
                     }
                     this.electricityStock += building.electricityStockChange();
