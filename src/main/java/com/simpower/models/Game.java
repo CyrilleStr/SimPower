@@ -21,6 +21,7 @@ public class Game implements GridInfos{
     private Path savePath;
     private Grid grid;
     private int money;
+    private int globalHappiness;
     private int electricityStock;
     private int coalStock;
     private int gasStock;
@@ -33,7 +34,8 @@ public class Game implements GridInfos{
         this.clock = clock;
         this.createdAt = LocalDateTime.now();
         setMoney(100000);
-        setElectricityStock(10000);
+        setGlobalHappiness(100);
+        setElectricityStock(10);
         setCoalStock(0);
         setGasStock(0);
         setOilStock(0);
@@ -45,6 +47,9 @@ public class Game implements GridInfos{
      * Call every cell operations to be done each day such as collectResource or collectMoney
      */
     public void eachDay() {
+        boolean active;
+        int tmpHappiness = 0;
+        int houseCount = 0;
         for (Cell[] cellX : this.grid.getCells()) {
             for (Cell cell : cellX) {
                 Building building = cell.getCurrentBuilding();
@@ -54,6 +59,8 @@ public class Game implements GridInfos{
                 if (building.isHouse()) {
                     // check if house can have enough electricity
                     if (abs(building.electricityStockChange()) >= electricityStock) building.setActive(false);
+                    tmpHappiness += building.updateHappiness();
+                    houseCount += 1;
                 }
 
                 if (building.isFossil()) {
@@ -74,6 +81,12 @@ public class Game implements GridInfos{
                 }
             }
         }
+        System.out.println("housecount :" + houseCount +"\n");
+        System.out.println("tmphappiness :" + tmpHappiness +"\n");
+
+        if(houseCount >0)
+            globalHappiness = tmpHappiness / houseCount;
+        System.out.println("global happiness : "+globalHappiness+"\n");
         // todo: add automatic save
     };
 
@@ -202,4 +215,8 @@ public class Game implements GridInfos{
     public int getUraniumStock() {
         return uraniumStock;
     }
+
+    public void setGlobalHappiness(int globalHappiness){this.globalHappiness = globalHappiness;}
+
+    public int getGlobalhappiness(){return globalHappiness;}
 }

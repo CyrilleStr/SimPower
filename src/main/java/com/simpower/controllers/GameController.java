@@ -19,13 +19,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,6 +63,7 @@ public class GameController implements Runnable{
     @FXML private Label gazLabel;
     @FXML private Label errorLabel;
     @FXML private Label electricityLabel;
+    @FXML private Label happinessLabel;
 
     /**
      * Instance a new game controller
@@ -286,7 +286,7 @@ public class GameController implements Runnable{
         this.stringToBuildingLayerMap.put("WaterPlantBtn", buildingLayer.WATER_MILL);
         this.stringToBuildingLayerMap.put("SolarPlantBtn", buildingLayer.SOLAR_PLANT);
 
-        /* Link building layer to building object */
+        /* Link building layer to building object*/
         stringToBuildingMap.put("roadBtn", new Road());
         stringToBuildingMap.put("houseBtn", new House());
         stringToBuildingMap.put("UraniumPlantBtn", new NuclearPlant());
@@ -312,6 +312,7 @@ public class GameController implements Runnable{
         this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
         this.moneyLabel.setText(this.game.getMoney() + " €");
         this.electricityLabel.setText(this.game.getElectricityStock() + " W");
+        this.happinessLabel.setText(this.game.getGlobalhappiness()+ "%");
     }
 
     /**

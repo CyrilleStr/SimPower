@@ -7,6 +7,7 @@ public class House extends ConsumerEnergyBuilding {
     private int inhabitantCapacity;
     private int happiness;
     private int moneyIncome;
+    private int test = (int) (Math.random() * (1000));
 
     public House(){
         super(0, 2000, 400, false, GridInfos.resourceStock.NONE, true);
@@ -91,4 +92,18 @@ public class House extends ConsumerEnergyBuilding {
         this.moneyIncome = moneyIncome_p;
     }
 
+    @Override
+    public int updateHappiness(){
+
+        if(isActive()){
+            if(happiness <= 90)
+                happiness +=10;
+        }else{
+            if(happiness>=10)
+                happiness -=10;
+        }
+        System.out.println("House : "+ test+ "Happiness level : " +happiness+"\n");
+
+        return happiness;
+    }
 }
