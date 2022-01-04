@@ -13,6 +13,8 @@ import com.simpower.models.grid.buildings.*;
 import com.simpower.models.time.Clock;
 import javafx.scene.image.ImageView;
 
+import static java.lang.Math.abs;
+
 public class Game implements GridInfos{
     private Clock clock;
     private LocalDateTime createdAt;
@@ -43,41 +45,32 @@ public class Game implements GridInfos{
      * Call every cell operations to be done each day such as collectResource or collectMoney
      */
     public void eachDay() {
-        boolean active;
         for (Cell[] cellX : this.grid.getCells()) {
             for (Cell cell : cellX) {
-                active = true;
                 Building building = cell.getCurrentBuilding();
-                // Check if there's a building and if it isn't a road
-                if (building != null && !building.isRoad()) {
 
-                    // Check if the building can have all what it needs to be still active
-                    if (building.isHouse()) { // The building is a house
-                        if (-building.electricityStockChange() >= electricityStock) // Not enough electricity for the house
-                            active = false;
-                    } else {
-                        if (building.isFossil())
-                            if (building.isEnergyProducer()) // The building is a fossil plant
-                                if (-building.resourceStockChange() >= resourceStockToStockMap.get(building.getResourceStockEnum()).apply(0))
-                                    // The fossil plant has not enough resources to work
-                                    active = false;
+                if (building == null || building.isRoad()) continue; // continue loop if the building is a road or null
 
-                        if (-building.changeMoneyAmount() >= this.money)
-                            // The building has servicing cost greater than the money amount
-                            active = false;
+                if (building.isHouse()) {
+                    // check if house can have enough electricity
+                    if (abs(building.electricityStockChange()) >= electricityStock) building.setActive(false);
+                }
+
+                if (building.isFossil()) {
+                    if (building.isEnergyProducer()) {
+                        // test if the resource plant have enough resources to work
+                        if (abs(building.resourceStockChange()) >= resourceStockToStockMap.get(building.getResourceStockEnum()).apply(0))
+                            building.setActive(false);
                     }
 
-                    // Building is active => daily operation can be done
-                    if (active) {
-                        building.setActive(true);
-                        if (building.isFossil()) {
-                            resourceStockToStockMap.get(building.getResourceStockEnum()).apply(building.resourceStockChange());
-                        }
-                        this.electricityStock += building.electricityStockChange();
-                        this.money += building.changeMoneyAmount();
-                    } else {
-                        building.setActive(false);
-                    }
+                }
+
+                if (abs(building.changeMoneyAmount()) >= this.money && !building.isHouse()) building.setActive(false);
+
+                if (building.isActive()) {
+                    if (building.isFossil()) resourceStockToStockMap.get(building.getResourceStockEnum()).apply(building.resourceStockChange());
+                    this.electricityStock += building.electricityStockChange();
+                    this.money += building.changeMoneyAmount();
                 }
             }
         }

@@ -343,7 +343,7 @@ public class GameController implements Runnable{
         int day = this.clock.getDayCount();
         while(true){
             try {
-                if(this.clock.isTicking()){
+                if (this.clock.isTicking()) {
                     if(this.clock.getDayCount() <= 1)
                         day = 1;
                     if(day < this.clock.getDayCount()){
