@@ -14,9 +14,7 @@ public abstract class ConsumerEnergyBuilding extends Building {
      * @return the electricity quantity as a negative number
      */
     @Override
-    public int electricityStockChange(){
-        return -this.electricityNeeded;
-    }
+    public int electricityStockChange(){ return -this.electricityNeeded; }
 
     /**
      * Set the energy needed by the building
