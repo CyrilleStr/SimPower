@@ -24,6 +24,8 @@ public interface GridInfos {
     int MAP_HEIGHT = NB_CELLS_HEIGHT * CELL_HEIGHT;
     int MAP_SURFACE = MAP_WIDTH * MAP_HEIGHT;
 
+    int POLLUTION_PERSISTANCE_DAY = 2;
+
     enum resourceLayer {
         NONE,
         OIL,

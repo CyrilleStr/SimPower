@@ -130,8 +130,8 @@ public abstract class Building implements GridInfos {
      *
      * @return int
      */
-    public int generatePollution(){
-        //TODO la pollution à générer
+    public int getPollution(){
+        System.out.println("This building doesn't generate pollution");
         return 0;
     }
 

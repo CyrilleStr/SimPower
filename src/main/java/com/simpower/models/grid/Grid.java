@@ -20,11 +20,11 @@ public class Grid implements GridInfos {
     private Label infoLabel;
     private Label errorLabel;
     private GridPane gridContainer;
-    private String buildingToDrop;
     private buildingLayer buildingLayerAction;
     private Building buildingObjectAction;
     private boolean resourcesShown = false;
     private Map<buildingLayer,resourceLayer> buildingLayerToResourceLayerMap = new HashMap<>();
+    private Image pollutionImg;
 
 
     /**
@@ -206,9 +206,11 @@ public class Grid implements GridInfos {
 
         ColorAdjust colorAdjust = new ColorAdjust();
 
-        // lighter when hovered, elsewhere, 0 (default brightness) (1 == full white)
-        if (newVal) colorAdjust.setBrightness(.5);
-        else colorAdjust.setBrightness(0);
+        // lighter when hovered, elsewhere, original brightness (1 == full white)
+        if (newVal)
+            colorAdjust.setBrightness(.5);
+        else
+            colorAdjust.setBrightness(0);
 
         imgView.setEffect(colorAdjust);
     }
@@ -304,8 +306,6 @@ public class Grid implements GridInfos {
                 this.hoverListener(resourceLayer, x, y, newVal);
             });
             resourceLayer.setOnMouseClicked(event -> gameController.mouseClickedAction(this.getCell(x, y)));
-            if(isBuildingInactive)
-                resourceLayer.setEffect(inactiveEffect);
             this.gridContainer.add(resourceLayer,x,y);
         } else {
             ImageView topLayer = new ImageView(this.topLayerImages.get(cells[x][y].getCurrentTopLayer()));
@@ -315,33 +315,24 @@ public class Grid implements GridInfos {
                 this.hoverListener(topLayer, x, y, newVal);
             });
             topLayer.setOnMouseClicked(event -> gameController.mouseClickedAction(this.getCell(x, y)));
-            if(isBuildingInactive)
-                topLayer.setEffect(inactiveEffect);
             this.gridContainer.add(topLayer,x,y);
         }
 
         ImageView buildingLayer = new ImageView(this.buildingLayerImages.get(cells[x][y].getCurrentBuildingLayer()));
         buildingLayer.setFitHeight(CELL_HEIGHT);
         buildingLayer.setFitWidth(CELL_WIDTH);
-        buildingLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
-            this.hoverListener(buildingLayer, x, y, newVal);
-        });
         buildingLayer.setOnMouseClicked(event -> gameController.mouseClickedAction(this.getCell(x, y)));
         if(isBuildingInactive)
             buildingLayer.setEffect(inactiveEffect);
         this.gridContainer.add(buildingLayer, x, y);
 
-        ImageView pollutionLayer = new ImageView(this.pollutionLayerImages.get(cells[x][y].getCurrentPollutionLayer()));
-        pollutionLayer.setFitHeight(CELL_HEIGHT);
-        pollutionLayer.setFitWidth(CELL_WIDTH);
-        pollutionLayer.hoverProperty().addListener((_observable, _oldVal, newVal) -> {
-            this.hoverListener(pollutionLayer, x, y, newVal);
-        });
-        if(isBuildingInactive)
-            pollutionLayer.setEffect(inactiveEffect);
-        this.gridContainer.add(pollutionLayer, x, y);
 
-
+        if(this.getCell(x,y).isPolluted()) {
+            ImageView pollutionImgView = new ImageView(this.pollutionImg);
+            pollutionImgView.setFitHeight(CELL_HEIGHT);
+            pollutionImgView.setFitWidth(CELL_WIDTH);
+            this.gridContainer.add(pollutionImgView, x, y);
+        }
     }
 
     /**
@@ -453,11 +444,14 @@ public class Grid implements GridInfos {
         this.resourceLayerImages.put(resourceLayer.RIVER, new Image("file:src/main/resources/com/simpower/assets/textures/tile/water.jpg"));
 
         /* Link resource layer to building layer */
-        buildingLayerToResourceLayerMap.put(buildingLayer.COAL_MINE,resourceLayer.COAL);
-        buildingLayerToResourceLayerMap.put(buildingLayer.GAS_MINE,resourceLayer.GAS);
-        buildingLayerToResourceLayerMap.put(buildingLayer.URANIUM_MINE,resourceLayer.URANIUM);
-        buildingLayerToResourceLayerMap.put(buildingLayer.OIL_MINE,resourceLayer.OIL);
-        buildingLayerToResourceLayerMap.put(buildingLayer.WATER_MILL,resourceLayer.RIVER);
+        this.buildingLayerToResourceLayerMap.put(buildingLayer.COAL_MINE,resourceLayer.COAL);
+        this.buildingLayerToResourceLayerMap.put(buildingLayer.URANIUM_MINE,resourceLayer.URANIUM);
+        this.buildingLayerToResourceLayerMap.put(buildingLayer.GAS_MINE,resourceLayer.GAS);
+        this.buildingLayerToResourceLayerMap.put(buildingLayer.OIL_MINE,resourceLayer.OIL);
+        this.buildingLayerToResourceLayerMap.put(buildingLayer.WATER_MILL,resourceLayer.RIVER);
+
+        /* Pollution layer */
+        this.pollutionImg = new Image("file:src/main/resources/com/simpower/assets/textures/tile/pollution.png");
     }
 
     /**
@@ -681,6 +675,19 @@ public class Grid implements GridInfos {
     }
 
     /**
+     * Set pollution to true around a given cell
+     * @param cell the given cell
+     */
+    public void generatePollutionAroundCell(Cell cell){
+        this.lookAroundCell(generatePollution,cell);
+    }
+
+    /**
+     * Interface for lambda expressions
+     */
+    interface CellFunction { boolean run(Cell... cell); }
+
+    /**
      * Place road on building layer
      */
     CellFunction placeRoad = (cells) -> {
@@ -718,8 +725,16 @@ public class Grid implements GridInfos {
         return true;
     };
 
-    // interface for lambda expressions
-    interface CellFunction { boolean run(Cell... cell); }
+    /**
+     * Place road on building layer
+     */
+    CellFunction generatePollution = (cells) -> {
+        if(cells.length < 2) return false;
+        cells[1].setPolluted(true);
+        cells[1].setPollutionAge(0);
+        System.out.println(cells[1].getPos_x() + ":" + cells[1].getPos_y());
+        return true;
+    };
 
     /**
      * Complex function to determine what operation should be done on all cells in the 3x3 area
@@ -729,15 +744,16 @@ public class Grid implements GridInfos {
      * @param cell center cell
      * @return boolean
      */
-    private boolean lookAroundCell(CellFunction function, Cell cell) {
+    public boolean lookAroundCell(CellFunction function, Cell cell) {
         int goodResponse = 0;
 
         // center
         function.run(cell);
         // grid (+ center again)
-        for (int x : new int[]{-1, 0, 1}) for (int y : new int[]{-1, 0, 1}) if (this.isCellExist(cell.getPos_x() + x, cell.getPos_y() + y)) {
-            goodResponse += (function.run(cell, this.getCell(cell.getPos_x() + x, cell.getPos_y() + y))) ? 1 : 0;
-        }
+        for (int x : new int[]{-1, 0, 1})
+            for (int y : new int[]{-1, 0, 1})
+                if (this.isCellExist(cell.getPos_x() + x, cell.getPos_y() + y))
+                    goodResponse += (function.run(cell, this.getCell(cell.getPos_x() + x, cell.getPos_y() + y))) ? 1 : 0;
 
         // return error message if no response were good;
         return (goodResponse == 0) ? false : true;

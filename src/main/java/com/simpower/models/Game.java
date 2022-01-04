@@ -22,6 +22,7 @@ public class Game implements GridInfos{
     private Grid grid;
     private int money;
     private int globalHappiness;
+    private int globalPollution;
     private int electricityStock;
     private int coalStock;
     private int gasStock;
@@ -52,30 +53,41 @@ public class Game implements GridInfos{
         int houseCount = 0;
         for (Cell[] cellX : this.grid.getCells()) {
             for (Cell cell : cellX) {
-                Building building = cell.getCurrentBuilding();
 
-                if (building == null || building.isRoad()) continue; // continue loop if the building is a road or null
+                // Update pollution
+                if(cell.isPolluted()) {
+                    if(cell.getPollutionAge() > POLLUTION_PERSISTANCE_DAY)
+                        // Pollution disappear after a certain number of day without being re-polluted
+                        cell.setPolluted(false);
+                    else
+                        // Increment pollution age
+                        cell.setPollutionAge(cell.getPollutionAge() + 1);
+                }
+
+                Building building = cell.getCurrentBuilding();
+                if (building == null || building.isRoad())
+                    continue; // continue loop if the building is a road or null
 
                 if (building.isHouse()) {
-                    // check if house can have enough electricity
-                    if (abs(building.electricityStockChange()) >= electricityStock) building.setActive(false);
+                    // set the house as active if there is enough electricty
+                    building.setActive(abs(building.electricityStockChange()) < electricityStock);
                     tmpHappiness += building.updateHappiness();
-                    houseCount += 1;
-                }
+                    houseCount++;
+                } else
+                    // Set the building as active if there is enough money for the servicing cost
+                    building.setActive(abs(building.changeMoneyAmount()) < this.money);
 
-                if (building.isFossil()) {
-                    if (building.isEnergyProducer()) {
-                        // test if the resource plant have enough resources to work
-                        if (abs(building.resourceStockChange()) >= resourceStockToStockMap.get(building.getResourceStockEnum()).apply(0))
-                            building.setActive(false);
-                    }
-
-                }
-
-                if (abs(building.changeMoneyAmount()) >= this.money && !building.isHouse()) building.setActive(false);
+                if (building.isFossil())
+                    if (building.isEnergyProducer())
+                        // set the resource plan as active if there is enough resources
+                        building.setActive(abs(building.resourceStockChange()) < resourceStockToStockMap.get(building.getResourceStockEnum()).apply(0));
 
                 if (building.isActive()) {
-                    if (building.isFossil()) resourceStockToStockMap.get(building.getResourceStockEnum()).apply(building.resourceStockChange());
+                    if (building.isFossil()) {
+                        resourceStockToStockMap.get(building.getResourceStockEnum()).apply(building.resourceStockChange());
+                        if(building.isEnergyProducer()) // If the building pollute
+                            this.grid.generatePollutionAroundCell(cell);
+                    }
                     this.electricityStock += building.electricityStockChange();
                     this.money += building.changeMoneyAmount();
                 }
