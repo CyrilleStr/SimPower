@@ -20,7 +20,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Slider fx:id="soundSlider" max="6.0" maxWidth="400.0" min="-80.0" prefHeight="36.0" prefWidth="400.0" value="-37.0" />
+            <Slider fx:id="soundSlider" max="0.1" maxWidth="400.0" min="0.01" prefHeight="36.0" prefWidth="400.0" value="0.055" />
             <Button fx:id="goBackBtn" mnemonicParsing="false" onAction="#goBack" prefWidth="400.0" stylesheets="@../../css/stylesheet.css" text="Go Back" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="16.0" />

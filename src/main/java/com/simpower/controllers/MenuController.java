@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 
 public class MenuController {
     private DataModel settingsData = new DataModel();
+    private final Clip clip = AudioSystem.getClip();
 
     @FXML private Button loadGameBtn;
     @FXML private Button settingsBtn;
@@ -23,13 +24,14 @@ public class MenuController {
     @FXML private Button goBackBtn;
     @FXML private Slider soundSlider;
 
+    public MenuController() throws LineUnavailableException {}
+
     @FXML
     public void initialize() {
-
         // work around since the fxml property doesn't seem to be fired by default
         if (soundSlider != null) {
             JSONObject settings = this.settingsData.read("data/settings.json");
-            this.soundSlider.setValue((double) settings.get("SoundVolume"));
+            this.soundSlider.setValue((Double.parseDouble(settings.get("SoundVolume").toString())));
 
             this.soundSlider.setOnMouseReleased((event) -> {
                 this.updateSoundVolume((float) this.soundSlider.getValue());
@@ -57,6 +59,7 @@ public class MenuController {
      */
     @FXML
     protected void goBack(ActionEvent event) throws IOException {
+        this.stopMusic();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/main.fxml"));
         goBackBtn.getScene().setRoot(fxmlLoader.load());
     }
@@ -69,6 +72,7 @@ public class MenuController {
      */
     @FXML
     protected void newGame(ActionEvent event) throws IOException{
+        this.stopMusic();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/game.fxml"));
         settingsBtn.getScene().setRoot(fxmlLoader.load());
     }
@@ -87,6 +91,7 @@ public class MenuController {
      */
     @FXML
     protected void openCredits(ActionEvent event) throws IOException {
+        this.stopMusic();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/credits.fxml"));
         creditsBtn.getScene().setRoot(fxmlLoader.load());
     }
@@ -99,6 +104,7 @@ public class MenuController {
      */
     @FXML
     protected void openSettings(ActionEvent event) throws IOException {
+        this.stopMusic();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/settings.fxml"));
         settingsBtn.getScene().setRoot(fxmlLoader.load());
     }
@@ -106,29 +112,25 @@ public class MenuController {
     protected void updateSoundVolume(float value) {
         JSONObject settings = this.settingsData.read("data/settings.json");
         settings.put("SoundVolume", value);
-
         try {
             this.settingsData.write("data/settings.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        this.stopMusic();
-        this.playMusic();
+        this.setVolume(value);
+    }
+
+    private void setVolume(float volume) {
+        if (volume < 0f || volume > 0.1f) throw new IllegalArgumentException("Volume not valid: " + volume);
+        FloatControl gainControl = (FloatControl) this.clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(40f * (float) Math.log10(volume));
     }
 
     /**
      * Plays the background music
      */
     private void playMusic() {
-        Clip clip = null;
-        
-        try {
-            clip = AudioSystem.getClip();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
-
         AudioInputStream AIS = null;
         try {
             AIS = AudioSystem.getAudioInputStream(new File(Main.class.getResource("assets/music/main.wav").toURI()));
@@ -137,29 +139,17 @@ public class MenuController {
         }
 
         try {
-            clip.open(AIS);
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            this.clip.open(AIS);
+        } catch (IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
 
         JSONObject settings = this.settingsData.read("data/settings.json");
-        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(Float.parseFloat(settings.get("SoundVolume").toString())); // should be between -80 && 6.0206
-
-        System.out.println(settings.get("SoundVolume"));
-
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        this.setVolume(Float.parseFloat(settings.get("SoundVolume").toString())); // should be between -80 && 6.0206
+        this.clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     private void stopMusic()  {
-        Clip clip = null;
-        try {
-            clip = AudioSystem.getClip();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
-        clip.close();
+        this.clip.stop();
     }
 }
