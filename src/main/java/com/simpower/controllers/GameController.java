@@ -28,8 +28,6 @@ import javafx.scene.layout.GridPane;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.sound.sampled.*;
-import java.io.*;
 
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
@@ -311,7 +309,7 @@ public class GameController implements Runnable{
         this.oilLabel.setText(this.game.getOilStock() + " L");
         this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
         this.moneyLabel.setText(this.game.getMoney() + " €");
-        this.electricityLabel.setText(this.game.getElectricityStock() + " W");
+        this.electricityLabel.setText(this.game.getElectricityProduced() + " W");
         this.happinessLabel.setText(this.game.getGlobalhappiness()+ "%");
     }
 
@@ -342,7 +340,7 @@ public class GameController implements Runnable{
         }
 
         int day = this.clock.getDayCount();
-        while(true){
+        while(!this.game.isGameOver()){
             try {
                 if (this.clock.isTicking()) {
                     if(this.clock.getDayCount() <= 1)
@@ -361,6 +359,26 @@ public class GameController implements Runnable{
                 e.printStackTrace();
             }
         }
+        Platform.runLater(() -> {
+            this.pauseTime(false);
+            this.showErrorMessage("Game Over !");
+            PauseTransition pause1 = new PauseTransition(Duration.seconds(2.5));
+            PauseTransition pause2 = new PauseTransition(Duration.seconds(2.5));
+            pause1.setOnFinished(event -> {
+                this.showErrorMessage("All inhabitants left the city.");
+                pause2.play();
+            });
+            pause2.setOnFinished(event -> {
+                try {
+                    quitGame(new ActionEvent());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            pause1.play();
+        });
+
+
     }
 
     /**
@@ -369,11 +387,11 @@ public class GameController implements Runnable{
      */
     public void music() throws Exception{
 
-        Clip clip = AudioSystem.getClip();
+       /* Clip clip = AudioSystem.getClip();
         AudioInputStream ais = AudioSystem.getAudioInputStream(new File("music.wav"));
         clip.open(ais);
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         gainControl.setValue(-30.0f); //reduce volume by 30 dB
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);*/
     }
 }

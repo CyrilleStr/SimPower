@@ -234,6 +234,7 @@ public class Grid implements GridInfos {
                 }else {
                     cell.setCurrentBuilding(new House());
                 }
+                break;
             case COAL_PLANT:
             case GAS_PLANT:
             case OIL_PLANT:
@@ -332,6 +333,8 @@ public class Grid implements GridInfos {
             pollutionImgView.setFitHeight(CELL_HEIGHT);
             pollutionImgView.setFitWidth(CELL_WIDTH);
             this.gridContainer.add(pollutionImgView, x, y);
+            if(!this.getCell(x,y).isBuildingEmpty())
+                this.getCell(x,y).getCurrentBuilding().setCellPolluted(true);
         }
     }
 
