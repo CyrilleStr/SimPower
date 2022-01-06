@@ -132,7 +132,6 @@ public class Game implements GridInfos{
 
         if(globalHappiness <= 0) {
             this.gameOver = true;
-            System.out.println("debug");
         }
     };
 

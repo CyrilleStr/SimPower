@@ -735,7 +735,6 @@ public class Grid implements GridInfos {
         if(cells.length < 2) return false;
         cells[1].setPolluted(true);
         cells[1].setPollutionAge(0);
-        System.out.println(cells[1].getPos_x() + ":" + cells[1].getPos_y());
         return true;
     };
 

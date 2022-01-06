@@ -33,11 +33,6 @@ import java.util.Map;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
-
 import static java.lang.Thread.sleep;
 
 public class GameController implements Runnable {
