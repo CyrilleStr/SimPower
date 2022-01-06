@@ -19,21 +19,24 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.sound.sampled.*;
-import java.io.*;
 
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 import static java.lang.Thread.sleep;
 
@@ -50,50 +53,70 @@ public class GameController implements Runnable {
     private buildingLayer buildingType = buildingLayer.NONE;
     private Thread eventLoop;
 
-    @FXML private GridPane pauseMenu;
-    @FXML private TabPane tabPane;
-    @FXML private GridPane gridContainer;
-    @FXML private Label clockLabel;
-    @FXML private Label infoLabel;
-    @FXML private Button pauseGameBtn;
-    @FXML private Button changeClockSpeedBtn;
-    @FXML private Label moneyLabel;
-    @FXML private Label oilLabel;
-    @FXML private Label uraniumLabel;
-    @FXML private Label coalLabel;
-    @FXML private Label gazLabel;
-    @FXML private Label errorLabel;
-    @FXML private Label electricityLabel;
+    @FXML
+    private GridPane pauseMenu;
+    @FXML
+    private TabPane tabPane;
+    @FXML
+    private GridPane gridContainer;
+    @FXML
+    private Label clockLabel;
+    @FXML
+    private Label infoLabel;
+    @FXML
+    private Button pauseGameBtn;
+    @FXML
+    private Button changeClockSpeedBtn;
+    @FXML
+    private Label moneyLabel;
+    @FXML
+    private Label oilLabel;
+    @FXML
+    private Label uraniumLabel;
+    @FXML
+    private Label coalLabel;
+    @FXML
+    private Label gazLabel;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private Label electricityLabel;
+    @FXML
+    private Label happinessLabel;
 
     /**
      * Instance a new game controller
      */
-    public GameController(){}
+    public GameController() {
+    }
 
     /**
      * Instance a saved game controller
      *
      * @param params
      */
-    public GameController(String params){
+    public GameController(String params) {
         // TODO controller with saved game
         // this.game = new Game(params[0])
         // this.grid = new Grid(params[1])
     }
 
     /**
-     * This function is called once all the controller associated FXML contents have been fully loaded
+     * This function is called once all the controller associated FXML contents have
+     * been fully loaded
      */
     @FXML
-    public void initialize(){
+    public void initialize() {
         this.loadData();
         this.grid = new Grid(gridContainer, infoLabel, buildingType, errorLabel, this);
 
         this.clock = new Clock(grid, clockLabel);
         this.clock.start();
 
-        this.pauseImgView = new ImageView(new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/pause.png"));
-        this.playImgView = new ImageView(new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/play.png"));
+        this.pauseImgView = new ImageView(
+                new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/pause.png"));
+        this.playImgView = new ImageView(
+                new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/play.png"));
 
         this.playImgView.setFitHeight(25);
         this.playImgView.setFitWidth(25);
@@ -112,18 +135,19 @@ public class GameController implements Runnable {
      *
      * @param cell cell where you do the action
      */
-    public void mouseClickedAction(Cell cell){
-        if(this.grid.getBuildingLayerAction() != buildingLayer.NONE) {
+    public void mouseClickedAction(Cell cell) {
+        if (this.grid.getBuildingLayerAction() != buildingLayer.NONE) {
             String errorMsg = null;
             if (this.game.getMoney() >= this.grid.getBuildingObjectAction().getBuildingCost()) {
                 errorMsg = this.grid.mouseClicked(cell);
-                if (errorMsg == null) {
-                    this.game.setMoney(this.game.getMoney() - this.grid.getBuildingObjectAction().getBuildingCost());
-                    this.refreshHotBar();
-                }
-            } else {
+                if (errorMsg == null)
+                    if (this.grid.getBuildingLayerAction() != buildingLayer.DELETE) {
+                        this.game
+                                .setMoney(this.game.getMoney() - this.grid.getBuildingObjectAction().getBuildingCost());
+                        this.refreshHotBar();
+                    }
+            } else
                 errorMsg = "You don't have enough money !";
-            }
 
             if (errorMsg != null)
                 this.showErrorMessage(errorMsg);
@@ -196,8 +220,7 @@ public class GameController implements Runnable {
             // Deprecated method but used in lesson
             this.clock.suspend();
             this.clock.setTicking(false);
-        }
-        else {
+        } else {
             this.pauseGameBtn.setGraphic(this.pauseImgView);
             // Deprecated method but used in lesson
             this.clock.resume();
@@ -207,6 +230,7 @@ public class GameController implements Runnable {
 
     /**
      * Play/pause the timer on user action while changing the pause btn image
+     * 
      * @throws InterruptedException exceptions
      */
     @FXML
@@ -224,7 +248,8 @@ public class GameController implements Runnable {
     }
 
     /**
-     * Call the grid method to set a given building (the building layer type is stored in the id)
+     * Call the grid method to set a given building (the building layer type is
+     * stored in the id)
      *
      * @param event click of the mouse
      */
@@ -271,9 +296,9 @@ public class GameController implements Runnable {
     /**
      * Load the data for graphical interface
      */
-    void loadData(){
-        this.stringToBuildingLayerMap.put("roadBtn",buildingLayer.ROAD);
-        this.stringToBuildingLayerMap.put("houseBtn",buildingLayer.HOUSE);
+    void loadData() {
+        this.stringToBuildingLayerMap.put("roadBtn", buildingLayer.ROAD);
+        this.stringToBuildingLayerMap.put("houseBtn", buildingLayer.HOUSE);
         this.stringToBuildingLayerMap.put("CoalMineBtn", buildingLayer.COAL_MINE);
         this.stringToBuildingLayerMap.put("OilMineBtn", buildingLayer.OIL_MINE);
         this.stringToBuildingLayerMap.put("GasMineBtn", buildingLayer.GAS_MINE);
@@ -305,13 +330,14 @@ public class GameController implements Runnable {
     /**
      * Refresh hotbar data
      */
-    public void refreshHotBar(){
+    public void refreshHotBar() {
         this.coalLabel.setText(this.game.getCoalStock() + " T");
         this.gazLabel.setText(this.game.getGasStock() + " L");
         this.oilLabel.setText(this.game.getOilStock() + " L");
         this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
         this.moneyLabel.setText(this.game.getMoney() + " €");
-        this.electricityLabel.setText(this.game.getElectricityStock() + " W");
+        this.electricityLabel.setText(this.game.getElectricityProduced() + " W");
+        this.happinessLabel.setText(this.game.getGlobalhappiness() + "%");
     }
 
     /**
@@ -334,12 +360,12 @@ public class GameController implements Runnable {
     @Override
     public void run() {
         int day = this.clock.getDayCount();
-        while(true){
+        while (!this.game.isGameOver()) {
             try {
                 if (this.clock.isTicking()) {
-                    if(this.clock.getDayCount() <= 1)
+                    if (this.clock.getDayCount() <= 1)
                         day = 1;
-                    if(day < this.clock.getDayCount()){
+                    if (day < this.clock.getDayCount()) {
                         this.game.eachDay();
                         Platform.runLater(() -> {
                             this.refreshHotBar();
@@ -353,5 +379,24 @@ public class GameController implements Runnable {
                 e.printStackTrace();
             }
         }
+        Platform.runLater(() -> {
+            this.pauseTime(false);
+            this.showErrorMessage("Game Over !");
+            PauseTransition pause1 = new PauseTransition(Duration.seconds(2.5));
+            PauseTransition pause2 = new PauseTransition(Duration.seconds(2.5));
+            pause1.setOnFinished(event -> {
+                this.showErrorMessage("All inhabitants left the city.");
+                pause2.play();
+            });
+            pause2.setOnFinished(event -> {
+                try {
+                    quitGame(new ActionEvent());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            pause1.play();
+        });
+
     }
 }

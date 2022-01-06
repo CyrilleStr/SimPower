@@ -1,7 +1,5 @@
 package com.simpower.models.grid.buildings;
 
-import com.simpower.models.grid.GridInfos;
-
 public abstract class ProducerEnergyBuilding extends Building {
 
     private int production;
@@ -9,6 +7,7 @@ public abstract class ProducerEnergyBuilding extends Building {
     public ProducerEnergyBuilding(int servicingCost, int buildingCost, int production, boolean isFossil, resourceStock resourceStock){
         super(servicingCost,buildingCost,isFossil, false, resourceStock,false, true);
         setProduction(production);
+        setMine(false);
     }
 
     /**

@@ -5,13 +5,14 @@ import com.simpower.models.grid.buildings.ProducerEnergyBuilding;
 public abstract class FossilPlant extends ProducerEnergyBuilding {
 
     private int resourceConsumption;
-    private int pollutionRadius;
+    private boolean polluted;
 
     public FossilPlant(int servicingCost, int buildingCost, int production, int resourceConsumption, int pollutionRadius, boolean isFossil, resourceStock resourceStock) {
         super(servicingCost,buildingCost,production,isFossil, resourceStock);
         setResourceConsumption(resourceConsumption);
-        setPollutionRadius(pollutionRadius);
     }
+
+    /* Getters and setters */
 
     /**
      * Return the resources to be taken from the resource stock
@@ -23,19 +24,6 @@ public abstract class FossilPlant extends ProducerEnergyBuilding {
         return -this.resourceConsumption;
     }
 
-    /* Getters and setters */
-
-    /**
-     * Used to generate pollution based on the pollution radius of the plant
-     *
-     * @return
-     */
-    @Override
-    public int generatePollution(){
-        //TODO la pollution à générer mais comme dans Building.java
-        return this.pollutionRadius;
-    }
-
     /**
      * Set the ressource consumption of the plant
      *
@@ -45,12 +33,11 @@ public abstract class FossilPlant extends ProducerEnergyBuilding {
         this.resourceConsumption = resourceConsumption_p;
     }
 
-    /**
-     * Set the pollution radius of the plant
-     *
-     * @param pollutionRadius_p int to set
-     */
-    public void setPollutionRadius(int pollutionRadius_p){
-        this.pollutionRadius = pollutionRadius_p;
+    public boolean isPolluted() {
+        return polluted;
+    }
+
+    public void setPolluted(boolean polluted) {
+        this.polluted = polluted;
     }
 }
