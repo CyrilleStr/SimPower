@@ -1,16 +1,18 @@
 package com.simpower.controllers;
 
+import com.simpower.Main;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.URISyntaxException;
 
 public class JsonReader {
     private JSONParser jsonParser = new JSONParser();
     private JSONObject json;
+
+    public JsonReader() {}
 
     /**
      * Get a JSON object
@@ -28,7 +30,8 @@ public class JsonReader {
      * @return json file to read
      */
     public JSONObject read(String path) {
-        try (FileReader reader = new FileReader(path)) {
+
+        try (FileReader reader = new FileReader((String.valueOf(Main.class.getResource(path)).replace("file:", "")))) {
 
             // read JSON file
             Object obj = this.jsonParser.parse(reader);
@@ -41,7 +44,6 @@ public class JsonReader {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 }
