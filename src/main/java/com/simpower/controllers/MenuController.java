@@ -1,7 +1,7 @@
 package com.simpower.controllers;
 
 import com.simpower.Main;
-import com.simpower.models.DataModel;
+import com.simpower.models.JSONReader;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -9,22 +9,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import org.json.simple.JSONObject;
 
-import javax.sound.sampled.*;
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 public class MenuController {
-    private DataModel settingsData = new DataModel();
-    private final Clip clip = AudioSystem.getClip();
+    private JSONReader settingsData = new JSONReader();
+    private MusicController music = new MusicController();
 
     @FXML private Button loadGameBtn;
     @FXML private Button settingsBtn;
     @FXML private Button creditsBtn;
     @FXML private Button goBackBtn;
     @FXML private Slider soundSlider;
-
-    public MenuController() throws LineUnavailableException {}
 
     @FXML
     public void initialize() {
@@ -38,7 +33,7 @@ public class MenuController {
             });
         }
 
-        this.playMusic();
+        this.music.play();
     }
 
     /**
@@ -59,7 +54,7 @@ public class MenuController {
      */
     @FXML
     protected void goBack(ActionEvent event) throws IOException {
-        this.stopMusic();
+        this.music.stop();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/main.fxml"));
         goBackBtn.getScene().setRoot(fxmlLoader.load());
     }
@@ -72,7 +67,7 @@ public class MenuController {
      */
     @FXML
     protected void newGame(ActionEvent event) throws IOException{
-        this.stopMusic();
+        this.music.stop();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/game.fxml"));
         settingsBtn.getScene().setRoot(fxmlLoader.load());
     }
@@ -91,7 +86,7 @@ public class MenuController {
      */
     @FXML
     protected void openCredits(ActionEvent event) throws IOException {
-        this.stopMusic();
+        this.music.stop();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/credits.fxml"));
         creditsBtn.getScene().setRoot(fxmlLoader.load());
     }
@@ -104,12 +99,12 @@ public class MenuController {
      */
     @FXML
     protected void openSettings(ActionEvent event) throws IOException {
-        this.stopMusic();
+        this.music.stop();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/menus/settings.fxml"));
         settingsBtn.getScene().setRoot(fxmlLoader.load());
     }
 
-    protected void updateSoundVolume(float value) {
+    public void updateSoundVolume(float value) {
         JSONObject settings = this.settingsData.read("data/settings.json");
         settings.put("SoundVolume", value);
         try {
@@ -118,38 +113,6 @@ public class MenuController {
             e.printStackTrace();
         }
 
-        this.setVolume(value);
-    }
-
-    private void setVolume(float volume) {
-        if (volume < 0f || volume > 0.1f) throw new IllegalArgumentException("Volume not valid: " + volume);
-        FloatControl gainControl = (FloatControl) this.clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(40f * (float) Math.log10(volume));
-    }
-
-    /**
-     * Plays the background music
-     */
-    private void playMusic() {
-        AudioInputStream AIS = null;
-        try {
-            AIS = AudioSystem.getAudioInputStream(new File(Main.class.getResource("assets/music/main.wav").toURI()));
-        } catch (IOException | URISyntaxException | UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            this.clip.open(AIS);
-        } catch (IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
-
-        JSONObject settings = this.settingsData.read("data/settings.json");
-        this.setVolume(Float.parseFloat(settings.get("SoundVolume").toString())); // should be between -80 && 6.0206
-        this.clip.loop(Clip.LOOP_CONTINUOUSLY);
-    }
-
-    private void stopMusic()  {
-        this.clip.stop();
+        this.music.setVolume(value);
     }
 }

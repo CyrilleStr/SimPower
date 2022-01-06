@@ -8,11 +8,11 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.net.URISyntaxException;
 
-public class DataModel {
+public class JSONReader {
     private JSONParser jsonParser = new JSONParser();
     private JSONObject json;
 
-    public DataModel() {}
+    public JSONReader() {}
 
     public void setJSON(JSONObject json) {
         this.json = json;

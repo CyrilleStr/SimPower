@@ -52,43 +52,28 @@ public class GameController implements Runnable {
     private Map<String, Building> stringToBuildingMap = new HashMap<>();
     private buildingLayer buildingType = buildingLayer.NONE;
     private Thread eventLoop;
+    private MusicController music = new MusicController();
 
-    @FXML
-    private GridPane pauseMenu;
-    @FXML
-    private TabPane tabPane;
-    @FXML
-    private GridPane gridContainer;
-    @FXML
-    private Label clockLabel;
-    @FXML
-    private Label infoLabel;
-    @FXML
-    private Button pauseGameBtn;
-    @FXML
-    private Button changeClockSpeedBtn;
-    @FXML
-    private Label moneyLabel;
-    @FXML
-    private Label oilLabel;
-    @FXML
-    private Label uraniumLabel;
-    @FXML
-    private Label coalLabel;
-    @FXML
-    private Label gazLabel;
-    @FXML
-    private Label errorLabel;
-    @FXML
-    private Label electricityLabel;
-    @FXML
-    private Label happinessLabel;
+    @FXML private GridPane pauseMenu;
+    @FXML private TabPane tabPane;
+    @FXML private GridPane gridContainer;
+    @FXML private Label clockLabel;
+    @FXML private Label infoLabel;
+    @FXML private Button pauseGameBtn;
+    @FXML private Button changeClockSpeedBtn;
+    @FXML private Label moneyLabel;
+    @FXML private Label oilLabel;
+    @FXML private Label uraniumLabel;
+    @FXML private Label coalLabel;
+    @FXML private Label gazLabel;
+    @FXML private Label errorLabel;
+    @FXML private Label electricityLabel;
+    @FXML private Label happinessLabel;
 
     /**
      * Instance a new game controller
      */
-    public GameController() {
-    }
+    public GameController() {}
 
     /**
      * Instance a saved game controller
@@ -107,16 +92,15 @@ public class GameController implements Runnable {
      */
     @FXML
     public void initialize() {
+        this.music.play();
         this.loadData();
         this.grid = new Grid(gridContainer, infoLabel, buildingType, errorLabel, this);
 
         this.clock = new Clock(grid, clockLabel);
         this.clock.start();
 
-        this.pauseImgView = new ImageView(
-                new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/pause.png"));
-        this.playImgView = new ImageView(
-                new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/play.png"));
+        this.pauseImgView = new ImageView(new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/pause.png"));
+        this.playImgView = new ImageView(new Image("file:src/main/resources/com/simpower/assets/textures/hotbar/play.png"));
 
         this.playImgView.setFitHeight(25);
         this.playImgView.setFitWidth(25);
@@ -181,7 +165,7 @@ public class GameController implements Runnable {
      */
     @FXML
     void quitGame(ActionEvent event) throws IOException {
-        // TODO implement a quitGame button
+        this.music.stop();
 
         this.clock.stop();
         this.eventLoop.stop();
@@ -230,11 +214,9 @@ public class GameController implements Runnable {
 
     /**
      * Play/pause the timer on user action while changing the pause btn image
-     * 
-     * @throws InterruptedException exceptions
      */
     @FXML
-    void pauseGameAction() throws InterruptedException {
+    void pauseGameAction() {
         this.pauseTime(false);
     }
 
@@ -380,6 +362,7 @@ public class GameController implements Runnable {
             }
         }
         Platform.runLater(() -> {
+            this.music.stop();
             this.pauseTime(false);
             this.showErrorMessage("Game Over !");
             PauseTransition pause1 = new PauseTransition(Duration.seconds(2.5));
