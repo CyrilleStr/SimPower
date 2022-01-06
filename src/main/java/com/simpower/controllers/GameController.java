@@ -25,12 +25,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 import static java.lang.Thread.sleep;
 
@@ -387,11 +393,11 @@ public class GameController implements Runnable{
      */
     public void music() throws Exception{
 
-       /* Clip clip = AudioSystem.getClip();
+       Clip clip = AudioSystem.getClip();
         AudioInputStream ais = AudioSystem.getAudioInputStream(new File("music.wav"));
         clip.open(ais);
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(-30.0f); //reduce volume by 30 dB
-        clip.loop(Clip.LOOP_CONTINUOUSLY);*/
+        //gainControl.setValue(-30.0f); //reduce volume by 30 dB
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }
