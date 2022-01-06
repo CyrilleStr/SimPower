@@ -7,10 +7,11 @@ public class House extends ConsumerEnergyBuilding {
     private int inhabitantCapacity;
     private int happiness;
     private int moneyIncome;
+    //debug tool to differentiate houses
     private int test = (int) (Math.random() * (1000));
 
     public House(){
-        super(0, 2000, 400, false, GridInfos.resourceStock.NONE, true);
+        super(0, 2000, 200, false, GridInfos.resourceStock.NONE, true,false);
         setHappiness(100);
         setInhabitant(1);
         setInhabitantCapacity(5);
@@ -93,16 +94,28 @@ public class House extends ConsumerEnergyBuilding {
     }
 
     @Override
-    public int updateHappiness(){
+    public int updateHappiness(float electricityProvided){
+        //prevents happiness to be >100
+        if(electricityProvided>electricityNeeded)
+            electricityProvided=electricityNeeded;
 
-        if(isActive()){
-            if(happiness <= 90)
-                happiness +=10;
-        }else{
-            if(happiness>=10)
-                happiness -=10;
+        System.out.println("pb: " + electricityNeeded);
+        //Calculates the happiness according to the electricityProvided/electricityNeeded ratio
+        happiness =(int)(electricityProvided/electricityNeeded*100);
+
+        //if the cell is polluted the house gains 5 or loses 5 happiness
+        if(isCellPolluted()){
+            if(happiness >= 5)
+                happiness -=5;
         }
-        System.out.println("House : "+ test+ "Happiness level : " +happiness+"\n");
+
+        //Sets moneyIncome relative to happiness
+        float tmpH = this.happiness;
+        tmpH /= 100;
+        System.out.println(tmpH+" \n");
+        setMoneyIncome((int)(200*tmpH));
+
+        System.out.println("House : "+ test+ " Happiness level : " +happiness +" MoneyIncome : "+this.moneyIncome +"\n");
 
         return happiness;
     }
