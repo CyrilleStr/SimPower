@@ -6,14 +6,16 @@ import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import org.json.simple.JSONObject;
 
+import javax.sound.sampled.*;
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class MenuController {
-    private DataModel dataModel = new DataModel();
+    private DataModel settingsData = new DataModel();
 
     @FXML private Button loadGameBtn;
     @FXML private Button settingsBtn;
@@ -26,10 +28,15 @@ public class MenuController {
 
         // work around since the fxml property doesn't seem to be fired by default
         if (soundSlider != null) {
-            this.soundSlider.valueChangingProperty().addListener((obs, oldVal, newVal) -> {
-                this.updateSoundVolume(null);
+            JSONObject settings = this.settingsData.read("data/settings.json");
+            this.soundSlider.setValue((double) settings.get("SoundVolume"));
+
+            this.soundSlider.setOnMouseReleased((event) -> {
+                this.updateSoundVolume((float) this.soundSlider.getValue());
             });
         }
+
+        this.playMusic();
     }
 
     /**
@@ -96,9 +103,63 @@ public class MenuController {
         settingsBtn.getScene().setRoot(fxmlLoader.load());
     }
 
-    @FXML
-    protected void updateSoundVolume(ActionEvent event) {
-        JSONObject test = this.dataModel.read("data/settings.json");
-        System.out.println(test);
+    protected void updateSoundVolume(float value) {
+        JSONObject settings = this.settingsData.read("data/settings.json");
+        settings.put("SoundVolume", value);
+
+        try {
+            this.settingsData.write("data/settings.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        this.stopMusic();
+        this.playMusic();
+    }
+
+    /**
+     * Plays the background music
+     */
+    private void playMusic() {
+        Clip clip = null;
+        
+        try {
+            clip = AudioSystem.getClip();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+
+        AudioInputStream AIS = null;
+        try {
+            AIS = AudioSystem.getAudioInputStream(new File(Main.class.getResource("assets/music/main.wav").toURI()));
+        } catch (IOException | URISyntaxException | UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            clip.open(AIS);
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JSONObject settings = this.settingsData.read("data/settings.json");
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(Float.parseFloat(settings.get("SoundVolume").toString())); // should be between -80 && 6.0206
+
+        System.out.println(settings.get("SoundVolume"));
+
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    private void stopMusic()  {
+        Clip clip = null;
+        try {
+            clip = AudioSystem.getClip();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+        clip.close();
     }
 }

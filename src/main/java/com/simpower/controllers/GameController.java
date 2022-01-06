@@ -37,7 +37,7 @@ import javafx.util.Duration;
 
 import static java.lang.Thread.sleep;
 
-public class GameController implements Runnable{
+public class GameController implements Runnable {
     private Grid grid;
     private Game game;
     private Clock clock;
@@ -333,13 +333,6 @@ public class GameController implements Runnable{
      */
     @Override
     public void run() {
-
-        try {
-            music();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         int day = this.clock.getDayCount();
         while(true){
             try {
@@ -360,19 +353,5 @@ public class GameController implements Runnable{
                 e.printStackTrace();
             }
         }
-    }
-
-    /**
-     * Plays the background music
-     * @throws Exception Get clip not going well
-     */
-    public void music() throws Exception{
-        Clip clip = AudioSystem.getClip();
-
-        AudioInputStream ais = AudioSystem.getAudioInputStream(new File(Main.class.getResource("assets/music/main.wav").toURI()));
-        clip.open(ais);
-        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(-10.0f); //reduce volume by 30 dB
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }

@@ -17,4 +17,6 @@ module com.simpower.simpower {
     exports com.simpower.controllers;
     exports com.simpower;
     opens com.simpower to javafx.fxml;
+    exports com.simpower.models;
+    opens com.simpower.models to javafx.fxml;
 }
