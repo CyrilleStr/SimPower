@@ -517,14 +517,6 @@
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="500.0" text="Options">
-                     <font>
-                        <Font name="Leelawadee UI" size="16.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </Button>
                   <Button layoutX="10.0" layoutY="66.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="56.0" prefWidth="500.0" text="Quit Game">
                      <font>
                         <Font name="Leelawadee UI" size="16.0" />
