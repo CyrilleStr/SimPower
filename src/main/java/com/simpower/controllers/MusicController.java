@@ -33,7 +33,7 @@ public class MusicController {
     public void play() {
         AudioInputStream AIS = null;
         try {
-            AIS = AudioSystem.getAudioInputStream(new File(Main.class.getResource("assets/music/main.wav").toURI()));
+            AIS = AudioSystem.getAudioInputStream(new File(Main.class.getResource("assets/music/music.wav").toURI()));
         } catch (IOException | URISyntaxException | UnsupportedAudioFileException e) {
             e.printStackTrace();
         }
