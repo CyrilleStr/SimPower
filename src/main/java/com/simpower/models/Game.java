@@ -2,6 +2,7 @@ package com.simpower.models;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -11,7 +12,6 @@ import com.simpower.models.grid.Grid;
 import com.simpower.models.grid.GridInfos;
 import com.simpower.models.grid.buildings.*;
 import com.simpower.models.time.Clock;
-import javafx.scene.image.ImageView;
 
 import static java.lang.Math.abs;
 
@@ -22,21 +22,22 @@ public class Game implements GridInfos{
     private Grid grid;
     private int money;
     private int globalHappiness;
-    private int globalPollution;
-    private int electricityStock;
+    private int electricityProduced;
     private int coalStock;
     private int gasStock;
     private int oilStock;
     private int uraniumStock;
+    private boolean gameOver;
     private Map <resourceStock, Function<Integer, Integer>> resourceStockToStockMap = new HashMap<>();
 
     public Game (Grid grid, Clock clock) {
         this.grid = grid;
         this.clock = clock;
         this.createdAt = LocalDateTime.now();
+        setGameOver(false);
         setMoney(100000);
         setGlobalHappiness(100);
-        setElectricityStock(10);
+        setElectricityProduced(0);
         setCoalStock(0);
         setGasStock(0);
         setOilStock(0);
@@ -48,19 +49,22 @@ public class Game implements GridInfos{
      * Call every cell operations to be done each day such as collectResource or collectMoney
      */
     public void eachDay() {
-        boolean active;
+        electricityProduced = 0;
+        ArrayList<Building> houses = new ArrayList<Building>();
+        ArrayList<Building> mines = new ArrayList<Building>();
         int tmpHappiness = 0;
         int houseCount = 0;
-        globalPollution = 0;
         for (Cell[] cellX : this.grid.getCells()) {
             for (Cell cell : cellX) {
 
-                // Update pollution
+                // Handle pollution
                 if(cell.isPolluted()) {
                     if(cell.getPollutionAge() > POLLUTION_PERSISTANCE_DAY) {
                         // Pollution disappear after a certain number of day without being re-polluted
                         cell.setPolluted(false);
-                        globalPollution++;
+                        // If there's a building, we tell the building it's not polluted anymore
+                        if(!cell.isBuildingEmpty())
+                            cell.getCurrentBuilding().setCellPolluted(false);
                     } else
                         // Increment pollution age
                         cell.setPollutionAge(cell.getPollutionAge() + 1);
@@ -71,38 +75,64 @@ public class Game implements GridInfos{
                 if (building == null || building.isRoad())
                     continue; // continue loop if the building is a road or null
 
+                // Store mines and building in an arraylist
+                if(building.isMine())
+                    mines.add(building);
+
                 if (building.isHouse()) {
-                    // set the house as active if there is enough electricty
-                    building.setActive(abs(building.electricityStockChange()) < electricityStock);
-                    tmpHappiness += building.updateHappiness();
+                    houses.add(building);
                     houseCount++;
                 } else
                     // Set the building as active if there is enough money for the servicing cost
                     building.setActive(abs(building.changeMoneyAmount()) < this.money);
 
-                if (building.isFossil())
-                    if (building.isEnergyProducer())
-                        // set the resource plan as active if there is enough resources
+                if (building.isFossil() && building.isActive() && building.isEnergyProducer()) // fossil plant
+                        // set the fossil plant as active if there is enough resources
                         building.setActive(abs(building.resourceStockChange()) < resourceStockToStockMap.get(building.getResourceStockEnum()).apply(0));
 
+                // Handle active plants
                 if (building.isActive()) {
-                    if (building.isFossil()) {
-                        resourceStockToStockMap.get(building.getResourceStockEnum()).apply(building.resourceStockChange());
-                        if(building.isEnergyProducer()) // Generate pollution around plants
+                    if (building.isEnergyProducer()) { // Plants
+                        if(building.isFossil()) { // Fossil plants
+                            resourceStockToStockMap.get(building.getResourceStockEnum()).apply(building.resourceStockChange());
+                            // Generate pollution around plants
                             this.grid.generatePollutionAroundCell(cell);
+                        }
+                        // Add energy production to electricityProduced and remove the servicing cost from the global money
+                        this.electricityProduced += building.electricityStockChange();
+                        this.money += building.changeMoneyAmount();
                     }
-                    this.electricityStock += building.electricityStockChange();
-                    this.money += building.changeMoneyAmount();
                 }
             }
         }
-        System.out.println("housecount :" + houseCount +"\n");
-        System.out.println("tmphappiness :" + tmpHappiness +"\n");
+
+        // Check if the mines is active
+        for (Building mine:mines) {
+            mine.setActive(abs(mine.electricityStockChange()) <= this.electricityProduced && abs(mine.changeMoneyAmount()) <= this.money);
+            if(mine.isActive()){
+                // Collect resource, consume electricity and pay servicing cost
+                resourceStockToStockMap.get(mine.getResourceStockEnum()).apply(mine.resourceStockChange());
+                this.electricityProduced += mine.electricityStockChange();
+                this.money += mine.changeMoneyAmount();
+            }
+        }
+
+        if(houseCount > 0) {
+            // Compute the electricity we can provide to each house
+            float electricityProvided = electricityProduced / houseCount;
+            for (Building house : houses) {
+                // Calculate happiness and add money incomes to the global money
+                tmpHappiness += house.updateHappiness(electricityProvided);
+                this.money += house.changeMoneyAmount();
+            }
+        }
 
         if(houseCount >0)
             globalHappiness = tmpHappiness / houseCount;
-        System.out.println("global happiness : "+globalHappiness+"\n");
-        // todo: add automatic save
+
+        if(globalHappiness <= 0) {
+            this.gameOver = true;
+        }
     };
 
     /**
@@ -144,10 +174,10 @@ public class Game implements GridInfos{
     /**
      * Set the electricity stocked
      *
-     * @param electricityStock int to set
+     * @param electricityProduced int to set
      */
-    public void setElectricityStock(int electricityStock) {
-        this.electricityStock = electricityStock;
+    public void setElectricityProduced(int electricityProduced) {
+        this.electricityProduced = electricityProduced;
     }
 
     /**
@@ -155,8 +185,8 @@ public class Game implements GridInfos{
      *
      * @return int
      */
-    public int getElectricityStock() {
-        return electricityStock;
+    public int getElectricityProduced() {
+        return electricityProduced;
     }
 
     /**
@@ -234,4 +264,12 @@ public class Game implements GridInfos{
     public void setGlobalHappiness(int globalHappiness){this.globalHappiness = globalHappiness;}
 
     public int getGlobalhappiness(){return globalHappiness;}
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
 }

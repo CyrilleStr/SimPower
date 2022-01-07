@@ -11,7 +11,9 @@ public abstract class Building implements GridInfos {
     private boolean isRoad;
     private boolean isHouse;
     private boolean isEnergyProducer;
+    private boolean isMine;
     private resourceStock resourceStockEnum;
+    private boolean cellPolluted;
 
     public Building(int servicingCost, int buildingCost, boolean isFossil, boolean isRoad, resourceStock resourceStock, boolean isHouse, boolean isEnergyProducer){
         setServicingCost(servicingCost);
@@ -131,7 +133,6 @@ public abstract class Building implements GridInfos {
      * @return int
      */
     public int getPollution(){
-        System.out.println("This building doesn't generate pollution");
         return 0;
     }
 
@@ -225,8 +226,44 @@ public abstract class Building implements GridInfos {
         this.isEnergyProducer = energyProducer_p;
     }
 
-    public int updateHappiness(){
-        System.out.println("not a house \n");
+    /**
+     * Sets the pollution state of the cell
+     * @param cellPolluted
+     */
+    public void setCellPolluted(boolean cellPolluted) {
+        this.cellPolluted = cellPolluted;
+    }
+
+    /**
+     * Returns the pollution state of the cell
+     * @return boolean
+     */
+    public boolean isCellPolluted() {
+        return cellPolluted;
+    }
+
+    /**
+     * Updates the happiness of a house relative to the pollution and electricity provided. Also updates its money income.
+     * @param electricityProvided
+     * @return int
+     */
+    public int updateHappiness(float electricityProvided){
         return 0;
+    }
+
+    /**
+     * Returns true if the building id a mine
+     * @return
+     */
+    public boolean isMine() {
+        return isMine;
+    }
+
+    /**
+     * Sets a building to a mine
+     * @param mine
+     */
+    public void setMine(boolean mine) {
+        isMine = mine;
     }
 }

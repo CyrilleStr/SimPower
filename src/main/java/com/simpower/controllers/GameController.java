@@ -25,18 +25,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.sound.sampled.*;
-import java.io.*;
 
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 import static java.lang.Thread.sleep;
 
-public class GameController implements Runnable{
+public class GameController implements Runnable {
     private Grid grid;
     private Game game;
     private Clock clock;
@@ -48,6 +47,7 @@ public class GameController implements Runnable{
     private Map<String, Building> stringToBuildingMap = new HashMap<>();
     private buildingLayer buildingType = buildingLayer.NONE;
     private Thread eventLoop;
+    private MusicController music = new MusicController();
 
     @FXML private GridPane pauseMenu;
     @FXML private TabPane tabPane;
@@ -68,24 +68,26 @@ public class GameController implements Runnable{
     /**
      * Instance a new game controller
      */
-    public GameController(){}
+    public GameController() {}
 
     /**
      * Instance a saved game controller
      *
      * @param params
      */
-    public GameController(String params){
+    public GameController(String params) {
         // TODO controller with saved game
         // this.game = new Game(params[0])
         // this.grid = new Grid(params[1])
     }
 
     /**
-     * This function is called once all the controller associated FXML contents have been fully loaded
+     * This function is called once all the controller associated FXML contents have
+     * been fully loaded
      */
     @FXML
-    public void initialize(){
+    public void initialize() {
+        this.music.play();
         this.loadData();
         this.grid = new Grid(gridContainer, buildingType, errorLabel, this);
 
@@ -112,14 +114,15 @@ public class GameController implements Runnable{
      *
      * @param cell cell where you do the action
      */
-    public void mouseClickedAction(Cell cell){
-        if(this.grid.getBuildingLayerAction() != buildingLayer.NONE) {
+    public void mouseClickedAction(Cell cell) {
+        if (this.grid.getBuildingLayerAction() != buildingLayer.NONE) {
             String errorMsg = null;
             if (this.game.getMoney() >= this.grid.getBuildingObjectAction().getBuildingCost()) {
                 errorMsg = this.grid.mouseClicked(cell);
                 if (errorMsg == null)
-                    if(this.grid.getBuildingLayerAction() != buildingLayer.DELETE) {
-                        this.game.setMoney(this.game.getMoney() - this.grid.getBuildingObjectAction().getBuildingCost());
+                    if (this.grid.getBuildingLayerAction() != buildingLayer.DELETE) {
+                        this.game
+                                .setMoney(this.game.getMoney() - this.grid.getBuildingObjectAction().getBuildingCost());
                         this.refreshHotBar();
                     }
             } else
@@ -157,7 +160,7 @@ public class GameController implements Runnable{
      */
     @FXML
     void quitGame(ActionEvent event) throws IOException {
-        // TODO implement a quitGame button
+        this.music.stop();
 
         this.clock.stop();
         this.eventLoop.stop();
@@ -196,8 +199,7 @@ public class GameController implements Runnable{
             // Deprecated method but used in lesson
             this.clock.suspend();
             this.clock.setTicking(false);
-        }
-        else {
+        } else {
             this.pauseGameBtn.setGraphic(this.pauseImgView);
             // Deprecated method but used in lesson
             this.clock.resume();
@@ -207,10 +209,9 @@ public class GameController implements Runnable{
 
     /**
      * Play/pause the timer on user action while changing the pause btn image
-     * @throws InterruptedException exceptions
      */
     @FXML
-    void pauseGameAction() throws InterruptedException {
+    void pauseGameAction() {
         this.pauseTime(false);
     }
 
@@ -224,7 +225,8 @@ public class GameController implements Runnable{
     }
 
     /**
-     * Call the grid method to set a given building (the building layer type is stored in the id)
+     * Call the grid method to set a given building (the building layer type is
+     * stored in the id)
      *
      * @param event click of the mouse
      */
@@ -271,9 +273,9 @@ public class GameController implements Runnable{
     /**
      * Load the data for graphical interface
      */
-    void loadData(){
-        this.stringToBuildingLayerMap.put("roadBtn",buildingLayer.ROAD);
-        this.stringToBuildingLayerMap.put("houseBtn",buildingLayer.HOUSE);
+    void loadData() {
+        this.stringToBuildingLayerMap.put("roadBtn", buildingLayer.ROAD);
+        this.stringToBuildingLayerMap.put("houseBtn", buildingLayer.HOUSE);
         this.stringToBuildingLayerMap.put("CoalMineBtn", buildingLayer.COAL_MINE);
         this.stringToBuildingLayerMap.put("OilMineBtn", buildingLayer.OIL_MINE);
         this.stringToBuildingLayerMap.put("GasMineBtn", buildingLayer.GAS_MINE);
@@ -286,7 +288,7 @@ public class GameController implements Runnable{
         this.stringToBuildingLayerMap.put("WaterPlantBtn", buildingLayer.WATER_MILL);
         this.stringToBuildingLayerMap.put("SolarPlantBtn", buildingLayer.SOLAR_PLANT);
 
-        /* Link building layer to building object*/
+        /* Link building layer to building object */
         stringToBuildingMap.put("roadBtn", new Road());
         stringToBuildingMap.put("houseBtn", new House());
         stringToBuildingMap.put("UraniumPlantBtn", new NuclearPlant());
@@ -305,14 +307,14 @@ public class GameController implements Runnable{
     /**
      * Refresh hotbar data
      */
-    public void refreshHotBar(){
+    public void refreshHotBar() {
         this.coalLabel.setText(this.game.getCoalStock() + " T");
         this.gazLabel.setText(this.game.getGasStock() + " L");
         this.oilLabel.setText(this.game.getOilStock() + " L");
         this.uraniumLabel.setText(this.game.getUraniumStock() + " T");
         this.moneyLabel.setText(this.game.getMoney() + " €");
-        this.electricityLabel.setText(this.game.getElectricityStock() + " W");
-        this.happinessLabel.setText(this.game.getGlobalhappiness()+ "%");
+        this.electricityLabel.setText(this.game.getElectricityProduced() + " W");
+        this.happinessLabel.setText(this.game.getGlobalhappiness() + "%");
     }
 
     /**
@@ -334,20 +336,13 @@ public class GameController implements Runnable{
      */
     @Override
     public void run() {
-
-        try {
-            music();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         int day = this.clock.getDayCount();
-        while(true){
+        while (!this.game.isGameOver()) {
             try {
                 if (this.clock.isTicking()) {
-                    if(this.clock.getDayCount() <= 1)
+                    if (this.clock.getDayCount() <= 1)
                         day = 1;
-                    if(day < this.clock.getDayCount()){
+                    if (day < this.clock.getDayCount()) {
                         this.game.eachDay();
                         Platform.runLater(() -> {
                             this.refreshHotBar();
@@ -361,19 +356,25 @@ public class GameController implements Runnable{
                 e.printStackTrace();
             }
         }
-    }
+        Platform.runLater(() -> {
+            this.music.stop();
+            this.pauseTime(false);
+            this.showErrorMessage("Game Over !");
+            PauseTransition pause1 = new PauseTransition(Duration.seconds(2.5));
+            PauseTransition pause2 = new PauseTransition(Duration.seconds(2.5));
+            pause1.setOnFinished(event -> {
+                this.showErrorMessage("All inhabitants left the city.");
+                pause2.play();
+            });
+            pause2.setOnFinished(event -> {
+                try {
+                    quitGame(new ActionEvent());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            pause1.play();
+        });
 
-    /**
-     * Plays the background music
-     * @throws Exception Get clip not going well
-     */
-    public void music() throws Exception{
-
-        Clip clip = AudioSystem.getClip();
-        AudioInputStream ais = AudioSystem.getAudioInputStream(new File("music.wav"));
-        clip.open(ais);
-        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(-30.0f); //reduce volume by 30 dB
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }

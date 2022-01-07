@@ -6,7 +6,7 @@ public abstract class Mine extends ConsumerEnergyBuilding {
     private int resourceProduction;
 
     public Mine(int servicingCost, int buildingCost,int consumeEnergy, resourceStock resourceStock) {
-        super(servicingCost, buildingCost, consumeEnergy, true, resourceStock, false);
+        super(servicingCost, buildingCost, consumeEnergy, true, resourceStock, false,true);
     }
 
     /**
