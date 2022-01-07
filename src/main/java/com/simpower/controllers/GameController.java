@@ -89,7 +89,7 @@ public class GameController implements Runnable {
     public void initialize() {
         this.music.play();
         this.loadData();
-        this.grid = new Grid(gridContainer, infoLabel, buildingType, errorLabel, this);
+        this.grid = new Grid(gridContainer, buildingType, errorLabel, this);
 
         this.clock = new Clock(grid, clockLabel);
         this.clock.start();
