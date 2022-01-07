@@ -307,7 +307,7 @@
                               <Insets />
                            </opaqueInsets>
                         </HBox>
-                        <Text fill="WHITE" layoutX="-2.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Maison&#10;Construction : 2000 GCoin&#10;Consommation : 400 W/jour&#10;" textAlignment="CENTER" translateX="2.0" translateY="-1.0" wrappingWidth="160.79998779296852" />
+                        <Text fill="WHITE" layoutX="-2.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="House&#10;Construction : 2000 GCoin&#10;Consumption : 400 W/day&#10;" textAlignment="CENTER" translateX="2.0" translateY="-1.0" wrappingWidth="160.79998779296852" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -366,10 +366,10 @@
                               <Insets />
                            </opaqueInsets>
                         </HBox>
-                        <Text fill="WHITE" layoutX="2.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mine de charbon&#10;Construction : 3000 GCoin&#10;Consommation : 30 W/jour&#10;Entretien : 100 GCoin/jour&#10;Production : 50 T/jour&#10;" textAlignment="CENTER" wrappingWidth="160.79998779296852" />
-                        <Text fill="WHITE" layoutX="163.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Puit de pétrole&#10;Construction : 2000 GCoin&#10;Consommation : 80 W/jour&#10;Entretien : 50 GCoin/jour&#10;Production : 50 T/jour&#10;" textAlignment="CENTER" wrappingWidth="160.79998779296852" />
-                        <Text fill="WHITE" layoutX="324.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Forage de gaz&#10;Construction : 4000 GCoin&#10;Consommation : 20 W/jour&#10;Entretien : 100 GCoin/jour&#10;Production : 60 T/jour&#10;" textAlignment="CENTER" wrappingWidth="160.79998779296852" />
-                        <Text fill="WHITE" layoutX="485.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mine d'uranium&#10;Construction : 8000 GCoin&#10;Consommation : 60 W/jour&#10;Entretien : 250 GCoin/jour&#10;Production : 45 T/jour&#10;" textAlignment="CENTER" wrappingWidth="160.79998779296852" />
+                        <Text fill="WHITE" layoutX="2.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coal Mine&#10;Construction : 3000 GCoin&#10;Consumption : 30 W/day&#10;Maintenance : 100 GCoin/day&#10;Production : 50 T/day&#10;" textAlignment="CENTER" wrappingWidth="160.79998779296852" />
+                        <Text fill="WHITE" layoutX="163.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Derrick (oil)&#10;Construction : 2000 GCoin&#10;Consumption : 80 W/day&#10;Maintenance : 50 GCoin/day&#10;Production : 50 T/day&#10;" textAlignment="CENTER" wrappingWidth="160.79998779296852" />
+                        <Text fill="WHITE" layoutX="324.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gas drilling&#10;Construction : 4000 GCoin&#10;Consumption : 20 W/day&#10;Maintenance : 100 GCoin/day&#10;Production : 60 T/day&#10;" textAlignment="CENTER" wrappingWidth="160.79998779296852" />
+                        <Text fill="WHITE" layoutX="485.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Uranium Mine&#10;Construction : 8000 GCoin&#10;Consumption : 60 W/day&#10;Maintenance : 250 GCoin/day&#10;Production : 45 T/day&#10;" textAlignment="CENTER" wrappingWidth="160.79998779296852" />
                      </children></AnchorPane>
                </content>
             </Tab>
@@ -377,7 +377,7 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="153.0" prefWidth="810.0" styleClass="background-lighter">
                      <children>
-                        <ScrollPane fitToWidth="true" layoutY="-1.0" maxHeight="175.0" maxWidth="811.0" prefHeight="175.0" prefWidth="811.0" snapToPixel="false" styleClass="background-lighter">
+                        <ScrollPane fitToWidth="true" hbarPolicy="ALWAYS" layoutY="-1.0" maxHeight="175.0" maxWidth="811.0" prefHeight="175.0" prefWidth="811.0" snapToPixel="false" styleClass="background-lighter" vbarPolicy="ALWAYS">
                            <content>
                               <HBox alignment="CENTER_LEFT" maxWidth="0.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="159.0" prefWidth="854.0" styleClass="background-lighter">
                                  <children>
@@ -392,7 +392,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ImageView>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Centrale à charbon&#10;Construction : 4000 GCoin&#10;Consommation : 50 T/jour&#10;Entretien : 40 GCoin/jour&#10;Production : 80 W/jour&#10;Pollution : oui&#10;" textAlignment="CENTER" translateX="-80.0" translateY="40.0" wrappingWidth="139.99999999999977">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Coal Plant&#10;Construction : 4000 GCoin&#10;Consumption : 50 T/day&#10;Maintenance : 40 GCoin/day&#10;Production : 80 W/day&#10;Pollution : Yes&#10;" textAlignment="CENTER" translateX="-80.0" translateY="40.0" wrappingWidth="139.99999999999977">
                                        <font>
                                           <Font size="11.0" />
                                        </font>
@@ -408,12 +408,12 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ImageView>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Centrale à pétrole&#10;Construction : 5000 GCoin&#10;Consommation : 100 L/jour&#10;Entretien : 100 GCoin/jour&#10;Production : 120 W/jour&#10;Pollution : Oui" textAlignment="CENTER" translateX="-160.0" translateY="32.0" wrappingWidth="139.99999999999977">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Oil Plant&#10;Construction : 5000 GCoin&#10;Consumption : 100 L/day&#10;Maintenance : 100 GCoin/day&#10;Production : 120 W/day&#10;Pollution : Yes" textAlignment="CENTER" translateX="-160.0" translateY="32.0" wrappingWidth="139.99999999999977">
                                        <font>
                                           <Font size="11.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Centrale à gaz&#10;Construction : 6000 GCoin&#10;Consommation : 90 L/jour&#10;Entretien : 120 GCoin/jour&#10;Production : 140 W/jour&#10;Pollution : Oui" textAlignment="CENTER" translateX="-160.0" translateY="32.0" wrappingWidth="139.99999999999977">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Gas Plant&#10;Construction : 6000 GCoin&#10;Consumption : 90 L/day&#10;Maintenance : 120 GCoin/day&#10;Production : 140 W/day&#10;Pollution : Yes" textAlignment="CENTER" translateX="-160.0" translateY="32.0" wrappingWidth="139.99999999999977">
                                        <font>
                                           <Font size="11.0" />
                                        </font>
@@ -473,22 +473,22 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ImageView>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Centrale nucléaire&#10;Construction : 30000 GCoin&#10;Consommation : 10 T/jour&#10;Entretien : 200 GCoin/jour&#10;Production : 300 W/jour&#10;Pollution : Oui&#10;" textAlignment="CENTER" translateX="-555.0" translateY="40.0" wrappingWidth="139.99999999999977">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Nuclear Plant&#10;Construction : 30000 GCoin&#10;Consumption : 10 T/day&#10;Maintenance : 200 GCoin/day&#10;Production : 300 W/day&#10;Pollution : Yes&#10;" textAlignment="CENTER" translateX="-555.0" translateY="40.0" wrappingWidth="139.99999999999977">
                                        <font>
                                           <Font size="11.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Eolienne&#10;Construction : 10000 GCoin&#10;Entretien : 50 GCoin/jour&#10;Production : 10 W/jour&#10;Pollution : Non&#10;" textAlignment="CENTER" translateX="-555.0" translateY="32.0" wrappingWidth="139.99999999999977">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Eolienne&#10;Construction : 10000 GCoin&#10;Maintenance : 50 GCoin/day&#10;Production : 10 W/day&#10;Pollution : No&#10;" textAlignment="CENTER" translateX="-555.0" translateY="32.0" wrappingWidth="139.99999999999977">
                                        <font>
                                           <Font size="11.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Moulin à eau&#10;Construction : 10000 GCoin&#10;Entretien : 50 GCoin/jour&#10;Production : 100 W/jour¨&#10;Pollution : Non&#10;" textAlignment="CENTER" translateX="-555.0" translateY="32.0" wrappingWidth="139.99999999999977">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Moulin à eau&#10;Construction : 10000 GCoin&#10;Maintenance : 50 GCoin/day&#10;Production : 100 W/day¨&#10;Pollution : No&#10;" textAlignment="CENTER" translateX="-555.0" translateY="32.0" wrappingWidth="139.99999999999977">
                                        <font>
                                           <Font size="11.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Panneau Solaire&#10;Construction : 10500 GCoin&#10;Entretien : 50 GCoin/jour&#10;Production : 110 W/jour&#10;Pollution : Non&#10;" textAlignment="CENTER" translateX="-555.0" translateY="32.0" wrappingWidth="139.99999999999977">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Panneau Solaire&#10;Construction : 10500 GCoin&#10;Maintenance : 50 GCoin/day&#10;Production : 110 W/day&#10;Pollution : No&#10;" textAlignment="CENTER" translateX="-555.0" translateY="32.0" wrappingWidth="139.99999999999977">
                                        <font>
                                           <Font size="11.0" />
                                        </font>
