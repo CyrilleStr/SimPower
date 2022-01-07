@@ -58,7 +58,7 @@ public class Game implements GridInfos{
 
                 // Handle pollution
                 if(cell.isPolluted()) {
-                    if(cell.getPollutionAge() > POLLUTION_PERSISTANCE_DAY) {
+                    if(cell.getPollutionAge() > POLLUTION_PERSISTENCE_DAY) {
                         // Pollution disappear after a certain number of day without being re-polluted
                         cell.setPolluted(false);
                         // If there's a building, we tell the building it's not polluted anymore
@@ -260,14 +260,30 @@ public class Game implements GridInfos{
         return uraniumStock;
     }
 
+    /**
+     * Set the global hapiness;
+     * @param globalHappiness
+     */
     public void setGlobalHappiness(int globalHappiness){this.globalHappiness = globalHappiness;}
 
+    /**
+     * Get the global hapiness
+     * @return int
+     */
     public int getGlobalhappiness(){return globalHappiness;}
 
+    /**
+     * Set if the game is over
+     * @param gameOver
+     */
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
     }
 
+    /**
+     * Tell if the game is over
+     * @return
+     */
     public boolean isGameOver() {
         return gameOver;
     }

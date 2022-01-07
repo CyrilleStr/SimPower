@@ -14,14 +14,6 @@ public class JSONReader {
 
     public JSONReader() {}
 
-    public void setJSON(JSONObject json) {
-        this.json = json;
-    }
-
-    public JSONObject getJSON() {
-        return this.json;
-    }
-
     /**
      * Read a JSON file
      *
@@ -45,6 +37,12 @@ public class JSONReader {
         return this.getJSON();
     }
 
+    /**
+     * Write a JSON to file
+     *
+     * @param path path of the json path
+     * @throws IOException exceptions
+     */
     public void write(String path) throws IOException {
         FileWriter writer = new FileWriter(Main.class.getResource(path).getPath().replaceAll("%20", " "));
 
@@ -57,5 +55,21 @@ public class JSONReader {
             writer.flush();
             writer.close();
         }
+    }
+
+    /**
+     * set JSON to the current json object
+     * @param json
+     */
+    public void setJSON(JSONObject json) {
+        this.json = json;
+    }
+
+    /**
+     * get JSON from the current json object
+     * @return
+     */
+    public JSONObject getJSON() {
+        return this.json;
     }
 }

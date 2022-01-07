@@ -7,6 +7,7 @@ public class House extends ConsumerEnergyBuilding {
     private int inhabitantCapacity;
     private int happiness;
     private int moneyIncome;
+
     //debug tool to differentiate houses
     private int test = (int) (Math.random() * (1000));
 

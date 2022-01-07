@@ -262,14 +262,17 @@ public class Clock extends Thread {
         return this.dateTime.getDayOfYear();
     }
 
-    public void setDurationTime(int durationTime) {
-        this.durationTime = durationTime;
-    }
-
+    /**
+     * Get the duration time
+     * @return int
+     */
     public int getDurationTime() {
         return durationTime;
     }
 
+    /**
+     * Increments duration time
+     */
     public void incrementDurationTime(){
         this.durationTime++;
     }

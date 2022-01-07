@@ -70,17 +70,6 @@ public class GameController implements Runnable {
     public GameController() {}
 
     /**
-     * Instance a saved game controller
-     *
-     * @param params
-     */
-    public GameController(String params) {
-        // TODO controller with saved game
-        // this.game = new Game(params[0])
-        // this.grid = new Grid(params[1])
-    }
-
-    /**
      * This function is called once all the controller associated FXML contents have
      * been fully loaded
      */

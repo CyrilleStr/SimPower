@@ -11,6 +11,11 @@ import java.io.IOException;
 public class Main extends Application {
     private Stage stage;
 
+    /**
+     * Set everything about JavaFX window
+     * @param stage stage to set up
+     * @throws IOException when file not found
+     */
     public void start (Stage stage) throws IOException {
         this.stage = stage;
         this.stage.setTitle("Sim Power | UTBM - AP4B - Autumn 2021");
