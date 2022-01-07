@@ -129,7 +129,7 @@ public class Clock extends Thread {
     private void switchLight() {
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setBrightness(this.isDay() ? 0 : -.5);
-        this.grid.getGridcontainer().setEffect(colorAdjust);
+        this.grid.getGridContainer().setEffect(colorAdjust);
     }
 
     /**
