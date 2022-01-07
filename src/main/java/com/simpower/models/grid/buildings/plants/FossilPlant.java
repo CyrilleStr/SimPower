@@ -5,7 +5,6 @@ import com.simpower.models.grid.buildings.ProducerEnergyBuilding;
 public abstract class FossilPlant extends ProducerEnergyBuilding {
 
     private int resourceConsumption;
-    private boolean polluted;
 
     public FossilPlant(int servicingCost, int buildingCost, int production, int resourceConsumption, int pollutionRadius, boolean isFossil, resourceStock resourceStock) {
         super(servicingCost,buildingCost,production,isFossil, resourceStock);
@@ -33,11 +32,4 @@ public abstract class FossilPlant extends ProducerEnergyBuilding {
         this.resourceConsumption = resourceConsumption_p;
     }
 
-    public boolean isPolluted() {
-        return polluted;
-    }
-
-    public void setPolluted(boolean polluted) {
-        this.polluted = polluted;
-    }
 }

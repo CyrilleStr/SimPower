@@ -233,7 +233,7 @@ public class Grid implements GridInfos {
                     errorMsg = "Building can only be placed next to a road!";
                 break;
             case WATER_MILL:
-                if(!this.checkMineRessource(cell, buildingLayer.WATER_MILL))
+                if(!this.checkMineResources(cell, buildingLayer.WATER_MILL))
                     errorMsg = "Watermill can only placed on a river!";
                 else if(!this.lookAroundCell(placeBuilding, cell))
                     errorMsg = "Building can only be placed next to a road!";
@@ -242,7 +242,7 @@ public class Grid implements GridInfos {
             case OIL_MINE:
             case GAS_MINE:
             case URANIUM_MINE:
-                if (this.checkMineRessource(cell, this.getBuildingLayerAction())){
+                if (this.checkMineResources(cell, this.getBuildingLayerAction())){
                     if(!this.lookAroundCell(placeBuilding, cell))
                         errorMsg = "Building can only be placed next to a road!";
                 }else{
@@ -756,7 +756,7 @@ public class Grid implements GridInfos {
      * @param buildingType Mine you want to place
      * @return boolean, true if can and false otherwise
      */
-    private boolean checkMineRessource (Cell cell, buildingLayer buildingType){
+    private boolean checkMineResources(Cell cell, buildingLayer buildingType){
         return (cell.getCurrentResourceLayer() == this.buildingLayerToResourceLayerMap.get(buildingType));
     }
 
@@ -774,7 +774,7 @@ public class Grid implements GridInfos {
      *
      * @return gridContainer
      */
-    public GridPane getGridcontainer() {
+    public GridPane getGridContainer() {
         return this.gridContainer;
     }
 

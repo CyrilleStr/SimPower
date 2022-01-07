@@ -270,7 +270,7 @@ public class Game implements GridInfos{
      * Get the global hapiness
      * @return int
      */
-    public int getGlobalhappiness(){return globalHappiness;}
+    public int getGlobalhappiness() { return this.globalHappiness; }
 
     /**
      * Set if the game is over
