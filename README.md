@@ -11,18 +11,23 @@
 
 <br>
 
-## Members
+## Requirements
+- The IDE IntelliJ
+- Java 17
+
+## Install
+-	```git clone https://github.com/CyrilleStr/AP4B```
+-	Select `Run ‘Main.main()’` on `src.main.java.com.simpower.Main`
+## About
+### Members
 - Clovis™ Burgaud™
 - [Julien Constant](https://github.com/Juknum) - julien.constant@utbm.fr
 - Noé Échard
 - Cyrille Stroesser
 
-## Project
 ### Advancement
 You can see the advancement of the project [here](https://github.com/CyrilleStr/AP4B/projects/1)
 
 ### Bug reports
-If you find any bug, please repports themn using our [bug tracker](https://github.com/CyrilleStr/AP4B/issues), please check if the issue isn't already submitted before submitting yours.
+If you find any bug, please report them using our [bug tracker](https://github.com/CyrilleStr/AP4B/issues), please check if the issue isn't already submitted before submitting yours.
 
-### How to install
-Soon™
