@@ -17,7 +17,6 @@ import java.util.Map;
 public class Grid implements GridInfos {
     private GameController gameController;
     private Cell[][] cells;
-    private Label infoLabel;
     private Label errorLabel;
     private GridPane gridContainer;
     private buildingLayer buildingLayerAction;
@@ -31,14 +30,12 @@ public class Grid implements GridInfos {
      * Instantiate a Grid, add the resource layer, add the top layer and show the top layer
      *
      * @param gridContainer GridPane
-     * @param infoLabel Label
      * @param buildingType buildingLayer
      * @param errorLabel Label
      * @param gameController GameController
      */
-    public Grid(GridPane gridContainer, Label infoLabel, buildingLayer buildingType, Label errorLabel, GameController gameController) {
+    public Grid(GridPane gridContainer, buildingLayer buildingType, Label errorLabel, GameController gameController) {
         this.gridContainer = gridContainer;
-        this.infoLabel = infoLabel;
         this.errorLabel = errorLabel;
         this.buildingLayerAction = buildingType;
         this.gameController = gameController;
@@ -195,15 +192,6 @@ public class Grid implements GridInfos {
      * @param newVal true if the cell is hovered
      */
     private void hoverListener(ImageView imgView, int x, int y, boolean newVal){
-        this.infoLabel.setText(
-            "X: " + cells[x][y].getPos_x()
-            + " Y: " + cells[x][y].getPos_y()
-            + (cells[x][y].getCurrentTopLayer() == topLayer.NONE ? "" : (" " + cells[x][y].getCurrentTopLayer()))
-            + (cells[x][y].getCurrentBuildingLayer() == buildingLayer.NONE ? "" : (" " + cells[x][y].getCurrentBuildingLayer()))
-            + (cells[x][y].getCurrentPollutionLayer() == pollutionLayer.NONE ? "" : (" " + cells[x][y].getCurrentPollutionLayer()))
-            + (cells[x][y].getCurrentResourceLayer() == resourceLayer.NONE ? "" : (" " + cells[x][y].getCurrentResourceLayer()))
-        );
-
         ColorAdjust colorAdjust = new ColorAdjust();
 
         // lighter when hovered, elsewhere, original brightness (1 == full white)

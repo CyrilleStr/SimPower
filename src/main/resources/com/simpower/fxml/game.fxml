@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Point3D?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="720.0" prefWidth="1080.0" styleClass="background" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simpower.controllers.GameController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="720.0" prefWidth="1080.0" styleClass="background" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simpower.controllers.GameController">
   <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="0.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="16.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="44.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints maxHeight="67.0" minHeight="10.0" percentHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="627.0" minHeight="10.0" percentHeight="10.0" prefHeight="627.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="627.0" minHeight="10.0" percentHeight="55.0" prefHeight="627.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="627.0" minHeight="10.0" percentHeight="15.0" prefHeight="627.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="627.0" minHeight="10.0" percentHeight="42.0" prefHeight="627.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="627.0" minHeight="10.0" percentHeight="28.0" prefHeight="627.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <ScrollPane GridPane.columnSpan="2147483647" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.vgrow="NEVER">
+      <ScrollPane GridPane.columnSpan="2147483647" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.vgrow="NEVER">
          <content>
             <GridPane fx:id="gridContainer" styleClass="background-lighter">
                <columnConstraints>
@@ -269,18 +283,7 @@
             </Button>
          </children>
       </GridPane>
-      <Label fx:id="infoLabel" prefHeight="50.0" prefWidth="300.0" styleClass="background-lighter" stylesheets="@../css/stylesheet.css" textFill="WHITE" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-         <font>
-            <Font name="Leelawadee UI" size="14.0" />
-         </font>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-         <tooltip>
-            <Tooltip text="Debug information" />
-         </tooltip>
-      </Label>
-      <TabPane fx:id="tabPane" prefHeight="108.0" prefWidth="507.0" style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE" visible="false" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="3">
+      <TabPane fx:id="tabPane" prefHeight="108.0" prefWidth="710.0" style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE" visible="false" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="3">
         <tabs>
           <Tab styleClass="button-delete" text="House">
             <content>
@@ -288,7 +291,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="81.0" prefWidth="648.0">
                            <children>
-                              <ImageView fx:id="houseBtn" fitHeight="64.0" fitWidth="64.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="houseBtn" fitHeight="64.0" fitWidth="64.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true" translateX="40.0" translateY="-3.0">
                                  <image>
                                     <Image url="@../assets/textures/buildings/houses/level_1/a.png" />
                                  </image>
@@ -299,22 +302,12 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <ImageView fx:id="workingBuildingBtn" fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../assets/textures/buildings/working_building.jpg" />
-                                 </image>
-                                 <HBox.margin>
-                                    <Insets left="5.0" right="5.0" />
-                                 </HBox.margin>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </ImageView>
                            </children>
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
                         </HBox>
+                        <Text fill="WHITE" layoutX="-2.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Maison&#10;Construction : 2000 GCoin&#10;Consommation : 400 W/jour&#10;" textAlignment="CENTER" translateX="2.0" translateY="-1.0" wrappingWidth="160.79998779296852" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -324,7 +317,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="81.0" prefWidth="648.0">
                            <children>
-                              <ImageView fx:id="CoalMineBtn" fitHeight="64.0" fitWidth="64.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="CoalMineBtn" fitHeight="64.0" fitWidth="64.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true" translateX="40.0" translateY="-5.0">
                                  <image>
                                     <Image url="@../assets/textures/buildings/mines/coalmine.png" />
                                  </image>
@@ -335,7 +328,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <ImageView fx:id="OilMineBtn" fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="OilMineBtn" fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true" translateX="120.0" translateY="-5.0">
                                  <image>
                                     <Image url="@../assets/textures/buildings/mines/oilmine.png" />
                                  </image>
@@ -346,7 +339,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <ImageView fx:id="GasMineBtn" fitHeight="64.0" fitWidth="64.0" layoutX="89.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="GasMineBtn" fitHeight="64.0" fitWidth="64.0" layoutX="89.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true" translateX="202.0" translateY="-5.0">
                                  <image>
                                     <Image url="@../assets/textures/buildings/mines/gasmine.png" />
                                  </image>
@@ -357,7 +350,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <ImageView fx:id="UraniumMineBtn" fitHeight="64.0" fitWidth="64.0" layoutX="153.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="UraniumMineBtn" fitHeight="64.0" fitWidth="64.0" layoutX="153.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true" translateX="280.0" translateY="-5.0">
                                  <image>
                                     <Image url="@../assets/textures/buildings/mines/uraniummine.png" />
                                  </image>
@@ -373,97 +366,143 @@
                               <Insets />
                            </opaqueInsets>
                         </HBox>
+                        <Text fill="WHITE" layoutX="2.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mine de charbon&#10;Construction : 3000 GCoin&#10;Consommation : 30 W/jour&#10;Entretien : 100 GCoin/jour&#10;Production : 50 T/jour&#10;" textAlignment="CENTER" wrappingWidth="160.79998779296852" />
+                        <Text fill="WHITE" layoutX="163.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Puit de pétrole&#10;Construction : 2000 GCoin&#10;Consommation : 80 W/jour&#10;Entretien : 50 GCoin/jour&#10;Production : 50 T/jour&#10;" textAlignment="CENTER" wrappingWidth="160.79998779296852" />
+                        <Text fill="WHITE" layoutX="324.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Forage de gaz&#10;Construction : 4000 GCoin&#10;Consommation : 20 W/jour&#10;Entretien : 100 GCoin/jour&#10;Production : 60 T/jour&#10;" textAlignment="CENTER" wrappingWidth="160.79998779296852" />
+                        <Text fill="WHITE" layoutX="485.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mine d'uranium&#10;Construction : 8000 GCoin&#10;Consommation : 60 W/jour&#10;Entretien : 250 GCoin/jour&#10;Production : 45 T/jour&#10;" textAlignment="CENTER" wrappingWidth="160.79998779296852" />
                      </children></AnchorPane>
                </content>
             </Tab>
             <Tab styleClass="button-delete" text="Plants">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="background-lighter">
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="153.0" prefWidth="810.0" styleClass="background-lighter">
                      <children>
-                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="81.0" prefWidth="648.0">
-                           <children>
-                              <ImageView fx:id="CoalPlantBtn" fitHeight="64.0" fitWidth="64.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../assets/textures/buildings/plants/coalplant.png" />
-                                 </image>
-                                 <HBox.margin>
-                                    <Insets left="10.0" right="5.0" />
-                                 </HBox.margin>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </ImageView>
-                              <ImageView fx:id="OilPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../assets/textures/buildings/plants/oilplant.png" />
-                                 </image>
-                                 <HBox.margin>
-                                    <Insets left="10.0" right="5.0" />
-                                 </HBox.margin>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </ImageView>
-                              <ImageView fx:id="GasPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="89.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../assets/textures/buildings/plants/gasplant.png" />
-                                 </image>
-                                 <HBox.margin>
-                                    <Insets left="10.0" right="5.0" />
-                                 </HBox.margin>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </ImageView>
-                              <ImageView fx:id="UraniumPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="153.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../assets/textures/buildings/plants/uraniumplant.png" />
-                                 </image>
-                                 <HBox.margin>
-                                    <Insets left="10.0" right="5.0" />
-                                 </HBox.margin>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </ImageView>
-                              <ImageView fx:id="WindPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="257.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../assets/textures/buildings/plants/windplant.png" />
-                                 </image>
-                                 <HBox.margin>
-                                    <Insets left="10.0" right="5.0" />
-                                 </HBox.margin>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </ImageView>
-                              <ImageView fx:id="WaterPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="326.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../assets/textures/buildings/plants/waterplant.png" />
-                                 </image>
-                                 <HBox.margin>
-                                    <Insets left="10.0" right="5.0" />
-                                 </HBox.margin>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </ImageView>
-                              <ImageView fx:id="SolarPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="415.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../assets/textures/buildings/plants/solarplant.png" />
-                                 </image>
-                                 <HBox.margin>
-                                    <Insets left="10.0" right="5.0" />
-                                 </HBox.margin>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </ImageView>
-                           </children>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                        </HBox>
+                        <ScrollPane fitToWidth="true" layoutY="-1.0" maxHeight="175.0" maxWidth="811.0" prefHeight="175.0" prefWidth="811.0" snapToPixel="false" styleClass="background-lighter">
+                           <content>
+                              <HBox alignment="CENTER_LEFT" maxWidth="0.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="159.0" prefWidth="854.0" styleClass="background-lighter">
+                                 <children>
+                                    <ImageView fx:id="CoalPlantBtn" fitHeight="64.0" fitWidth="64.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true" translateX="25.0" translateY="-45.0">
+                                       <image>
+                                          <Image url="@../assets/textures/buildings/plants/coalplant.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Centrale à charbon&#10;Construction : 4000 GCoin&#10;Consommation : 50 T/jour&#10;Entretien : 40 GCoin/jour&#10;Production : 80 W/jour&#10;Pollution : oui&#10;" textAlignment="CENTER" translateX="-80.0" translateY="40.0" wrappingWidth="139.99999999999977">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Text>
+                                    <ImageView fx:id="OilPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true" translateX="-50.0" translateY="-45.0">
+                                       <image>
+                                          <Image url="@../assets/textures/buildings/plants/oilplant.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Centrale à pétrole&#10;Construction : 5000 GCoin&#10;Consommation : 100 L/jour&#10;Entretien : 100 GCoin/jour&#10;Production : 120 W/jour&#10;Pollution : Oui" textAlignment="CENTER" translateX="-160.0" translateY="32.0" wrappingWidth="139.99999999999977">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Centrale à gaz&#10;Construction : 6000 GCoin&#10;Consommation : 90 L/jour&#10;Entretien : 120 GCoin/jour&#10;Production : 140 W/jour&#10;Pollution : Oui" textAlignment="CENTER" translateX="-160.0" translateY="32.0" wrappingWidth="139.99999999999977">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Text>
+                                    <ImageView fx:id="GasPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="89.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true" translateX="-273.0" translateY="-45.0">
+                                       <image>
+                                          <Image url="@../assets/textures/buildings/plants/gasplant.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fx:id="UraniumPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="153.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true" translateX="-210.0" translateY="-45.0">
+                                       <image>
+                                          <Image url="@../assets/textures/buildings/plants/uraniumplant.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fx:id="WindPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="257.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true" translateX="-148.0" translateY="-45.0">
+                                       <image>
+                                          <Image url="@../assets/textures/buildings/plants/windplant.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fx:id="WaterPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="326.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true" translateX="-87.0" translateY="-45.0">
+                                       <image>
+                                          <Image url="@../assets/textures/buildings/plants/waterplant.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <ImageView fx:id="SolarPlantBtn" fitHeight="64.0" fitWidth="64.0" layoutX="415.0" layoutY="19.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true" translateX="-30.0" translateY="-45.0">
+                                       <image>
+                                          <Image url="@../assets/textures/buildings/plants/solarplant.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Centrale nucléaire&#10;Construction : 30000 GCoin&#10;Consommation : 10 T/jour&#10;Entretien : 200 GCoin/jour&#10;Production : 300 W/jour&#10;Pollution : Oui&#10;" textAlignment="CENTER" translateX="-555.0" translateY="40.0" wrappingWidth="139.99999999999977">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Eolienne&#10;Construction : 10000 GCoin&#10;Entretien : 50 GCoin/jour&#10;Production : 10 W/jour&#10;Pollution : Non&#10;" textAlignment="CENTER" translateX="-555.0" translateY="32.0" wrappingWidth="139.99999999999977">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Moulin à eau&#10;Construction : 10000 GCoin&#10;Entretien : 50 GCoin/jour&#10;Production : 100 W/jour¨&#10;Pollution : Non&#10;" textAlignment="CENTER" translateX="-555.0" translateY="32.0" wrappingWidth="139.99999999999977">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Panneau Solaire&#10;Construction : 10500 GCoin&#10;Entretien : 50 GCoin/jour&#10;Production : 110 W/jour&#10;Pollution : Non&#10;" textAlignment="CENTER" translateX="-555.0" translateY="32.0" wrappingWidth="139.99999999999977">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </HBox>
+                           </content>
+                           <rotationAxis>
+                              <Point3D x="1.0" y="1.0" z="1.0" />
+                           </rotationAxis>
+                        </ScrollPane>
                      </children></AnchorPane>
                </content>
             </Tab>
@@ -473,7 +512,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="81.0" prefWidth="648.0">
                            <children>
-                              <ImageView fx:id="roadBtn" fitHeight="64.0" fitWidth="64.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="roadBtn" fitHeight="64.0" fitWidth="64.0" onMouseClicked="#setBuildingAction" pickOnBounds="true" preserveRatio="true" translateX="50.0">
                                  <image>
                                     <Image url="@../assets/textures/roads/road.png" />
                                  </image>
@@ -489,13 +528,18 @@
                               <Insets />
                            </opaqueInsets>
                         </HBox>
+                        <Text fill="WHITE" layoutX="22.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Road &#10;Construction : 500 GCoin" textAlignment="CENTER" wrappingWidth="139.99999999999977">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                        </Text>
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
         </tabs>
       </TabPane>
-      <GridPane fx:id="pauseMenu" prefHeight="720.0" prefWidth="1080.0" visible="false" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
+      <GridPane fx:id="pauseMenu" prefHeight="720.0" prefWidth="1080.0" visible="false" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
@@ -539,7 +583,7 @@
             <Font name="Leelawadee UI Semilight" size="18.0" />
          </font>
       </Label>
-      <HBox alignment="CENTER" layoutX="226.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1">
+      <HBox alignment="CENTER" layoutX="226.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
          <children>
             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
