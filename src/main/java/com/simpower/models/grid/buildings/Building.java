@@ -133,7 +133,6 @@ public abstract class Building implements GridInfos {
      * @return int
      */
     public int getPollution(){
-        System.out.println("This building doesn't generate pollution");
         return 0;
     }
 
@@ -249,7 +248,6 @@ public abstract class Building implements GridInfos {
      * @return int
      */
     public int updateHappiness(float electricityProvided){
-        System.out.println("not a house \n");
         return 0;
     }
 

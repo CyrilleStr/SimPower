@@ -99,7 +99,6 @@ public class House extends ConsumerEnergyBuilding {
         if(electricityProvided>electricityNeeded)
             electricityProvided=electricityNeeded;
 
-        System.out.println("pb: " + electricityNeeded);
         //Calculates the happiness according to the electricityProvided/electricityNeeded ratio
         happiness =(int)(electricityProvided/electricityNeeded*100);
 
@@ -112,10 +111,7 @@ public class House extends ConsumerEnergyBuilding {
         //Sets moneyIncome relative to happiness
         float tmpH = this.happiness;
         tmpH /= 100;
-        System.out.println(tmpH+" \n");
         setMoneyIncome((int)(200*tmpH));
-
-        System.out.println("House : "+ test+ " Happiness level : " +happiness +" MoneyIncome : "+this.moneyIncome +"\n");
 
         return happiness;
     }
