@@ -7,8 +7,6 @@ public class House extends ConsumerEnergyBuilding {
     private int inhabitantCapacity;
     private int happiness;
     private int moneyIncome;
-    //debug tool to differentiate houses
-    private int test = (int) (Math.random() * (1000));
 
     public House(){
         super(0, 2000, 200, false, GridInfos.resourceStock.NONE, true,false);
@@ -40,39 +38,12 @@ public class House extends ConsumerEnergyBuilding {
     }
 
     /**
-     * Get the happiness
-     *
-     * @return int
-     */
-    public int getHappiness() {
-        return this.happiness;
-    }
-
-    /**
      * Set the number of inhabitant in the house
      *
      * @param inhabitant_p int
      */
     public void setInhabitant(int inhabitant_p) {
         this.inhabitant = inhabitant_p;
-    }
-
-    /**
-     * Get the number of inhabitant in the house
-     *
-     * @return int
-     */
-    public int getInhabitant() {
-        return this.inhabitant;
-    }
-
-    /**
-     * Get the maximum inhabitant capacity of the house
-     *
-     * @return int
-     */
-    public int getInhabitantCapacity() {
-        return this.inhabitantCapacity;
     }
 
     /**

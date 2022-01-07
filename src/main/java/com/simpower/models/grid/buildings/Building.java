@@ -128,15 +128,6 @@ public abstract class Building implements GridInfos {
     }
 
     /**
-     * Used to simulate the pollution generation in its environment
-     *
-     * @return int
-     */
-    public int getPollution(){
-        return 0;
-    }
-
-    /**
      * Return if the building is active or not
      *
      * @return boolean

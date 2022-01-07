@@ -1,6 +1,6 @@
 package com.simpower.models.grid.buildings;
 
-public abstract class   ConsumerEnergyBuilding extends Building {
+public abstract class ConsumerEnergyBuilding extends Building {
     protected int electricityNeeded;
 
     public ConsumerEnergyBuilding(int servicingCost, int buildingCost,int consumeEnergy, boolean isFossil, resourceStock resourceStock, boolean isHouse, boolean isMine){

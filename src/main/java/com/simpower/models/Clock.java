@@ -129,7 +129,7 @@ public class Clock extends Thread {
     private void switchLight() {
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setBrightness(this.isDay() ? 0 : -.5);
-        this.grid.getGridcontainer().setEffect(colorAdjust);
+        this.grid.getGridContainer().setEffect(colorAdjust);
     }
 
     /**
@@ -262,14 +262,17 @@ public class Clock extends Thread {
         return this.dateTime.getDayOfYear();
     }
 
-    public void setDurationTime(int durationTime) {
-        this.durationTime = durationTime;
-    }
-
+    /**
+     * Get the duration time
+     * @return int
+     */
     public int getDurationTime() {
         return durationTime;
     }
 
+    /**
+     * Increments duration time
+     */
     public void incrementDurationTime(){
         this.durationTime++;
     }

@@ -10,14 +10,12 @@ public class Cell implements GridInfos {
     private buildingLayer currentBuildingLayer;
     private resourceLayer currentResourceLayer;
     private topLayer currentTopLayer;
-    private pollutionLayer currentPollutionLayer;
     private Building currentBuilding;
 
     public Cell() {
         currentBuildingLayer = buildingLayer.NONE;
         currentResourceLayer = resourceLayer.NONE;
         currentTopLayer = topLayer.NONE;
-        currentPollutionLayer = pollutionLayer.NONE;
         currentBuilding = null;
     }
 
@@ -82,13 +80,6 @@ public class Cell implements GridInfos {
     public topLayer getCurrentTopLayer(){ return this.currentTopLayer; }
 
     /**
-     * Get the current pollution layer of the cell
-     *
-     * @return pollutionLayer
-     */
-    public pollutionLayer getCurrentPollutionLayer(){ return this.currentPollutionLayer; }
-
-    /**
      * Get the current building layer of the cell
      *
      * @return buildingLayer
@@ -111,15 +102,6 @@ public class Cell implements GridInfos {
      */
     public void setCurrentTopLayer(topLayer currentTopLayer_p) {
         this.currentTopLayer = currentTopLayer_p;
-    }
-
-    /**
-     * Set the current pollution layer of the cell
-     *
-     * @param currentPollutionLayer_p pollutionLayer to set
-     */
-    public void setCurrentPollutionLayer(pollutionLayer currentPollutionLayer_p) {
-        this.currentPollutionLayer = currentPollutionLayer_p;
     }
 
     /**
@@ -147,15 +129,6 @@ public class Cell implements GridInfos {
      */
     public boolean isTopLayerEmpty() {
         return this.currentTopLayer == topLayer.NONE;
-    }
-
-    /**
-     * Test if the pollution layer is empty or not
-     *
-     * @return boolean
-     */
-    public boolean isPollutionLayerEmpty() {
-        return this.currentPollutionLayer == pollutionLayer.NONE;
     }
 
     /**

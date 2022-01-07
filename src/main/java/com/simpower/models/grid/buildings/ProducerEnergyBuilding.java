@@ -31,12 +31,4 @@ public abstract class ProducerEnergyBuilding extends Building {
         this.production = production_p;
     }
 
-    /**
-     * Get the energy production of the building
-     *
-     * @return int
-     */
-    int getProduction(){
-        return this.production;
-    }
 }

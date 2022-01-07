@@ -8,7 +8,6 @@ import java.util.Map;
 public interface GridInfos {
     Map<buildingLayer, Image> buildingLayerImages = new HashMap<>();
     Map<resourceLayer, Image> resourceLayerImages = new HashMap<>();
-    Map<pollutionLayer, Image> pollutionLayerImages = new HashMap<>();
     Map<topLayer, Image> topLayerImages = new HashMap<>();
 
     int CELL_WIDTH = 32;
@@ -16,15 +15,10 @@ public interface GridInfos {
 
     int NB_CELLS_WIDTH = 64;
     int NB_CELLS_HEIGHT = 64;
-    int NB_CELLS = NB_CELLS_HEIGHT * NB_CELLS_WIDTH;
 
     int roadStartX = NB_CELLS_WIDTH / 2;
 
-    int MAP_WIDTH = NB_CELLS_WIDTH * CELL_WIDTH;
-    int MAP_HEIGHT = NB_CELLS_HEIGHT * CELL_HEIGHT;
-    int MAP_SURFACE = MAP_WIDTH * MAP_HEIGHT;
-
-    int POLLUTION_PERSISTANCE_DAY = 2;
+    int POLLUTION_PERSISTENCE_DAY = 2;
 
     enum resourceLayer {
         NONE,
@@ -115,12 +109,6 @@ public interface GridInfos {
         RIVER,
         ICE,
         SNOW
-    }
-
-    enum pollutionLayer {
-        NONE,
-        EVENLY,
-        POLLUTED
     }
 
     enum resourceStock {

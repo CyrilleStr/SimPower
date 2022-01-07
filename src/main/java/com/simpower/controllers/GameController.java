@@ -52,7 +52,6 @@ public class GameController implements Runnable {
     @FXML private TabPane tabPane;
     @FXML private GridPane gridContainer;
     @FXML private Label clockLabel;
-    @FXML private Label infoLabel;
     @FXML private Button pauseGameBtn;
     @FXML private Button changeClockSpeedBtn;
     @FXML private Label moneyLabel;
@@ -68,17 +67,6 @@ public class GameController implements Runnable {
      * Instance a new game controller
      */
     public GameController() {}
-
-    /**
-     * Instance a saved game controller
-     *
-     * @param params
-     */
-    public GameController(String params) {
-        // TODO controller with saved game
-        // this.game = new Game(params[0])
-        // this.grid = new Grid(params[1])
-    }
 
     /**
      * This function is called once all the controller associated FXML contents have
@@ -101,7 +89,7 @@ public class GameController implements Runnable {
         this.pauseImgView.setFitWidth(25);
         this.pauseImgView.setFitHeight(25);
 
-        this.game = new Game(grid, clock);
+        this.game = new Game(grid);
         this.eventLoop = new Thread(this);
         this.eventLoop.start();
         this.refreshHotBar();
@@ -368,7 +356,7 @@ public class GameController implements Runnable {
                 pause2.play();
             });
             pause2.setOnFinished(event -> {
-                this.showErrorMessage("Vous avez tenu " + this.clock.getDurationTime() + " jours.");
+                this.showErrorMessage("You last " + this.clock.getDurationTime() + " days.");
                 pause3.play();
             });
             pause3.setOnFinished(event -> {

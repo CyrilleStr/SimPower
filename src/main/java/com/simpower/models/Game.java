@@ -15,7 +15,6 @@ import com.simpower.models.grid.buildings.*;
 import static java.lang.Math.abs;
 
 public class Game implements GridInfos{
-    private Clock clock;
     private LocalDateTime createdAt;
     private Path savePath;
     private Grid grid;
@@ -29,9 +28,8 @@ public class Game implements GridInfos{
     private boolean gameOver;
     private Map <resourceStock, Function<Integer, Integer>> resourceStockToStockMap = new HashMap<>();
 
-    public Game (Grid grid, Clock clock) {
+    public Game (Grid grid) {
         this.grid = grid;
-        this.clock = clock;
         this.createdAt = LocalDateTime.now();
         setGameOver(false);
         setMoney(100000);
@@ -58,7 +56,7 @@ public class Game implements GridInfos{
 
                 // Handle pollution
                 if(cell.isPolluted()) {
-                    if(cell.getPollutionAge() > POLLUTION_PERSISTANCE_DAY) {
+                    if(cell.getPollutionAge() > POLLUTION_PERSISTENCE_DAY) {
                         // Pollution disappear after a certain number of day without being re-polluted
                         cell.setPolluted(false);
                         // If there's a building, we tell the building it's not polluted anymore
@@ -260,14 +258,30 @@ public class Game implements GridInfos{
         return uraniumStock;
     }
 
+    /**
+     * Set the global hapiness;
+     * @param globalHappiness
+     */
     public void setGlobalHappiness(int globalHappiness){this.globalHappiness = globalHappiness;}
 
-    public int getGlobalhappiness(){return globalHappiness;}
+    /**
+     * Get the global hapiness
+     * @return int
+     */
+    public int getGlobalhappiness() { return this.globalHappiness; }
 
+    /**
+     * Set if the game is over
+     * @param gameOver
+     */
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
     }
 
+    /**
+     * Tell if the game is over
+     * @return
+     */
     public boolean isGameOver() {
         return gameOver;
     }
