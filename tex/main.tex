@@ -1,0 +1,81 @@
+\documentclass[a4paper, 12pt, titlepage]{article}
+
+\usepackage{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{graphics}
+\usepackage{graphicx}     
+\usepackage[french]{babel}
+\usepackage{eurosym}
+\usepackage[pdftex,colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{geometry}
+\usepackage{icomma}
+% \usepackage{cite} % cite et natbib redéfinissent tous les deux \cite
+\usepackage{float}
+\usepackage[nottoc, notlof, notlot]{tocbibind}
+\usepackage[OT1]{fontenc}
+\usepackage{hyperref}
+\usepackage{xurl}
+\usepackage{csquotes}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{titling}
+\usepackage{titlepic}
+\usepackage[utf8]{inputenc}
+
+\newcommand{\Note}[1]{\textit{\textbf{Note :} #1}}
+\newcommand{\CO}[0]{\texorpdfstring{CO$_2$}{CO2} }
+
+\geometry{top=2cm, bottom=2cm, left=2cm, right=2cm}
+\setlength{\parskip}{0.5em} % Espace entre les paragraphes, 1em = largeur moyenne d'1 caractère
+\setcounter{page}{-1}
+
+\begin{titlepage}
+    
+\title{
+    AP4B : Rapport de conception
+    \break\break
+    \includegraphics[width=5cm, height=5cm]{images/logo.png}
+}
+\author{
+    Clovis BURGAUD
+    \and Julien CONSTANT 
+    \and Noé ÉCHARD  
+    \and Cyrille STROESSER
+}
+
+\date{7 Janvier 2022}
+
+\end{titlepage}
+
+\pagestyle{plain}
+
+\begin{document}
+    
+\maketitle
+
+\input{introduction.tex}
+
+\newpage
+\tableofcontents
+
+\input{regle.tex}
+
+\input{use_case.tex}
+
+\input{diagramme_classe.tex}
+
+\input{diagramme_sequence.tex}
+
+\input{fonctionnement_groupe.tex}
+    
+\newpage
+\input{conclusion.tex}
+\newpage
+
+\nocite{*}
+\bibliography{bibliographie}{}
+\bibliographystyle{plain}
+
+\listoffigures
+
+\end{document}
