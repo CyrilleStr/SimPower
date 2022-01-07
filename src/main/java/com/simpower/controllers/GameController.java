@@ -13,7 +13,7 @@ import com.simpower.models.grid.buildings.mines.GasMine;
 import com.simpower.models.grid.buildings.mines.OilMine;
 import com.simpower.models.grid.buildings.mines.UraniumMine;
 import com.simpower.models.grid.buildings.plants.*;
-import com.simpower.models.time.Clock;
+import com.simpower.models.Clock;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -25,7 +25,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -349,6 +348,7 @@ public class GameController implements Runnable {
                             this.grid.refreshLayers();
                         });
                         day++;
+                        this.clock.incrementDurationTime();
                     }
                 }
                 sleep(10);
@@ -362,11 +362,16 @@ public class GameController implements Runnable {
             this.showErrorMessage("Game Over !");
             PauseTransition pause1 = new PauseTransition(Duration.seconds(2.5));
             PauseTransition pause2 = new PauseTransition(Duration.seconds(2.5));
+            PauseTransition pause3 = new PauseTransition(Duration.seconds(2.5));
             pause1.setOnFinished(event -> {
                 this.showErrorMessage("All inhabitants left the city.");
                 pause2.play();
             });
             pause2.setOnFinished(event -> {
+                this.showErrorMessage("Vous avez tenu " + this.clock.getDurationTime() + " jours.");
+                pause3.play();
+            });
+            pause3.setOnFinished(event -> {
                 try {
                     quitGame(new ActionEvent());
                 } catch (IOException e) {

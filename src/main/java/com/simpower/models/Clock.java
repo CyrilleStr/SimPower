@@ -1,4 +1,4 @@
-package com.simpower.models.time;
+package com.simpower.models;
 
 import com.simpower.models.grid.Cell;
 import com.simpower.models.grid.Grid;
@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Clock extends Thread {
     private double time; //  1 unit time = 1 Minute = 1 for loop run
+    private int durationTime;
     private LocalDateTime dateTime;
     private boolean infiniteDay = false;
     private int speeds[] = new int[]{1,4,7,10,100};
@@ -259,5 +260,17 @@ public class Clock extends Thread {
      */
     public int getDayCount() {
         return this.dateTime.getDayOfYear();
+    }
+
+    public void setDurationTime(int durationTime) {
+        this.durationTime = durationTime;
+    }
+
+    public int getDurationTime() {
+        return durationTime;
+    }
+
+    public void incrementDurationTime(){
+        this.durationTime++;
     }
 }

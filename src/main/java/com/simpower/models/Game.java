@@ -11,7 +11,6 @@ import com.simpower.models.grid.Cell;
 import com.simpower.models.grid.Grid;
 import com.simpower.models.grid.GridInfos;
 import com.simpower.models.grid.buildings.*;
-import com.simpower.models.time.Clock;
 
 import static java.lang.Math.abs;
 
