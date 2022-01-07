@@ -89,7 +89,7 @@ public class GameController implements Runnable {
         this.pauseImgView.setFitWidth(25);
         this.pauseImgView.setFitHeight(25);
 
-        this.game = new Game(grid, clock);
+        this.game = new Game(grid);
         this.eventLoop = new Thread(this);
         this.eventLoop.start();
         this.refreshHotBar();
