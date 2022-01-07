@@ -52,7 +52,6 @@ public class GameController implements Runnable {
     @FXML private TabPane tabPane;
     @FXML private GridPane gridContainer;
     @FXML private Label clockLabel;
-    @FXML private Label infoLabel;
     @FXML private Button pauseGameBtn;
     @FXML private Button changeClockSpeedBtn;
     @FXML private Label moneyLabel;

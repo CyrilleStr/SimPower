@@ -15,7 +15,6 @@ import com.simpower.models.grid.buildings.*;
 import static java.lang.Math.abs;
 
 public class Game implements GridInfos{
-    private Clock clock;
     private LocalDateTime createdAt;
     private Path savePath;
     private Grid grid;
@@ -29,9 +28,8 @@ public class Game implements GridInfos{
     private boolean gameOver;
     private Map <resourceStock, Function<Integer, Integer>> resourceStockToStockMap = new HashMap<>();
 
-    public Game (Grid grid, Clock clock) {
+    public Game (Grid grid) {
         this.grid = grid;
-        this.clock = clock;
         this.createdAt = LocalDateTime.now();
         setGameOver(false);
         setMoney(100000);

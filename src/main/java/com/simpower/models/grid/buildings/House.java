@@ -8,9 +8,6 @@ public class House extends ConsumerEnergyBuilding {
     private int happiness;
     private int moneyIncome;
 
-    //debug tool to differentiate houses
-    private int test = (int) (Math.random() * (1000));
-
     public House(){
         super(0, 2000, 200, false, GridInfos.resourceStock.NONE, true,false);
         setHappiness(100);
