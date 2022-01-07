@@ -357,7 +357,7 @@ public class GameController implements Runnable {
                 pause2.play();
             });
             pause2.setOnFinished(event -> {
-                this.showErrorMessage("Vous avez tenu " + this.clock.getDurationTime() + " jours.");
+                this.showErrorMessage("You last " + this.clock.getDurationTime() + " days.");
                 pause3.play();
             });
             pause3.setOnFinished(event -> {
