@@ -20,14 +20,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="720.0" prefWidth="1080.0" styleClass="background" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simpower.controllers.GameController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="720.0" prefWidth="1080.0" styleClass="background" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simpower.controllers.GameController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="0.0" prefWidth="100.0" />
@@ -289,7 +283,7 @@
             </Button>
          </children>
       </GridPane>
-      <TabPane fx:id="tabPane" prefHeight="108.0" prefWidth="710.0" style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="3">
+      <TabPane fx:id="tabPane" prefHeight="108.0" prefWidth="710.0" style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE" visible="false" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="3">
         <tabs>
           <Tab styleClass="button-delete" text="House">
             <content>
