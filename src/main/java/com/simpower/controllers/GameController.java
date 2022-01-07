@@ -87,7 +87,7 @@ public class GameController implements Runnable{
     @FXML
     public void initialize(){
         this.loadData();
-        this.grid = new Grid(gridContainer, infoLabel, buildingType, errorLabel, this);
+        this.grid = new Grid(gridContainer, buildingType, errorLabel, this);
 
         this.clock = new Clock(grid, clockLabel);
         this.clock.start();

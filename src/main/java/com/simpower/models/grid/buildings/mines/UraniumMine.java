@@ -4,7 +4,7 @@ import com.simpower.models.grid.GridInfos;
 
 public class UraniumMine extends Mine {
     public UraniumMine() {
-        super(16, 18, 1, GridInfos.resourceStock.URANIUM);
-        setResourceProduction(3);
+        super(250, 8000, 60, GridInfos.resourceStock.URANIUM);
+        setResourceProduction(45);
     }
 }
