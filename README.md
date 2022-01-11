@@ -1,4 +1,4 @@
-<img align="left" height="128" sAP4Brc="https://raw.githubusercontent.com/CyrilleStr/AP4B/main/src/main/resources/com/simpower/assets/logo.png">
+<img align="left" height="128" src="https://raw.githubusercontent.com/CyrilleStr/AP4B/main/src/main/resources/com/simpower/assets/logo.png">
 
 # Sim Power
 > <p align="left">
