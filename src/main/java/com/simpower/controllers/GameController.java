@@ -103,20 +103,24 @@ public class GameController implements Runnable {
      */
     public void mouseClickedAction(Cell cell) {
         if (this.grid.getBuildingLayerAction() != buildingLayer.NONE) {
-            String errorMsg = null;
-            if (this.game.getMoney() >= this.grid.getBuildingObjectAction().getBuildingCost()) {
-                errorMsg = this.grid.mouseClicked(cell);
-                if (errorMsg == null)
-                    if (this.grid.getBuildingLayerAction() != buildingLayer.DELETE) {
-                        this.game
-                                .setMoney(this.game.getMoney() - this.grid.getBuildingObjectAction().getBuildingCost());
-                        this.refreshHotBar();
-                    }
-            } else
-                errorMsg = "You don't have enough money !";
+            if(this.grid.getBuildingLayerAction() == buildingLayer.DELETE){
+                this.grid.mouseClicked(cell);
+            } else {
+                String errorMsg = null;
+                if (this.game.getMoney() >= this.grid.getBuildingObjectAction().getBuildingCost()) {
+                    errorMsg = this.grid.mouseClicked(cell);
+                    if (errorMsg == null)
+                        if (this.grid.getBuildingLayerAction() != buildingLayer.DELETE) {
+                            this.game
+                                    .setMoney(this.game.getMoney() - this.grid.getBuildingObjectAction().getBuildingCost());
+                            this.refreshHotBar();
+                        }
+                } else
+                    errorMsg = "You don't have enough money !";
 
-            if (errorMsg != null)
-                this.showErrorMessage(errorMsg);
+                if (errorMsg != null)
+                    this.showErrorMessage(errorMsg);
+            }
         }
     }
 
