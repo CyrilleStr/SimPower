@@ -1,4 +1,4 @@
-<img align="left" height="128" sAP4Brc="https://i.imgur.com/x2Oo2Q6.png">
+<img align="left" height="128" sAP4Brc="https://raw.githubusercontent.com/CyrilleStr/AP4B/main/src/main/resources/com/simpower/assets/logo.png">
 
 # Sim Power
 > <p align="left">
@@ -20,7 +20,7 @@
 -	Select `Run ‘Main.main()’` on `src.main.java.com.simpower.Main`
 ## About
 ### Members
-- Clovis™ Burgaud™
+- Clovis Burgaud
 - [Julien Constant](https://github.com/Juknum) - julien.constant@utbm.fr
 - Noé Échard
 - Cyrille Stroesser
